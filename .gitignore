@@ -6,7 +6,7 @@ target/
 
 ### STS ###
 .apt_generated
-.classpath
+.mvn/.classpath
 .factorypath
 .project
 .settings
@@ -31,3 +31,4 @@ build/
 
 ### VS Code ###
 .vscode/
+/bin/
