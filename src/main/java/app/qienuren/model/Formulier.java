@@ -17,7 +17,6 @@ public class Formulier {
     @OneToMany
     private List<WerkDag> werkDagen;
 
-
     public long getId() {
         return id;
     }
