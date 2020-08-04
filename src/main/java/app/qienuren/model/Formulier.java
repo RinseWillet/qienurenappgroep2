@@ -19,8 +19,7 @@ public class Formulier {
     private boolean goedkeuringAdmin;
 
     @OneToMany
-    private List<WerkDag> werkDagen =  new ArrayList<>();
-
+    private List<WerkDag> werkDagen = new ArrayList<>();
 
     public long getId() {
         return id;
