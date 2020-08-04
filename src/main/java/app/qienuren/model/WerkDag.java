@@ -1,11 +1,14 @@
 package app.qienuren.model;
 import javax.persistence.Entity;
+import javax.persistence.GeneratedValue;
+import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import java.time.LocalDate;
 
 @Entity
 public class WerkDag {
     @Id
+    @GeneratedValue(strategy = GenerationType.AUTO)
     private long id;
     private LocalDate datum;
     private double opdrachtUren;
@@ -31,7 +34,6 @@ public class WerkDag {
     public void setDatum(LocalDate datum) {
         this.datum = datum;
     }
-
 
     public double getOpdrachtUren() {
         return opdrachtUren;
@@ -87,5 +89,10 @@ public class WerkDag {
 
     public void setOverigeUrenUitleg(String overigeUrenUitleg) {
         this.overigeUrenUitleg = overigeUrenUitleg;
+    }
+
+    @Override
+    public String toString() {
+        return "WerkDag " + id;
     }
 }

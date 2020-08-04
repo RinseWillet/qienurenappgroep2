@@ -14,6 +14,7 @@ public class FormulierEndpoint {
 
     @PostMapping("/nieuw")
     public Formulier nieuwFormulier(@RequestBody Formulier formulier) {
+        System.out.println(formulier.getWerkDagen());
         return formulierService.addNieuwFormulier(formulier);
     }
 
