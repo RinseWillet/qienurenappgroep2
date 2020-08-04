@@ -1,6 +1,7 @@
 package app.qienuren.model;
 
 import javax.persistence.*;
+import java.util.ArrayList;
 import java.util.List;
 
 @Entity
@@ -18,8 +19,7 @@ public class Formulier {
     private boolean goedkeuringAdmin;
 
     @OneToMany
-    private List<WerkDag> werkDagen;
-
+    private List<WerkDag> werkDagen = new ArrayList<>();
 
     public long getId() {
         return id;
