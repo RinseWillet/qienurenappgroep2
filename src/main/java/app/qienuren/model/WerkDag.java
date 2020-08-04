@@ -32,7 +32,6 @@ public class WerkDag {
         this.datum = datum;
     }
 
-
     public double getOpdrachtUren() {
         return opdrachtUren;
     }
