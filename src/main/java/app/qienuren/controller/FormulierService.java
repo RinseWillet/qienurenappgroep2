@@ -1,6 +1,7 @@
 package app.qienuren.controller;
 
 import app.qienuren.model.Formulier;
+import app.qienuren.model.WerkDag;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 

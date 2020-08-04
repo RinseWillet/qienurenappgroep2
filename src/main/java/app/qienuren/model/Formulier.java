@@ -13,7 +13,7 @@ public class Formulier {
     private Persoon medewerker;
     private boolean goedKeuringKlant;
     private boolean goedkeuringAdmin;
-
+    
     @OneToMany
     private List<WerkDag> werkDagen;
 
