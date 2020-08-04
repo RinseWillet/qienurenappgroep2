@@ -12,16 +12,26 @@ import java.util.ArrayList;
 @RequestMapping("/api/formulier")
 public class FormulierEndpoint {
 
-//    @Autowired
+    @Autowired
     FormulierService formulierService;
 
     @PostMapping("/nieuw")
     public Formulier nieuwFormulier(@RequestBody Formulier formulier) {
-        System.out.println(formulier.getMaand());
-        System.out.println(formulier.getJaar());
-        System.out.println(formulier.getWerkDagen().toString());
-        //return formulierService.addNieuwFormulier(formulier);
-        return null;
+
+        /*System.out.println("<<<<<FORMULIER ID: " + formulier.getId() + ">>>>>");
+        for (WerkDag w : formulier.getWerkDagen()) {
+            System.out.println("Datum: " + w.getDatum());
+            System.out.println("OpdrachtUren: " + w.getOpdrachtUren());
+            System.out.println("OverwerkUren: " + w.getOverwerkUren());
+            System.out.println("TrainingsUren: " + w.getTrainingsUren());
+            System.out.println("VerlofUren: " + w.getVerlofUren());
+            System.out.println("ZiekteUren: " + w.getZiekteUren());
+            System.out.println("OverigeUren: " + w.getOverigeUren());
+            System.out.println("OverigeUrenUitleg: " + w.getOverigeUrenUitleg());
+        }*/
+
+        return formulierService.addNieuwFormulier(formulier);
+        //return null;
     }
 
     @GetMapping("/all")

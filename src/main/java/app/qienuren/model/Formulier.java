@@ -10,15 +10,16 @@ public class Formulier {
     @GeneratedValue(strategy = GenerationType.AUTO)
     private long id;
 
-    private long jaar;
+    private long dag;
     private long maand;
+    private long jaar;
 
     @ManyToOne
     private Persoon medewerker;
     private boolean goedKeuringKlant;
     private boolean goedkeuringAdmin;
 
-    @OneToMany
+    @OneToMany(cascade = CascadeType.ALL)
     private List<WerkDag> werkDagen = new ArrayList<>();
 
     public long getId() {
