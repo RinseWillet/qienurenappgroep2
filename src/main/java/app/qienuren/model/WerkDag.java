@@ -1,10 +1,12 @@
 package app.qienuren.model;
-
+import javax.persistence.Entity;
+import javax.persistence.Id;
 import java.time.LocalDate;
 
-
+@Entity
 public class WerkDag {
-
+    @Id
+    private long id;
     private LocalDate datum;
     private double opdrachtUren;
     private double overwerkUren;
@@ -13,6 +15,8 @@ public class WerkDag {
     private double trainingsUren;
     private double overigeUren;
     private String overigeUrenUitleg;
+
+
 
     public LocalDate getDatum() {
         return datum;

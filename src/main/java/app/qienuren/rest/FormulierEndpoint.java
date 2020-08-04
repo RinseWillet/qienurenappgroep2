@@ -22,10 +22,10 @@ public class FormulierEndpoint {
         return formulierService.getalleFormulieren();
     }
 
-    @PutMapping("/update/{id}")
-    public Formulier updateFormulier(@RequestBody Formulier formulier, @PathVariable(value = "id")long id){
-        return formulierService.updateFormulier(formulier, id);
-    }
+//    @PutMapping("/update/{id}")
+//    public Formulier updateFormulier(@RequestBody Formulier formulier, @PathVariable(value = "id")long id){
+//        return formulierService.updateFormulier(formulier, id);
+//    }
 
     @DeleteMapping("/verwijderen/{id}")
     public void verwijderFormulier(@PathVariable(value = "id")long id){

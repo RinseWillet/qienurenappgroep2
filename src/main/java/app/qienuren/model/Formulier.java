@@ -8,6 +8,7 @@ public class Formulier {
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)
     private long id;
+
     @ManyToOne
     private Persoon medewerker;
     private boolean goedKeuringKlant;
