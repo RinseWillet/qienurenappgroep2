@@ -38,4 +38,8 @@ public class FormulierService {
         System.out.println("Het formulier is verwijderd");
         formulierRepository.deleteById(id);
     }
+
+    public Formulier getById(long id) {
+        return formulierRepository.findById(id).get();
+    }
 }
