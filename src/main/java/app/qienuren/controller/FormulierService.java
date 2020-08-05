@@ -10,8 +10,12 @@ import javax.transaction.Transactional;
 @Transactional
 
 public class FormulierService {
+
     @Autowired
     FormulierRepository formulierRepository;
+
+    @Autowired
+    WerkDagRepository werkDagRepository;
 
     public Formulier addNieuwFormulier(Formulier formulier) {
         System.out.println("formulier aangemaakt");
