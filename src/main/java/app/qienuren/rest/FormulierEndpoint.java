@@ -39,6 +39,11 @@ public class FormulierEndpoint {
         return formulierService.getalleFormulieren();
     }
 
+    @GetMapping("/{id}")
+    public Formulier getFormulierById(@PathVariable(value = "id") long id) {
+        return formulierService.getById(id);
+    }
+
 //    @PutMapping("/update/{id}")
 //    public Formulier updateFormulier(@RequestBody Formulier formulier, @PathVariable(value = "id")long id){
 //        return formulierService.updateFormulier(formulier, id);
