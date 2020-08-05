@@ -6,6 +6,9 @@ import java.util.List;
 
 @Entity
 public class Formulier {
+
+    //fields
+
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)
     private long id;
@@ -18,10 +21,18 @@ public class Formulier {
     private Persoon medewerker;
     private boolean goedKeuringKlant;
     private boolean goedkeuringAdmin;
+    private String formulierstatus;
 
     @OneToMany(cascade = CascadeType.ALL)
     private List<WerkDag> werkDagen = new ArrayList<>();
 
+    //constructor - zet status default op OPEN
+
+    Formulier() {
+        formulierstatus = "Open";
+    }
+
+    //methodes
     public long getId() {
         return id;
     }
@@ -78,3 +89,4 @@ public class Formulier {
         this.werkDagen = werkDagen;
     }
 }
+
