@@ -3,7 +3,7 @@ package app.qienuren.model;
 import javax.persistence.*;
 
 @Entity
-public class KlantContactPersoon extends Persoon{
+public class KlantContactPersoon extends Persoon {
 
     @ManyToOne
     private Bedrijf company;
