@@ -8,6 +8,7 @@ import java.time.LocalDate;
 
 @Entity
 public class WerkDag {
+
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)
     private long id;
@@ -92,8 +93,4 @@ public class WerkDag {
         this.overigeUrenUitleg = overigeUrenUitleg;
     }
 
-    @Override
-    public String toString() {
-        return "WerkDag " + id;
-    }
 }

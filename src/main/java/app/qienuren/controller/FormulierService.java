@@ -10,8 +10,12 @@ import javax.transaction.Transactional;
 @Transactional
 
 public class FormulierService {
+
     @Autowired
     FormulierRepository formulierRepository;
+
+    @Autowired
+    WerkDagRepository werkDagRepository;
 
     public Formulier addNieuwFormulier(Formulier formulier) {
         System.out.println("formulier aangemaakt");
@@ -33,5 +37,9 @@ public class FormulierService {
     public void verwijderFormulier(long id) {
         System.out.println("Het formulier is verwijderd");
         formulierRepository.deleteById(id);
+    }
+
+    public Formulier getById(long id) {
+        return formulierRepository.findById(id).get();
     }
 }
