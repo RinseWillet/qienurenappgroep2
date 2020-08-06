@@ -12,8 +12,7 @@ public class Formulier {
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)
     private long id;
-
-    private long dag;
+    
     private long maand;
     private long jaar;
 
@@ -30,6 +29,14 @@ public class Formulier {
 
     Formulier() {
         formulierstatus = "Open";
+    }
+
+    public String getFormulierstatus() {
+        return formulierstatus;
+    }
+
+    public void setFormulierstatus(String formulierstatus) {
+        this.formulierstatus = formulierstatus;
     }
 
     //methodes
