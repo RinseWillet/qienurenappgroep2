@@ -22,4 +22,10 @@ public class KlantContactPersoonService {
         System.out.println("alle klant contact personen verzamelen!");
         return klantContactPersoonRepository.findAll();
     }
+
+//    public void bedrijfToevoegenKlantContactPersoon(long kcpID, long bedrijfID) {
+//    }
+//
+//    public void traineeKoppelContactPersoon(long traineeID, long kcpID) {
+//    }
 }

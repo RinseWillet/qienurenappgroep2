@@ -1,18 +1,40 @@
 package app.qienuren.model;
 
 import javax.persistence.*;
+import java.util.ArrayList;
+import java.util.List;
 
 @Entity
 public class KlantContactPersoon extends Persoon{
 
     @ManyToOne
-    private Bedrijf company;
+    private Bedrijf bedrijf;
+
+    //Een Contactpersoon kan meerdere trainees onder zich hebben
+    @OneToMany(cascade = CascadeType.ALL)
+    private List<Trainee> trainees = new ArrayList<>();
 
     public Bedrijf getCompany() {
-        return company;
+        return bedrijf;
     }
 
-    public void setCompany(Bedrijf company) {
-        this.company = company;
+    public void setCompany(Bedrijf bedrijf) {
+        this.bedrijf = bedrijf;
+    }
+
+    public List<Trainee> getTrainees() {
+        return trainees;
+    }
+
+    public void setTrainees(List<Trainee> trainees) {
+        this.trainees = trainees;
+    }
+
+    public void koppelBedrijf(Bedrijf bedrijf) {
+        this.bedrijf = bedrijf;
+    }
+
+    public void koppelTrainee(Trainee trainee) {
+        this.trainees.add(trainee);
     }
 }
