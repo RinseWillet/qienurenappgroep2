@@ -4,7 +4,7 @@ package app.qienuren.model;
 import javax.persistence.*;
 
 @Entity
-public abstract class Persoon {
+public class Persoon {
 
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)
