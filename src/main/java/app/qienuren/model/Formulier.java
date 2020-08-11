@@ -20,24 +20,10 @@ public class Formulier {
     private Persoon medewerker;
     private boolean goedKeuringKlant;
     private boolean goedkeuringAdmin;
-    private String formulierstatus;
+    private FormulierStatus formulierStatus = FormulierStatus.OPEN;
 
     @OneToMany(cascade = CascadeType.ALL)
     private List<WerkDag> werkDagen = new ArrayList<>();
-
-    //constructor - zet status default op OPEN
-
-    Formulier() {
-        formulierstatus = "Open";
-    }
-
-    public String getFormulierstatus() {
-        return formulierstatus;
-    }
-
-    public void setFormulierstatus(String formulierstatus) {
-        this.formulierstatus = formulierstatus;
-    }
 
     //methodes
 
@@ -95,6 +81,14 @@ public class Formulier {
 
     public void setWerkDagen(List<WerkDag> werkDagen) {
         this.werkDagen = werkDagen;
+    }
+
+    public FormulierStatus getFormulierStatus() {
+        return formulierStatus;
+    }
+
+    public void setFormulierStatus(FormulierStatus formulierStatus) {
+        this.formulierStatus = formulierStatus;
     }
 }
 

@@ -1,6 +1,7 @@
 package app.qienuren.controller;
 
 import app.qienuren.model.Formulier;
+import app.qienuren.model.FormulierStatus;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -41,5 +42,19 @@ public class FormulierService {
 
     public Formulier getById(long id) {
         return formulierRepository.findById(id).get();
+    }
+
+    public Formulier updateFormulierStatusGoed(long id) {
+        System.out.println("hij doet updaten");
+        Formulier formuliertijdelijk = formulierRepository.findById(id).get();
+        formuliertijdelijk.setFormulierStatus(FormulierStatus.GOEDGEKEURD);
+        return formulierRepository.save(formuliertijdelijk);
+    }
+
+    public Formulier updateFormulierStatusFout(long id) {
+        System.out.println("hij doet fout updaten");
+        Formulier formuliertijdelijk = formulierRepository.findById(id).get();
+        formuliertijdelijk.setFormulierStatus(FormulierStatus.AFGEKEURD);
+        return formulierRepository.save(formuliertijdelijk);
     }
 }

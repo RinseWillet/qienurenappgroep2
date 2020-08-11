@@ -2,11 +2,8 @@ package app.qienuren.rest;
 
 import app.qienuren.controller.FormulierService;
 import app.qienuren.model.Formulier;
-import app.qienuren.model.WerkDag;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
-
-import java.util.ArrayList;
 
 @RestController
 @RequestMapping("/api/formulier")
@@ -34,6 +31,7 @@ public class FormulierEndpoint {
         //return null;
     }
 
+
     @GetMapping("/all")
     public Iterable<Formulier> alleFormulieren() {
         return formulierService.getalleFormulieren();
@@ -44,10 +42,14 @@ public class FormulierEndpoint {
         return formulierService.getById(id);
     }
 
-//    @PutMapping("/update/{id}")
-//    public Formulier updateFormulier(@RequestBody Formulier formulier, @PathVariable(value = "id")long id){
-//        return formulierService.updateFormulier(formulier, id);
-//    }
+    @PutMapping("/update/statusgoed/{id}")
+    public Formulier updateFormulierStatusGoed(@PathVariable(value = "id")long id){
+        return formulierService.updateFormulierStatusGoed(id);
+    }
+    @PutMapping("/update/statusfout/{id}")
+    public Formulier updateFormulierStatusFout(@PathVariable(value = "id")long id){
+        return formulierService.updateFormulierStatusFout(id);
+    }
 
     @DeleteMapping("/verwijderen/{id}")
     public void verwijderFormulier(@PathVariable(value = "id") long id) {
