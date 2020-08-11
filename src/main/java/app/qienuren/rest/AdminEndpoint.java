@@ -1,12 +1,76 @@
 package app.qienuren.rest;
 
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+import app.qienuren.controller.*;
+import app.qienuren.model.*;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.web.bind.annotation.*;
 
 @RestController
 @RequestMapping("/api/admin")
 
 public class AdminEndpoint {
-//    @Autowired
-//    AdminService adminService;
+
+    // Alle Autowireds
+    @Autowired
+    AdminService adminService;
+    @Autowired
+    TraineeService traineeService;
+    @Autowired
+    InterneMedewerkerService interneMedewerkerService;
+    @Autowired
+    BedrijfService bedrijfService;
+    @Autowired
+    KlantContactPersoonService klantContactPersoonService;
+
+
+    // Alle Post Mapping om nieuwe Entiteiten aan te maken
+
+    @PostMapping("/trainee/nieuw")
+    public Trainee newTrainee(@RequestBody Trainee trainee) {
+        return traineeService.addTrainee(trainee);
+    }
+    @PostMapping("/internemedewerker/nieuw")
+    public InterneMedewerker newInterneMedewerker(@RequestBody InterneMedewerker interneMedewerker) {
+        return interneMedewerkerService.addInterneMederwerker(interneMedewerker);
+    }
+    @PostMapping("/bedrijf/nieuw")
+    public Bedrijf newBedrijf(@RequestBody Bedrijf bedrijf) {
+        return bedrijfService.addBedrijf(bedrijf);
+    }
+    @PostMapping("klantcontactpersoon/nieuw")
+    public KlantContactPersoon newKlantContactPersoon(@RequestBody KlantContactPersoon klantContactPersoon) {
+        return klantContactPersoonService.addKlantContactPersoon(klantContactPersoon);
+    }
+
+
+
+
+    // Alle Get Mapping om van een Entiteit alle data op te vragen
+
+    @GetMapping("/trainee/all")
+    public Iterable<Trainee> alleTrainees() {
+        return traineeService.getAllTrainees();
+    }
+    @GetMapping("internemedewerker/all")
+    public Iterable<InterneMedewerker> getAllInterneMederwerkers() {
+        return interneMedewerkerService.getAllInterneMedewerkers();
+    }
+    @GetMapping("bedrijf/all")
+    public Iterable<Bedrijf> getAllBedrijf() {
+        return bedrijfService.getAllBedrijf();
+    }
+    @GetMapping("klantcontactpersoon/all")
+    public Iterable<KlantContactPersoon> getAllKlantContactPersoon() {
+        return klantContactPersoonService.getAllKlantContactPersoon();
+    }
+
+
+
+    // Alle Put Mapping om van een Entiteit de data up te daten
+
+    @PutMapping("/trainee/update/{id}")
+        public Trainee updateTrainee(@PathVariable(value = "id") long id, @RequestBody Trainee trainee) {
+        return traineeService.updateTrainee(id);
+    }
 }
+
