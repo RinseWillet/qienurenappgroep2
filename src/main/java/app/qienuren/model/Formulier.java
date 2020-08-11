@@ -1,8 +1,10 @@
 package app.qienuren.model;
 
+import com.fasterxml.jackson.annotation.JsonBackReference;
 import javax.persistence.*;
 import java.util.ArrayList;
 import java.util.List;
+
 
 @Entity
 public class Formulier {
@@ -18,8 +20,8 @@ public class Formulier {
     private boolean goedKeuringKlant;
     private boolean goedkeuringAdmin;
     
-    @OneToMany
-    private List<WerkDag> werkDagen = new ArrayList<>();
+    @ManyToMany
+    private List<WerkDag> werkDagen;
 
     public long getId() {
         return id;

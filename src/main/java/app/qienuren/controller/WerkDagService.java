@@ -17,4 +17,14 @@ public class WerkDagService {
         System.out.println("Dag aangemaakt");
         return werkdagrepository.save(werkdag);
     }
+
+    public Iterable<WerkDag> alleWerkDagen() {
+        System.out.println("alle werkdagen");
+        return werkdagrepository.findAll();
+    }
+
+    public void removeWerkDagen() {
+        werkdagrepository.deleteAll();
+    }
+
 }
