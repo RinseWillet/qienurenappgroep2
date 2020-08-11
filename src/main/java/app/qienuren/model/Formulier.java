@@ -5,24 +5,29 @@ import javax.persistence.*;
 import java.util.ArrayList;
 import java.util.List;
 
-
 @Entity
 public class Formulier {
+
+    //fields
+
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)
     private long id;
-
-    private long jaar;
+    
     private long maand;
+    private long jaar;
 
     @ManyToOne
     private Persoon medewerker;
     private boolean goedKeuringKlant;
     private boolean goedkeuringAdmin;
-    
-    @ManyToMany
-    private List<WerkDag> werkDagen;
+    private FormulierStatus formulierStatus = FormulierStatus.OPEN;
 
+    @OneToMany(cascade = CascadeType.ALL)
+    private List<WerkDag> werkDagen = new ArrayList<>();
+
+
+    //methodes
     public long getId() {
         return id;
     }
@@ -78,4 +83,13 @@ public class Formulier {
     public void setWerkDagen(List<WerkDag> werkDagen) {
         this.werkDagen = werkDagen;
     }
+
+    public FormulierStatus getFormulierStatus() {
+        return formulierStatus;
+    }
+
+    public void setFormulierStatus(FormulierStatus formulierStatus) {
+        this.formulierStatus = formulierStatus;
+    }
 }
+
