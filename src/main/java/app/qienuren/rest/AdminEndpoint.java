@@ -21,6 +21,8 @@ public class AdminEndpoint {
     BedrijfService bedrijfService;
     @Autowired
     KlantContactPersoonService klantContactPersoonService;
+    @Autowired
+    PersoonService persoonService;
 
 
     // Alle Post Mapping om nieuwe Entiteiten aan te maken
@@ -62,6 +64,10 @@ public class AdminEndpoint {
     @GetMapping("klantcontactpersoon/all")
     public Iterable<KlantContactPersoon> getAllKlantContactPersoon() {
         return klantContactPersoonService.getAllKlantContactPersoon();
+    }
+    @GetMapping("/medewerker/all")
+    public Iterable<Persoon> getAllMedewerkers() {
+        return persoonService.getAllMedewerkers();
     }
 
 
