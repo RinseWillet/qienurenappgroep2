@@ -1,6 +1,10 @@
 package app.qienuren.model;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
+
 import javax.persistence.*;
+import java.util.ArrayList;
+import java.util.List;
 
 @Entity
 public class Bedrijf {
@@ -13,6 +17,9 @@ public class Bedrijf {
     private String naam;
     private String NAWgegevens;
 
+    @OneToMany(cascade = CascadeType.ALL)
+    private List<Trainee> trainees = new ArrayList<>();
+
     public long getId() {
         return id;
     }
@@ -21,6 +28,7 @@ public class Bedrijf {
         this.id = id;
     }
 
+    @JsonIgnore
     public KlantContactPersoon getContactPersoon() {
         return contactPersoon;
     }
@@ -43,5 +51,21 @@ public class Bedrijf {
 
     public void setNAWgegevens(String NAWgegevens) {
         this.NAWgegevens = NAWgegevens;
+    }
+
+    public List<Trainee> getTrainees() {
+        return trainees;
+    }
+
+    public void setTrainees(List<Trainee> trainees) {
+        this.trainees = trainees;
+    }
+
+    public void koppelTrainee (Trainee trainee) {
+        this.trainees.add(trainee);
+    }
+
+    public void koppelContactPersoon(KlantContactPersoon klantContactPersoon) {
+        this.contactPersoon = klantContactPersoon;
     }
 }
