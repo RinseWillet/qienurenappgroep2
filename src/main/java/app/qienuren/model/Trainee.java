@@ -9,6 +9,8 @@ import javax.persistence.ManyToOne;
 @Entity
 public class Trainee extends Medewerker{
 
+    private MedewerkerType type = MedewerkerType.Trainee;
+
     @ManyToOne(cascade = CascadeType.ALL)
     private Bedrijf opdrachtgever;
 
@@ -38,5 +40,13 @@ public class Trainee extends Medewerker{
 
     public void koppelKlantContactPersoon(KlantContactPersoon kcp) {
         this.leidingGevende = kcp;
+    }
+
+    public MedewerkerType getType() {
+        return type;
+    }
+
+    public void setType(MedewerkerType type) {
+        this.type = type;
     }
 }
