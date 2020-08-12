@@ -15,7 +15,12 @@ public class Bedrijf {
     @OneToOne
     private KlantContactPersoon contactPersoon;
     private String naam;
-    private String NAWgegevens;
+    private String emailadres;
+    private String telefoonnr;
+    private String straatNaamNr;
+    private String postcode;
+    private String woonplaats;
+
 
     @OneToMany(cascade = CascadeType.ALL)
     private List<Trainee> trainees = new ArrayList<>();
@@ -44,13 +49,53 @@ public class Bedrijf {
         this.naam = naam;
     }
 
-    public String getNAWgegevens() {
-        return NAWgegevens;
+    public String getEmailadres() {
+        return emailadres;
     }
 
-    public void setNAWgegevens(String NAWgegevens) {
-        this.NAWgegevens = NAWgegevens;
+    public void setEmailadres(String emailadres) {
+        this.emailadres = emailadres;
     }
+
+    public String getTelefoonnr() {
+        return telefoonnr;
+    }
+
+    public void setTelefoonnr(String telefoonnr) {
+        this.telefoonnr = telefoonnr;
+    }
+
+    public String getStraatNaamNr() {
+        return straatNaamNr;
+    }
+
+    public void setStraatNaamNr(String straatNaamNr) {
+        this.straatNaamNr = straatNaamNr;
+    }
+
+    public String getPostcode() {
+        return postcode;
+    }
+
+    public void setPostcode(String postcode) {
+        this.postcode = postcode;
+    }
+
+    public String getWoonplaats() {
+        return woonplaats;
+    }
+
+    public void setWoonplaats(String woonplaats) {
+        this.woonplaats = woonplaats;
+    }
+
+//    public String getNAWgegevens() {
+//        return NAWgegevens;
+//    }
+//
+//    public void setNAWgegevens(String NAWgegevens) {
+//        this.NAWgegevens = NAWgegevens;
+//    }
 
     @JsonIgnore
     public List<Trainee> getTrainees() {
