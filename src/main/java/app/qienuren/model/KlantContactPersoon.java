@@ -1,5 +1,7 @@
 package app.qienuren.model;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
+
 import javax.persistence.*;
 import java.util.ArrayList;
 import java.util.List;
@@ -14,6 +16,7 @@ public class KlantContactPersoon extends Persoon{
     @OneToMany(cascade = CascadeType.ALL)
     private List<Trainee> trainees = new ArrayList<>();
 
+    @JsonIgnore
     public Bedrijf getCompany() {
         return bedrijf;
     }
