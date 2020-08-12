@@ -49,4 +49,5 @@ public class Trainee extends Medewerker{
     public void setType(MedewerkerType type) {
         this.type = type;
     }
+
 }
