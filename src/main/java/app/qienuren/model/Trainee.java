@@ -1,15 +1,21 @@
 package app.qienuren.model;
 
-import javax.persistence.*;
+import com.fasterxml.jackson.annotation.JsonIgnore;
+
+import javax.persistence.CascadeType;
+import javax.persistence.Entity;
+import javax.persistence.ManyToOne;
 
 @Entity
 public class Trainee extends Medewerker {
 
-    @OneToOne
+    @ManyToOne(cascade = CascadeType.ALL)
     private Bedrijf opdrachtgever;
+
     @ManyToOne
     private KlantContactPersoon leidingGevende;
 
+    @JsonIgnore
     public Bedrijf getOpdrachtgever() {
         return opdrachtgever;
     }
@@ -18,11 +24,20 @@ public class Trainee extends Medewerker {
         this.opdrachtgever = opdrachtgever;
     }
 
+    @JsonIgnore
     public KlantContactPersoon getLeidingGevende() {
         return leidingGevende;
     }
 
     public void setLeidingGevende(KlantContactPersoon leidingGevende) {
         this.leidingGevende = leidingGevende;
+    }
+
+    public void koppelBedrijf(Bedrijf bedrijf) {
+        this.opdrachtgever = bedrijf;
+    }
+
+    public void koppelKlantContactPersoon(KlantContactPersoon kcp) {
+        this.leidingGevende = kcp;
     }
 }

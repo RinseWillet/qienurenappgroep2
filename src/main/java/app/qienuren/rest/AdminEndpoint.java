@@ -21,6 +21,8 @@ public class AdminEndpoint {
     BedrijfService bedrijfService;
     @Autowired
     KlantContactPersoonService klantContactPersoonService;
+    @Autowired
+    PersoonService persoonService;
 
 
     // Alle Post Mapping om nieuwe Entiteiten aan te maken
@@ -63,11 +65,30 @@ public class AdminEndpoint {
     public Iterable<KlantContactPersoon> getAllKlantContactPersoon() {
         return klantContactPersoonService.getAllKlantContactPersoon();
     }
+    @GetMapping("/medewerker/all")
+    public Iterable<Persoon> getAllMedewerkers() {
+        return persoonService.getAllMedewerkers();
+    }
 
 
 
     // Alle Put Mapping om van een Entiteit de data up te daten
 
+
+    @PutMapping("/trainee/koppelbedrijf/{id}/{bedrijfid}")
+    public void traineeToevoegenBedrijf(@PathVariable(value = "id") long traineeID, @PathVariable(value = "bedrijfid") long bedrijfID){
+        bedrijfService.traineeToevoegenBedrijf(traineeID, bedrijfID);
+    }
+
+    @PutMapping("/klantcontactpersoon/koppelbedrijf/{id}/{bedrijfid}")
+    public void klantContactPersoonToevoegenBedrijf(@PathVariable(value = "id") long kcpID, @PathVariable(value = "bedrijfid") long bedrijfID){
+        bedrijfService.klantContactPersoonToevoegenBedrijf(kcpID, bedrijfID);
+    }
+
+    @PutMapping("/trainee/koppelContactPersoon/{id}/{bedrijfid}")
+    public void traineeKoppelKlantContactPersoon(@PathVariable(value = "id") long traineeID, @PathVariable(value = "bedrijfid") long kcpID){
+        traineeService.traineeKoppelContactPersoon(traineeID, kcpID);
+    }
 //    @PutMapping("/trainee/update/{id}")
 //        public Trainee updateTrainee(@PathVariable(value = "id") long id, @RequestBody Trainee trainee) {
 //        return traineeService.updateTrainee(id);
