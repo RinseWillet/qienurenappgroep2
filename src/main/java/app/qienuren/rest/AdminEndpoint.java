@@ -68,9 +68,9 @@ public class AdminEndpoint {
 
     // Alle Put Mapping om van een Entiteit de data up te daten
 
-    @PutMapping("/trainee/update/{id}")
-        public Trainee updateTrainee(@PathVariable(value = "id") long id, @RequestBody Trainee trainee) {
-        return traineeService.updateTrainee(id);
-    }
+//    @PutMapping("/trainee/update/{id}")
+//        public Trainee updateTrainee(@PathVariable(value = "id") long id, @RequestBody Trainee trainee) {
+//        return traineeService.updateTrainee(id);
+//    }
 }
 
