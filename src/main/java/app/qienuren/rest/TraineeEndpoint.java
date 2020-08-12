@@ -3,10 +3,7 @@ package app.qienuren.rest;
 import app.qienuren.controller.TraineeService;
 import app.qienuren.model.Trainee;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 
 @RestController
 @RequestMapping("/api/trainee")
@@ -19,4 +16,10 @@ public class TraineeEndpoint {
     public Trainee getTraineeById(@PathVariable(value = "id") long id){
         return traineeService.getTraineeById(id);
     }
+
+    @PutMapping("/trainee/koppelFormulier/{id}/{formulierid}")
+    public void traineeKoppelFormulier(@PathVariable(value = "id") long traineeID, @PathVariable(value = "formulierid") long formulierid){
+        traineeService.traineeKoppelformulier(traineeID, formulierid);
+    }
+
 }
