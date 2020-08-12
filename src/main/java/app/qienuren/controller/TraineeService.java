@@ -51,6 +51,11 @@ public class TraineeService {
         return traineeRepository.save(tijdelijkTrainee);
     }
 
+    public Trainee getTraineeById(long id) {
+        System.out.println("Trainee opgehaald");
+        return traineeRepository.findById(id).get();
+    }
+
 
 //    public Trainee updateTrainee(long id) {
 //        System.out.println("trainee updaten");
