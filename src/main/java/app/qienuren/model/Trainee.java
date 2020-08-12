@@ -15,7 +15,6 @@ public class Trainee extends Medewerker{
     @ManyToOne
     private KlantContactPersoon leidingGevende;
 
-    @JsonIgnore
     public Bedrijf getOpdrachtgever() {
         return opdrachtgever;
     }
