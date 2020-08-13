@@ -3,7 +3,7 @@ package app.qienuren.model;
 import javax.persistence.*;
 
 @Entity
-//@Table(name="User")
+//@Table(name="Persoon")
 public class User {
 
     @Id

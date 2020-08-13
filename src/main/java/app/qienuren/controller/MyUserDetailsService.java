@@ -1,6 +1,7 @@
 package app.qienuren.controller;
 
 import app.qienuren.model.MyUserDetails;
+import app.qienuren.model.Persoon;
 import app.qienuren.model.User;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.core.userdetails.UserDetailsService;
@@ -16,6 +17,7 @@ public class MyUserDetailsService implements UserDetailsService {
     @Autowired
     UserRepository userRepository;
 
+    //
     @Override
     public MyUserDetails loadUserByUsername(String userName) throws UsernameNotFoundException {
         Optional<User> user = userRepository.findByUserName(userName);

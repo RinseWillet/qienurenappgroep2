@@ -1,5 +1,6 @@
 package app.qienuren.controller;
 
+import app.qienuren.model.Persoon;
 import app.qienuren.model.User;
 import org.springframework.data.jpa.repository.JpaRepository;
 
