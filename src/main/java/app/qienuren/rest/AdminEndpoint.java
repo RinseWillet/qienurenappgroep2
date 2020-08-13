@@ -39,7 +39,7 @@ public class AdminEndpoint {
     public Bedrijf newBedrijf(@RequestBody Bedrijf bedrijf) {
         return bedrijfService.addBedrijf(bedrijf);
     }
-    @PostMapping("klantcontactpersoon/nieuw")
+    @PostMapping("/klantcontactpersoon/nieuw")
     public KlantContactPersoon newKlantContactPersoon(@RequestBody KlantContactPersoon klantContactPersoon) {
         return klantContactPersoonService.addKlantContactPersoon(klantContactPersoon);
     }
@@ -53,15 +53,16 @@ public class AdminEndpoint {
     public Iterable<Trainee> alleTrainees() {
         return traineeService.getAllTrainees();
     }
-    @GetMapping("internemedewerker/all")
+    @GetMapping("/internemedewerker/all")
     public Iterable<InterneMedewerker> getAllInterneMederwerkers() {
         return interneMedewerkerService.getAllInterneMedewerkers();
     }
-    @GetMapping("bedrijf/all")
+    @GetMapping("/bedrijf/all")
     public Iterable<Bedrijf> getAllBedrijf() {
         return bedrijfService.getAllBedrijf();
     }
-    @GetMapping("klantcontactpersoon/all")
+
+    @GetMapping("/klantcontactpersoon/all")
     public Iterable<KlantContactPersoon> getAllKlantContactPersoon() {
         return klantContactPersoonService.getAllKlantContactPersoon();
     }
