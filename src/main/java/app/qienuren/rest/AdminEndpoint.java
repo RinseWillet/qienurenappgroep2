@@ -61,6 +61,7 @@ public class AdminEndpoint {
     public Iterable<Bedrijf> getAllBedrijf() {
         return bedrijfService.getAllBedrijf();
     }
+
     @GetMapping("klantcontactpersoon/all")
     public Iterable<KlantContactPersoon> getAllKlantContactPersoon() {
         return klantContactPersoonService.getAllKlantContactPersoon();
@@ -73,6 +74,7 @@ public class AdminEndpoint {
 
 
     // Alle Put Mapping om van een Entiteit de data up te daten
+
 
     @PutMapping("/trainee/koppelbedrijf/{id}/{bedrijfid}")
     public void traineeToevoegenBedrijf(@PathVariable(value = "id") long traineeID, @PathVariable(value = "bedrijfid") long bedrijfID){
