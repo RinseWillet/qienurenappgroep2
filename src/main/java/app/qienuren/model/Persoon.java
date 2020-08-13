@@ -88,9 +88,6 @@ public class Persoon {
         this.userName = userName;
     }
 
-<<<<<<< HEAD
-}
-=======
 
 //    public String getGebruikersNaam() {
 //        return gebruikersNaam;
@@ -102,4 +99,3 @@ public class Persoon {
 
 }
 
->>>>>>> master
