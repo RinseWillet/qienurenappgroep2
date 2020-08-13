@@ -1,9 +1,11 @@
 package app.qienuren.model;
 
+import com.fasterxml.jackson.annotation.JsonBackReference;
 import com.fasterxml.jackson.annotation.JsonIgnore;
 
 import javax.persistence.CascadeType;
 import javax.persistence.Entity;
+import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
 
 @Entity
@@ -12,9 +14,14 @@ public class Trainee extends Medewerker{
     private MedewerkerType type = MedewerkerType.Trainee;
 
     @ManyToOne(cascade = CascadeType.ALL)
+    @JsonBackReference (value="opdrachtgever")
+    @JoinColumn(name = "bedrijf_id")
     private Bedrijf opdrachtgever;
 
+
     @ManyToOne
+    @JsonBackReference(value="KCP")
+    @JoinColumn(name = "KCP_id")
     private KlantContactPersoon leidingGevende;
 
     public Bedrijf getOpdrachtgever() {
@@ -25,7 +32,6 @@ public class Trainee extends Medewerker{
         this.opdrachtgever = opdrachtgever;
     }
 
-    @JsonIgnore
     public KlantContactPersoon getLeidingGevende() {
         return leidingGevende;
     }
