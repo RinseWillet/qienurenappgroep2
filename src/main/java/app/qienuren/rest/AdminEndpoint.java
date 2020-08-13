@@ -75,6 +75,7 @@ public class AdminEndpoint {
 
     // Alle Put Mapping om van een Entiteit de data up te daten
 
+
     @PutMapping("/trainee/koppelbedrijf/{id}/{bedrijfid}")
     public void traineeToevoegenBedrijf(@PathVariable(value = "id") long traineeID, @PathVariable(value = "bedrijfid") long bedrijfID){
         bedrijfService.traineeToevoegenBedrijf(traineeID, bedrijfID);

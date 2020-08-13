@@ -8,7 +8,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 @Entity
-public class KlantContactPersoon extends Persoon{
+public class KlantContactPersoon extends Persoon {
 
     @ManyToOne
     private Bedrijf bedrijf;

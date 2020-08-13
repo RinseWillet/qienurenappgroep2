@@ -1,6 +1,9 @@
 package app.qienuren.model;
 
 
+import lombok.Getter;
+import lombok.Setter;
+
 import javax.persistence.*;
 
 @Entity
@@ -10,17 +13,21 @@ public class Persoon {
     @GeneratedValue(strategy = GenerationType.AUTO)
     private long id;
     private String naam;
-    private String emailadres;
+    private String email;
     private String telefoonnr;
-    private String gebruikersNaam;
-    private String wachtwoord;
 
-    public String getWachtwoord() {
-        return wachtwoord;
+    private String userName; // = email;
+    private String password;
+
+    private String roles; //later aanpassen enum(?)
+    private boolean active;
+
+    public String getPassword() {
+        return password;
     }
 
-    public void setWachtwoord(String wachtwoord) {
-        this.wachtwoord = wachtwoord;
+    public void setPassword(String wachtwoord) {
+        this.password = wachtwoord;
     }
 
     public long getId() {
@@ -39,12 +46,12 @@ public class Persoon {
         this.naam = naam;
     }
 
-    public String getEmailadres() {
-        return emailadres;
+    public String getEmail() {
+        return email;
     }
 
-    public void setEmailadres(String emailadres) {
-        this.emailadres = emailadres;
+    public void setEmail(String email) {
+        this.email = email;
     }
 
     public String getTelefoonnr() {
@@ -55,12 +62,40 @@ public class Persoon {
         this.telefoonnr = telefoonnr;
     }
 
-    public String getGebruikersNaam() {
-        return gebruikersNaam;
+    public String getRoles() {
+        return roles;
     }
 
-    public void setGebruikersNaam(String gebruikersNaam) {
-        this.gebruikersNaam = gebruikersNaam;
+    public void setRoles(String roles) {
+        this.roles = roles;
     }
+
+    public boolean isActive() {
+        return active;
+    }
+
+    public void setActive(boolean active) {
+        this.active = active;
+    }
+
+
+
+    public String getUserName() {
+        return userName;
+    }
+
+    public void setUserName(String userName) {
+        this.userName = userName;
+    }
+
+
+//    public String getGebruikersNaam() {
+//        return gebruikersNaam;
+//    }
+//
+//    public void setGebruikersNaam(String gebruikersNaam) {
+//        this.gebruikersNaam = gebruikersNaam;
+//    }
 
 }
+

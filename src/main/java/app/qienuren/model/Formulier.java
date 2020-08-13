@@ -26,6 +26,7 @@ public class Formulier {
     private List<WerkDag> werkDagen = new ArrayList<>();
 
     //methodes
+
     public long getId() {
         return id;
     }

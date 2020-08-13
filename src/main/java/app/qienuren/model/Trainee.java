@@ -9,7 +9,7 @@ import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
 
 @Entity
-public class Trainee extends Medewerker{
+public class Trainee extends Medewerker {
 
     private MedewerkerType type = MedewerkerType.Trainee;
 

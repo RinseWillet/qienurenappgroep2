@@ -33,7 +33,7 @@ public class FormulierEndpoint {
 
 
     @GetMapping("/all")
-    public Iterable<Formulier> alleFormulieren(){
+    public Iterable<Formulier> alleFormulieren() {
         return formulierService.getalleFormulieren();
     }
 
@@ -52,7 +52,7 @@ public class FormulierEndpoint {
     }
 
     @DeleteMapping("/verwijderen/{id}")
-    public void verwijderFormulier(@PathVariable(value = "id")long id){
+    public void verwijderFormulier(@PathVariable(value = "id") long id) {
         formulierService.verwijderFormulier(id);
     }
 

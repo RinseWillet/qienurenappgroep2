@@ -14,4 +14,5 @@ public class InterneMedewerker extends Medewerker{
     public void setType(MedewerkerType type) {
         this.type = type;
     }
+
 }
