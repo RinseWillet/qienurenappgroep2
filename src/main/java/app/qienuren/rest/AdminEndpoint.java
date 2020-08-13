@@ -61,6 +61,7 @@ public class AdminEndpoint {
     public Iterable<Bedrijf> getAllBedrijf() {
         return bedrijfService.getAllBedrijf();
     }
+
     @GetMapping("klantcontactpersoon/all")
     public Iterable<KlantContactPersoon> getAllKlantContactPersoon() {
         return klantContactPersoonService.getAllKlantContactPersoon();
