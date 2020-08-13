@@ -16,7 +16,7 @@ public class Persoon {
     private String email;
     private String telefoonnr;
 
-    private String userName;
+    private String userName; // = email;
     private String password;
 
     private String roles; //later aanpassen enum(?)
