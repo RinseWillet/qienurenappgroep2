@@ -1,19 +1,21 @@
 package app.qienuren.model;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
+import com.fasterxml.jackson.annotation.JsonManagedReference;
 
 import javax.persistence.*;
 import java.util.ArrayList;
 import java.util.List;
 
 @Entity
-public class KlantContactPersoon extends Persoon{
+public class KlantContactPersoon extends Persoon {
 
     @ManyToOne
     private Bedrijf bedrijf;
 
     //Een Contactpersoon kan meerdere trainees onder zich hebben
     @OneToMany(cascade = CascadeType.ALL)
+    @JsonManagedReference(value="KCP")
     private List<Trainee> trainees = new ArrayList<>();
 
     @JsonIgnore
