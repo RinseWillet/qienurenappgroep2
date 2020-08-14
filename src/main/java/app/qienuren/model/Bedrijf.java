@@ -1,7 +1,6 @@
 package app.qienuren.model;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
-import com.fasterxml.jackson.annotation.JsonManagedReference;
 
 import javax.persistence.*;
 import java.util.ArrayList;
@@ -24,7 +23,7 @@ public class Bedrijf {
 
 
     @OneToMany(cascade = CascadeType.ALL)
-    @JsonManagedReference(value="opdrachtgever")
+    //@JsonManagedReference(value="opdrachtgever")
     private List<Trainee> trainees = new ArrayList<>();
 
     public long getId() {
