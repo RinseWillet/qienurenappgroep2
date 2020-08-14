@@ -32,14 +32,13 @@ public class TraineeService {
         return traineeRepository.findAll();
     }
 
-    public Trainee bedrijfToevoegenTrainee(long traineeID, long bedrijfID) {
+   /* public Trainee bedrijfToevoegenTrainee(long traineeID, long bedrijfID) {
         Trainee tijdelijkTrainee = traineeRepository.findById(traineeID).get();
         Bedrijf tijdelijkBedrijf = bedrijfRepository.findById(bedrijfID).get();
-        tijdelijkTrainee.koppelBedrijf(tijdelijkBedrijf);
+       tijdelijkTrainee.koppelBedrijf(tijdelijkBedrijf);
         System.out.println("Bedrijf gekoppeld aan Trainee");
         return traineeRepository.save(tijdelijkTrainee);
-
-    }
+    }*/
 
     public Trainee traineeKoppelContactPersoon(long traineeID, long kcpID) {
         System.out.println("Trainee gekoppeld aan Bedrijf");
