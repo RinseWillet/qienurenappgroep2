@@ -11,6 +11,7 @@ import org.springframework.security.config.annotation.web.configuration.WebSecur
 import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.security.crypto.password.NoOpPasswordEncoder;
 import org.springframework.security.crypto.password.PasswordEncoder;
+import org.springframework.security.web.authentication.AuthenticationSuccessHandler;
 
 import javax.sql.DataSource;
 
@@ -20,6 +21,11 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
     @Qualifier("myUserDetailsService")
     @Autowired
     UserDetailsService userDetailsService;
+
+    @Bean
+    public AuthenticationSuccessHandler myAuthenticationSuccessHandler(){
+        return new MyAuthenticationSuccessHandler();
+    }
 
     @Override
     protected void configure(AuthenticationManagerBuilder auth) throws Exception {
@@ -46,15 +52,28 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
     protected void configure(HttpSecurity http) throws Exception {
         http.authorizeRequests()
                 .antMatchers("/admin").hasRole("ADMIN")
-                .antMatchers("/user").hasRole("USER")
+                .antMatchers("/trainee").hasAnyRole("TRAINEE", "ADMIN")
                 //.antMatchers("/user**").hasAnyRole("USER", "ADMIN")
                 .antMatchers("/api/**").permitAll()
                 .antMatchers("/").permitAll()
 
+
+                //.antMatchers("/admin").hasRole("ADMIN") alleen admin heeft toegang tot /admin pagina's "ROLE_ADMIN"
+                //.antMatchers("/trainee").hasRole("TRAINEE") alleen trainee's hebben toegang tot /traine pagina's "ROLE_TRAINEE"
+                //.antMatchers("/kcp").hasRole("KCP") alleen kcp heeft toegang tot /kcp pagina's "ROLE_KCP"
+                //.antMatchers("/intermedewerker").hasRole("INTERNEMEDEWERKER") ROLE_INTERNEMEDEWERKE
+                .and()
+                .formLogin()
+                .loginPage("/login").permitAll()
+                .successHandler(myAuthenticationSuccessHandler())//dit zorgt ervoor dat de login pagina aangepast kan worden en laat login.html zien (zie templates)
+                //.defaultSuccessUrl("/inlogsucces",true)
+
                 .and()
 
-                .formLogin();
+                .logout() //dit gedeelte zorgt voor een logout, en verwijdert cookies, je komt weer terecht op login pagina
+                .logoutUrl("/logout")
 
+                .logoutSuccessUrl("/login");
         http.csrf().disable();
 
     }

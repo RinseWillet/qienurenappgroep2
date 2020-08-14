@@ -13,8 +13,18 @@ public class TemplateController {
         return "login";
     }
 
-    @GetMapping("Inlogsucces")
+    @GetMapping("inlogsucces")
     public String getSuccesLogin(){
-        return "Inlogsucces";
+        return "inlogsucces";
+   }
+
+    @GetMapping("admin")
+    public String getAdminPage(){
+       return "admin";
+    }
+
+    @GetMapping("trainee")
+    public String getTraineePage(){
+        return "trainee";
     }
 }
