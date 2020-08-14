@@ -9,8 +9,11 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
 
+import app.qienuren.controller.PersoonRepository;
+import app.qienuren.model.Persoon;
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.web.DefaultRedirectStrategy;
@@ -19,6 +22,10 @@ import org.springframework.security.web.WebAttributes;
 import org.springframework.security.web.authentication.AuthenticationSuccessHandler;
 
 public class MyAuthenticationSuccessHandler implements AuthenticationSuccessHandler {
+
+    @Autowired
+    PersoonRepository persoonRepository;
+
     protected final Log logger = LogFactory.getLog(this.getClass());
 
     private RedirectStrategy redirectStrategy = new DefaultRedirectStrategy();
@@ -49,10 +56,14 @@ public class MyAuthenticationSuccessHandler implements AuthenticationSuccessHand
     }
 
     protected String determineTargetUrl(final Authentication authentication) {
-
+        System.out.println(">>>>>>>>>>>>>>>>>>>" + authentication.getName());
+        long id = persoonRepository.findByUserName(authentication.getName()).get().getId();
         Map<String, String> roleTargetUrlMap = new HashMap<>();
-        roleTargetUrlMap.put("ROLE_TRAINEE", "/trainee" );
+
+        roleTargetUrlMap.put("ROLE_TRAINEE", "/trainee?id=" + id);
+
         roleTargetUrlMap.put("ROLE_ADMIN", "/admin");
+        roleTargetUrlMap.put("ROLE_KCP", "/opdrachtgever");
 
         final Collection<? extends GrantedAuthority> authorities = authentication.getAuthorities();
         for (final GrantedAuthority grantedAuthority : authorities) {

@@ -1,5 +1,6 @@
 package app.qienuren.model;
 
+import com.fasterxml.jackson.annotation.JsonBackReference;
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.fasterxml.jackson.annotation.JsonManagedReference;
 
@@ -11,18 +12,20 @@ import java.util.List;
 public class KlantContactPersoon extends Persoon {
 
     @ManyToOne
+    /*@JsonManagedReference(value = "bedrijf")*/
     private Bedrijf bedrijf;
 
     //Een Contactpersoon kan meerdere trainees onder zich hebben
     @OneToMany(cascade = CascadeType.ALL)
-    @JsonManagedReference(value="KCP")
+    @JsonBackReference(value="KCP")
     private List<Trainee> trainees = new ArrayList<>();
 
     public KlantContactPersoon() {
         this.setRoles("ROLE_KCP");
+        this.setActive(true);
     }
 
-    @JsonIgnore
+    //@JsonIgnore
     public Bedrijf getCompany() {
         return bedrijf;
     }
@@ -31,6 +34,7 @@ public class KlantContactPersoon extends Persoon {
         this.bedrijf = bedrijf;
     }
 
+   // @JsonIgnore
     public List<Trainee> getTrainees() {
         return trainees;
     }

@@ -1,5 +1,6 @@
 package app.qienuren.model;
 
+import com.fasterxml.jackson.annotation.JsonBackReference;
 import com.fasterxml.jackson.annotation.JsonIgnore;
 
 import javax.persistence.*;
@@ -12,8 +13,11 @@ public class Bedrijf {
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)
     private long id;
-    @OneToOne
-    private KlantContactPersoon contactPersoon;
+
+    @OneToMany(cascade = CascadeType.ALL)
+    @JsonBackReference(value="bedrijf")
+    private List<KlantContactPersoon> contactPersonen = new ArrayList<>();
+
     private String naam;
     private String emailadres;
     private String telefoonnr;
@@ -22,9 +26,9 @@ public class Bedrijf {
     private String woonplaats;
 
 
-    @OneToMany(cascade = CascadeType.ALL)
+    //@OneToMany(cascade = CascadeType.ALL)
     //@JsonManagedReference(value="opdrachtgever")
-    private List<Trainee> trainees = new ArrayList<>();
+   // private List<Trainee> trainees = new ArrayList<>();
 
     public long getId() {
         return id;
@@ -32,14 +36,6 @@ public class Bedrijf {
 
     public void setId(long id) {
         this.id = id;
-    }
-
-    public KlantContactPersoon getContactPersoon() {
-        return contactPersoon;
-    }
-
-    public void setContactPersoon(KlantContactPersoon contactPersoon) {
-        this.contactPersoon = contactPersoon;
     }
 
     public String getNaam() {
@@ -98,19 +94,15 @@ public class Bedrijf {
 //        this.NAWgegevens = NAWgegevens;
 //    }
 
-    public List<Trainee> getTrainees() {
-        return trainees;
-    }
-
-    public void setTrainees(List<Trainee> trainees) {
-        this.trainees = trainees;
-    }
-
-    public void koppelTrainee (Trainee trainee) {
-        this.trainees.add(trainee);
-    }
-
     public void koppelContactPersoon(KlantContactPersoon klantContactPersoon) {
-        this.contactPersoon = klantContactPersoon;
+        this.contactPersonen.add(klantContactPersoon);
+    }
+
+    public List<KlantContactPersoon> getContactPersonen() {
+        return contactPersonen;
+    }
+
+    public void setContactPersonen(List<KlantContactPersoon> contactPersonen) {
+        this.contactPersonen = contactPersonen;
     }
 }
