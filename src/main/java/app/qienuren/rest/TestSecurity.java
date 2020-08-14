@@ -7,19 +7,19 @@ import org.springframework.web.bind.annotation.RestController;
 public class TestSecurity {
 
 
-
-    @GetMapping("/")
-    public String home(){
-        return ("<h2>Welkom<h2>");
-    }
-
-    @GetMapping("/user")
-    public String user(){
-        return ("<h2>Welkom user<h2>");
-    }
-
-    @GetMapping("/admin")
-    public String admin(){
-        return ("<h2>Welkom admin<h2>");
-    }
+//
+//    @GetMapping("/")
+//    public String home(){
+//        return ("<h2>Welkom<h2>");
+//    }
+//
+//    @GetMapping("/user")
+//    public String user(){
+//        return ("<h2>Welkom user<h2>");
+//    }
+//
+//    @GetMapping("/admin")
+//    public String admin(){
+//        return ("<h2>Welkom admin<h2>");
+//    }
 }
