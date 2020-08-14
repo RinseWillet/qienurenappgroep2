@@ -13,10 +13,12 @@ public class MyPersoonDetails implements UserDetails {
     private String password;
     private boolean active;
     private Collection<? extends GrantedAuthority> authorities;
+    private long id;
 
     public MyPersoonDetails(Persoon persoon){
         this.userName = persoon.getUserName();
         this.password = persoon.getPassword();
+        this.id = persoon.getId();
         this.active = persoon.isActive();
         this.authorities = mapRolesToAuthorities(Arrays.stream(persoon.getRoles().split(",")).collect(Collectors.toList()));
         //this.authorities = mapRolesToAuthorities(Collections.singletonList(persoon.getRoles()));
