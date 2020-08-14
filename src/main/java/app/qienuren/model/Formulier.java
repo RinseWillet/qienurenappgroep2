@@ -18,14 +18,29 @@ public class Formulier {
 
     @ManyToOne
     private Persoon medewerker;
-    private boolean goedKeuringKlant;
-    private boolean goedkeuringAdmin;
-    private FormulierStatus formulierStatus = FormulierStatus.OPEN;
+    private AdminStatus adminStatus = AdminStatus.OPEN;
+    private OpdrachtgeverStatus opdrachtgeverStatus = OpdrachtgeverStatus.OPEN;
 
     @OneToMany(cascade = CascadeType.ALL)
     private List<WerkDag> werkDagen = new ArrayList<>();
 
     //methodes
+
+    public AdminStatus getAdminStatus() {
+        return adminStatus;
+    }
+
+    public void setAdminStatus(AdminStatus adminStatus) {
+        this.adminStatus = adminStatus;
+    }
+
+    public OpdrachtgeverStatus getOpdrachtgeverStatus() {
+        return opdrachtgeverStatus;
+    }
+
+    public void setOpdrachtgeverStatus(OpdrachtgeverStatus opdrachtgeverStatus) {
+        this.opdrachtgeverStatus = opdrachtgeverStatus;
+    }
 
     public long getId() {
         return id;
@@ -41,22 +56,6 @@ public class Formulier {
 
     public void setMedewerker(Persoon medewerker) {
         this.medewerker = medewerker;
-    }
-
-    public boolean isGoedKeuringKlant() {
-        return goedKeuringKlant;
-    }
-
-    public void setGoedKeuringKlant(boolean goedKeuringKlant) {
-        this.goedKeuringKlant = goedKeuringKlant;
-    }
-
-    public boolean isGoedkeuringAdmin() {
-        return goedkeuringAdmin;
-    }
-
-    public void setGoedkeuringAdmin(boolean goedkeuringAdmin) {
-        this.goedkeuringAdmin = goedkeuringAdmin;
     }
 
     public long getJaar() {
@@ -83,12 +82,6 @@ public class Formulier {
         this.werkDagen = werkDagen;
     }
 
-    public FormulierStatus getFormulierStatus() {
-        return formulierStatus;
-    }
 
-    public void setFormulierStatus(FormulierStatus formulierStatus) {
-        this.formulierStatus = formulierStatus;
-    }
 }
 

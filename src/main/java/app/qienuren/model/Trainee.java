@@ -19,9 +19,13 @@ public class Trainee extends Medewerker {
     private Bedrijf opdrachtgever;
 
     @ManyToOne
-    @JsonBackReference(value="KCP")
+    @JsonBackReference(value = "KCP")
     @JoinColumn(name = "KCP_id")
     private KlantContactPersoon leidingGevende;
+
+    public Trainee() {
+        this.setRoles("ROLE_TRAINEE");
+    }
 
     public Bedrijf getOpdrachtgever() {
         return opdrachtgever;

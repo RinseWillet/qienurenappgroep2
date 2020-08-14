@@ -1,5 +1,5 @@
 package app.qienuren.model;
 
-public enum FormulierStatus {
+public enum OpdrachtgeverStatus {
     GOEDGEKEURD, AFGEKEURD, OPEN;
 }
