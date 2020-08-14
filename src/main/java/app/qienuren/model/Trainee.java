@@ -1,6 +1,7 @@
 package app.qienuren.model;
 
 import com.fasterxml.jackson.annotation.JsonBackReference;
+import com.fasterxml.jackson.annotation.JsonManagedReference;
 
 import javax.persistence.CascadeType;
 import javax.persistence.Entity;
@@ -16,7 +17,6 @@ public class Trainee extends Medewerker {
     //@JsonBackReference (value="opdrachtgever")
     @JoinColumn(name = "bedrijf_id")
     private Bedrijf opdrachtgever;
-
 
     @ManyToOne
     @JsonBackReference(value="KCP")

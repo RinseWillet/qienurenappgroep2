@@ -34,6 +34,7 @@ public class Bedrijf {
         this.id = id;
     }
 
+    @JsonIgnore
     public KlantContactPersoon getContactPersoon() {
         return contactPersoon;
     }

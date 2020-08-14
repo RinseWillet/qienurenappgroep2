@@ -1,5 +1,6 @@
 package app.qienuren.model;
 
+import com.fasterxml.jackson.annotation.JsonBackReference;
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.fasterxml.jackson.annotation.JsonManagedReference;
 
@@ -27,6 +28,7 @@ public class KlantContactPersoon extends Persoon {
         this.bedrijf = bedrijf;
     }
 
+    @JsonIgnore
     public List<Trainee> getTrainees() {
         return trainees;
     }
