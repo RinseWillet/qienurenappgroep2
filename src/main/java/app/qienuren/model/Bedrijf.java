@@ -98,7 +98,6 @@ public class Bedrijf {
 //        this.NAWgegevens = NAWgegevens;
 //    }
 
-    @JsonIgnore
     public List<Trainee> getTrainees() {
         return trainees;
     }

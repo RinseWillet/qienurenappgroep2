@@ -1,7 +1,6 @@
 package app.qienuren.model;
 
 import com.fasterxml.jackson.annotation.JsonBackReference;
-import com.fasterxml.jackson.annotation.JsonIgnore;
 
 import javax.persistence.CascadeType;
 import javax.persistence.Entity;
@@ -14,15 +13,19 @@ public class Trainee extends Medewerker {
     private MedewerkerType type = MedewerkerType.Trainee;
 
     @ManyToOne(cascade = CascadeType.ALL)
-    @JsonBackReference (value="opdrachtgever")
+    //@JsonBackReference (value="opdrachtgever")
     @JoinColumn(name = "bedrijf_id")
     private Bedrijf opdrachtgever;
 
 
     @ManyToOne
-    @JsonBackReference(value="KCP")
+    @JsonBackReference(value = "KCP")
     @JoinColumn(name = "KCP_id")
     private KlantContactPersoon leidingGevende;
+
+    public Trainee() {
+        this.setRoles("ROLE_TRAINEE");
+    }
 
     public Bedrijf getOpdrachtgever() {
         return opdrachtgever;
