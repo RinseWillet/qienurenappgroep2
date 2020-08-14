@@ -4,11 +4,13 @@ package app.qienuren.security;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.context.annotation.Bean;
+import org.springframework.security.authentication.dao.DaoAuthenticationProvider;
 import org.springframework.security.config.annotation.authentication.builders.AuthenticationManagerBuilder;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
 import org.springframework.security.config.annotation.web.configuration.EnableWebSecurity;
 import org.springframework.security.config.annotation.web.configuration.WebSecurityConfigurerAdapter;
 import org.springframework.security.core.userdetails.UserDetailsService;
+import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.security.crypto.password.NoOpPasswordEncoder;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.security.web.authentication.AuthenticationSuccessHandler;
@@ -23,7 +25,7 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
     UserDetailsService userDetailsService;
 
     @Bean
-    public AuthenticationSuccessHandler myAuthenticationSuccessHandler(){
+    public AuthenticationSuccessHandler myAuthenticationSuccessHandler() {
         return new MyAuthenticationSuccessHandler();
     }
 
@@ -43,24 +45,44 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
 //                .roles("ADMIN");
     }
 
+//
+
+
     @Bean
     public PasswordEncoder getPasswordEncoder() {
         return NoOpPasswordEncoder.getInstance();
     }
+//    @Bean
+//    public BCryptPasswordEncoder passwordEncoder() {
+//        return new BCryptPasswordEncoder();
+//    }
+//
+//    @Bean
+//    public DaoAuthenticationProvider authenticationProvider() {
+//        DaoAuthenticationProvider auth = new DaoAuthenticationProvider();
+//        auth.setUserDetailsService(userDetailsService);
+//        auth.setPasswordEncoder(passwordEncoder());
+//        return auth;
+//    }
 
     @Override
     protected void configure(HttpSecurity http) throws Exception {
         http.authorizeRequests()
                 .antMatchers("/admin").hasRole("ADMIN")
                 .antMatchers("/trainee").hasAnyRole("TRAINEE", "ADMIN")
+                .antMatchers("/opdrachtgever").hasRole("KCP")
+                .antMatchers("/traineeformulier").hasAnyRole("TRAINEE", "ADMIN")
                 //.antMatchers("/user**").hasAnyRole("USER", "ADMIN")
                 .antMatchers("/api/**").permitAll()
+
+                .antMatchers("/js/**", "/css/**", "/img/**").permitAll()
+
                 .antMatchers("/").permitAll()
 
 
                 //.antMatchers("/admin").hasRole("ADMIN") alleen admin heeft toegang tot /admin pagina's "ROLE_ADMIN"
                 //.antMatchers("/trainee").hasRole("TRAINEE") alleen trainee's hebben toegang tot /traine pagina's "ROLE_TRAINEE"
-                //.antMatchers("/kcp").hasRole("KCP") alleen kcp heeft toegang tot /kcp pagina's "ROLE_KCP"
+
                 //.antMatchers("/intermedewerker").hasRole("INTERNEMEDEWERKER") ROLE_INTERNEMEDEWERKE
                 .and()
                 .formLogin()

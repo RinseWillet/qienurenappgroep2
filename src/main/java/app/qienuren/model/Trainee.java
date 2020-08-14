@@ -19,6 +19,7 @@ public class Trainee extends Medewerker {
 
     public Trainee() {
         this.setRoles("ROLE_TRAINEE");
+        this.setActive(true);
     }
 
     public KlantContactPersoon getLeidingGevende() {

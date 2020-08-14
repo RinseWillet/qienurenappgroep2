@@ -27,4 +27,7 @@ public class TemplateController {
     public String getTraineePage(){
         return "trainee";
     }
+
+    @GetMapping("opdrachtgever")
+    public String getOpdrachtgeverPage() { return "opdrachtgever";}
 }

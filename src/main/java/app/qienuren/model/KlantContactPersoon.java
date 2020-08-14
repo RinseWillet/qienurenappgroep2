@@ -22,6 +22,7 @@ public class KlantContactPersoon extends Persoon {
 
     public KlantContactPersoon() {
         this.setRoles("ROLE_KCP");
+        this.setActive(true);
     }
 
     //@JsonIgnore
