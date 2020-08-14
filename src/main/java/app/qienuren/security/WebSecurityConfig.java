@@ -46,13 +46,16 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
     protected void configure(HttpSecurity http) throws Exception {
         http.authorizeRequests()
                 .antMatchers("/admin").hasRole("ADMIN")
-                .antMatchers("/user").hasRole("USER")
+                .antMatchers("/user").hasAnyRole("TRAINEE", "ADMIN")
                 //.antMatchers("/user**").hasAnyRole("USER", "ADMIN")
                 .antMatchers("/api/**").permitAll()
                 .antMatchers("/").permitAll()
 
+                //.antMatchers("/admin").hasRole("ADMIN") alleen admin heeft toegang tot /admin pagina's "ROLE_ADMIN"
+                //.antMatchers("/trainee").hasRole("TRAINEE") alleen trainee's hebben toegang tot /traine pagina's "ROLE_TRAINEE"
+                //.antMatchers("/kcp").hasRole("KCP") alleen kcp heeft toegang tot /kcp pagina's "ROLE_KCP"
+                //.antMatchers("/intermedewerker").hasRole("INTERNEMEDEWERKER") ROLE_INTERNEMEDEWERKE
                 .and()
-
                 .formLogin();
 
         http.csrf().disable();

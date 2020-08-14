@@ -16,7 +16,7 @@ public class Persoon {
     private String email;
     private String telefoonnr;
 
-    private String userName; // = email;
+    private String userName;// = email;
     private String password;
 
     private String roles; //later aanpassen enum(?)
@@ -52,6 +52,7 @@ public class Persoon {
 
     public void setEmail(String email) {
         this.email = email;
+        this.userName = email;
     }
 
     public String getTelefoonnr() {
@@ -84,9 +85,9 @@ public class Persoon {
         return userName;
     }
 
-    public void setUserName(String userName) {
-        this.userName = userName;
-    }
+//    public void setUserName(String userName) {
+//        this.userName = this.getEmail();
+//          }
 
 
 //    public String getGebruikersNaam() {

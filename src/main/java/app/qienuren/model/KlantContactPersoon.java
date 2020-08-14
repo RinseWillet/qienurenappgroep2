@@ -18,6 +18,10 @@ public class KlantContactPersoon extends Persoon {
     @JsonManagedReference(value="KCP")
     private List<Trainee> trainees = new ArrayList<>();
 
+    public KlantContactPersoon() {
+        this.setRoles("ROLE_KCP");
+    }
+
     @JsonIgnore
     public Bedrijf getCompany() {
         return bedrijf;

@@ -24,6 +24,10 @@ public class Trainee extends Medewerker {
     @JoinColumn(name = "KCP_id")
     private KlantContactPersoon leidingGevende;
 
+    public Trainee(){
+        this.setRoles("ROLE_TRAINEE");
+    }
+
     public Bedrijf getOpdrachtgever() {
         return opdrachtgever;
     }
@@ -55,5 +59,8 @@ public class Trainee extends Medewerker {
     public void setType(MedewerkerType type) {
         this.type = type;
     }
+
+
+
 
 }

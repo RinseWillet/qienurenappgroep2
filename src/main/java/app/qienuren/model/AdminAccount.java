@@ -12,4 +12,8 @@ public class AdminAccount extends Persoon {
     @GeneratedValue(strategy = GenerationType.AUTO)
     private long id;
 
+    public AdminAccount(){
+        this.setRoles("ROLE_ADMIN");
+    }
+
 }
