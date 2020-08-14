@@ -42,15 +42,6 @@ public class FormulierEndpoint {
         return formulierService.getById(id);
     }
 
-    @PutMapping("/update/statusgoed/{id}")
-    public Formulier updateFormulierStatusGoed(@PathVariable(value = "id")long id){
-        return formulierService.updateFormulierStatusGoed(id);
-    }
-    @PutMapping("/update/statusfout/{id}")
-    public Formulier updateFormulierStatusFout(@PathVariable(value = "id")long id){
-        return formulierService.updateFormulierStatusFout(id);
-    }
-
     @DeleteMapping("/verwijderen/{id}")
     public void verwijderFormulier(@PathVariable(value = "id") long id) {
         formulierService.verwijderFormulier(id);

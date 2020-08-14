@@ -23,6 +23,8 @@ public class AdminEndpoint {
     KlantContactPersoonService klantContactPersoonService;
     @Autowired
     PersoonService persoonService;
+    @Autowired
+    FormulierService formulierService;
 
 
     // Alle Post Mapping om nieuwe Entiteiten aan te maken
@@ -43,9 +45,6 @@ public class AdminEndpoint {
     public KlantContactPersoon newKlantContactPersoon(@RequestBody KlantContactPersoon klantContactPersoon) {
         return klantContactPersoonService.addKlantContactPersoon(klantContactPersoon);
     }
-
-
-
 
     // Alle Get Mapping om van een Entiteit alle data op te vragen
 
@@ -94,5 +93,15 @@ public class AdminEndpoint {
 //        public Trainee updateTrainee(@PathVariable(value = "id") long id, @RequestBody Trainee trainee) {
 //        return traineeService.updateTrainee(id);
 //    }
+
+    // Endpoints voor goed- of afkeuren formulier door Admin
+    @PutMapping("/update/statusgoed/{id}")
+    public Formulier updateFormulierStatusGoed(@PathVariable(value = "id")long id){
+        return formulierService.AdminStatusGoed(id);
+    }
+    @PutMapping("/update/statusfout/{id}")
+    public Formulier updateFormulierStatusFout(@PathVariable(value = "id")long id){
+        return formulierService.AdminStatusFout(id);
+    }
 }
 
