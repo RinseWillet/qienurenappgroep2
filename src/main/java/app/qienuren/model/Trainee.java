@@ -13,26 +13,12 @@ public class Trainee extends Medewerker {
 
     private MedewerkerType type = MedewerkerType.Trainee;
 
-    @ManyToOne(cascade = CascadeType.ALL)
-    //@JsonBackReference (value="opdrachtgever")
-    @JoinColumn(name = "bedrijf_id")
-    private Bedrijf opdrachtgever;
-
     @ManyToOne
-    @JsonBackReference(value = "KCP")
-    @JoinColumn(name = "KCP_id")
+  /*  @JsonManagedReference(value="KCP")*/
     private KlantContactPersoon leidingGevende;
 
     public Trainee() {
         this.setRoles("ROLE_TRAINEE");
-    }
-
-    public Bedrijf getOpdrachtgever() {
-        return opdrachtgever;
-    }
-
-    public void setOpdrachtgever(Bedrijf opdrachtgever) {
-        this.opdrachtgever = opdrachtgever;
     }
 
     public KlantContactPersoon getLeidingGevende() {
@@ -43,9 +29,9 @@ public class Trainee extends Medewerker {
         this.leidingGevende = leidingGevende;
     }
 
-    public void koppelBedrijf(Bedrijf bedrijf) {
-        this.opdrachtgever = bedrijf;
-    }
+//    public void koppelBedrijf(Bedrijf bedrijf) {
+//        this.opdrachtgever = bedrijf;
+//    }
 
     public void koppelKlantContactPersoon(KlantContactPersoon kcp) {
         this.leidingGevende = kcp;
