@@ -14,6 +14,7 @@ public class AdminAccount extends Persoon {
 
     public AdminAccount(){
         this.setRoles("ROLE_ADMIN");
+        this.setActive(true);
     }
 
 }

@@ -7,6 +7,10 @@ public class InterneMedewerker extends Medewerker{
 
     private MedewerkerType type = MedewerkerType.InterneMedewerker;
 
+    public InterneMedewerker() {
+        this.setRoles("ROLE_INTERNEMEDEWERKER");
+        this.setActive(true);
+    }
 
     public MedewerkerType getType() {
         return type;
@@ -14,10 +18,6 @@ public class InterneMedewerker extends Medewerker{
 
     public void setType(MedewerkerType type) {
         this.type = type;
-    }
-
-    public InterneMedewerker() {
-        this.setRoles("ROLE_INTERNEMEDEWERKER");
     }
 
 }
