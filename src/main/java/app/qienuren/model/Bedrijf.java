@@ -1,5 +1,6 @@
 package app.qienuren.model;
 
+import com.fasterxml.jackson.annotation.JsonBackReference;
 import com.fasterxml.jackson.annotation.JsonIgnore;
 
 import javax.persistence.*;
@@ -12,13 +13,22 @@ public class Bedrijf {
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)
     private long id;
-    @OneToOne
-    private KlantContactPersoon contactPersoon;
-    private String naam;
-    private String NAWgegevens;
 
     @OneToMany(cascade = CascadeType.ALL)
-    private List<Trainee> trainees = new ArrayList<>();
+    @JsonBackReference(value="bedrijf")
+    private List<KlantContactPersoon> contactPersonen = new ArrayList<>();
+
+    private String naam;
+    private String emailadres;
+    private String telefoonnr;
+    private String straatNaamNr;
+    private String postcode;
+    private String woonplaats;
+
+
+    //@OneToMany(cascade = CascadeType.ALL)
+    //@JsonManagedReference(value="opdrachtgever")
+   // private List<Trainee> trainees = new ArrayList<>();
 
     public long getId() {
         return id;
@@ -26,15 +36,6 @@ public class Bedrijf {
 
     public void setId(long id) {
         this.id = id;
-    }
-
-    @JsonIgnore
-    public KlantContactPersoon getContactPersoon() {
-        return contactPersoon;
-    }
-
-    public void setContactPersoon(KlantContactPersoon contactPersoon) {
-        this.contactPersoon = contactPersoon;
     }
 
     public String getNaam() {
@@ -45,27 +46,63 @@ public class Bedrijf {
         this.naam = naam;
     }
 
-    public String getNAWgegevens() {
-        return NAWgegevens;
+    public String getEmailadres() {
+        return emailadres;
     }
 
-    public void setNAWgegevens(String NAWgegevens) {
-        this.NAWgegevens = NAWgegevens;
+    public void setEmailadres(String emailadres) {
+        this.emailadres = emailadres;
     }
 
-    public List<Trainee> getTrainees() {
-        return trainees;
+    public String getTelefoonnr() {
+        return telefoonnr;
     }
 
-    public void setTrainees(List<Trainee> trainees) {
-        this.trainees = trainees;
+    public void setTelefoonnr(String telefoonnr) {
+        this.telefoonnr = telefoonnr;
     }
 
-    public void koppelTrainee (Trainee trainee) {
-        this.trainees.add(trainee);
+    public String getStraatNaamNr() {
+        return straatNaamNr;
     }
+
+    public void setStraatNaamNr(String straatNaamNr) {
+        this.straatNaamNr = straatNaamNr;
+    }
+
+    public String getPostcode() {
+        return postcode;
+    }
+
+    public void setPostcode(String postcode) {
+        this.postcode = postcode;
+    }
+
+    public String getWoonplaats() {
+        return woonplaats;
+    }
+
+    public void setWoonplaats(String woonplaats) {
+        this.woonplaats = woonplaats;
+    }
+
+//    public String getNAWgegevens() {
+//        return NAWgegevens;
+//    }
+//
+//    public void setNAWgegevens(String NAWgegevens) {
+//        this.NAWgegevens = NAWgegevens;
+//    }
 
     public void koppelContactPersoon(KlantContactPersoon klantContactPersoon) {
-        this.contactPersoon = klantContactPersoon;
+        this.contactPersonen.add(klantContactPersoon);
+    }
+
+    public List<KlantContactPersoon> getContactPersonen() {
+        return contactPersonen;
+    }
+
+    public void setContactPersonen(List<KlantContactPersoon> contactPersonen) {
+        this.contactPersonen = contactPersonen;
     }
 }

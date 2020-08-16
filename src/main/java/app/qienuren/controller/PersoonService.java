@@ -27,4 +27,11 @@ public class PersoonService {
         return tempList;
     }
 
+
+
+    public Persoon addPersoon(Persoon persoon) {
+        System.out.println("User aangemaakt");
+        return persoonRepository.save(persoon);
+
+    }
 }

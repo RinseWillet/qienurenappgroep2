@@ -62,4 +62,7 @@ public class Medewerker extends Persoon {
     public void setArchief(List<Formulier> archief) {
         this.archief = archief;
     }
+    public void koppelFormulier(Formulier formulierTijdelijk) {
+        this.archief.add(formulierTijdelijk);
+    }
 }

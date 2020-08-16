@@ -30,10 +30,11 @@ public class BedrijfService {
         return bedrijfRepository.findAll();
     }
 
-    public Bedrijf traineeToevoegenBedrijf(long traineeID, long bedrijfID) {
+    /*public Bedrijf traineeToevoegenBedrijf(long traineeID, long bedrijfID) {
         System.out.println("Trainee gekoppeld aan Bedrijf");
         Trainee tijdelijkTrainee = traineeRepository.findById(traineeID).get();
         Bedrijf tijdelijkBedrijf = bedrijfRepository.findById(bedrijfID).get();
+        System.out.println(tijdelijkBedrijf);
 
         tijdelijkBedrijf.koppelTrainee(tijdelijkTrainee);
         tijdelijkTrainee.koppelBedrijf(tijdelijkBedrijf);
@@ -41,7 +42,7 @@ public class BedrijfService {
         traineeRepository.save(tijdelijkTrainee);
 
         return bedrijfRepository.save(tijdelijkBedrijf);
-    }
+    }*/
 
     public Bedrijf klantContactPersoonToevoegenBedrijf(long kcpID, long bedrijfID) {
         System.out.println("Trainee gekoppeld aan Bedrijf");

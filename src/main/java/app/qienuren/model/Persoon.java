@@ -1,8 +1,5 @@
 package app.qienuren.model;
 
-
-import app.qienuren.auth.User;
-
 import javax.persistence.*;
 
 @Entity
@@ -12,20 +9,14 @@ public class Persoon  {
     @GeneratedValue(strategy = GenerationType.AUTO)
     private long id;
     private String naam;
-    private String emailadres;
+    private String email;
     private String telefoonnr;
-    private String userName;
+
+    private String userName;// = email;
     private String password;
 
-    public String getRoles() {
-        return roles;
-    }
-
-    public void setRoles(String roles) {
-        this.roles = roles;
-    }
-
-    private String roles;
+    private String roles; //later aanpassen enum(?)
+    private boolean active;
 
     public String getPassword() {
         return password;
@@ -51,12 +42,13 @@ public class Persoon  {
         this.naam = naam;
     }
 
-    public String getEmailadres() {
-        return emailadres;
+    public String getEmail() {
+        return email;
     }
 
-    public void setEmailadres(String emailadres) {
-        this.emailadres = emailadres;
+    public void setEmail(String email) {
+        this.email = email;
+        this.userName = email;
     }
 
     public String getTelefoonnr() {
@@ -67,12 +59,39 @@ public class Persoon  {
         this.telefoonnr = telefoonnr;
     }
 
+    public String getRoles() {
+        return roles;
+    }
+
+    public void setRoles(String roles) {
+        this.roles = roles;
+    }
+
+    public boolean isActive() {
+        return active;
+    }
+
+    public void setActive(boolean active) {
+        this.active = active;
+    }
+
+
+
     public String getUserName() {
         return userName;
     }
 
-    public void setUserName(String gebruikersNaam) {
-        this.userName = gebruikersNaam;
-    }
+//    public void setUserName(String userName) {
+//        this.userName = this.getEmail();
+//          }
+
+
+//    public String getGebruikersNaam() {
+//        return gebruikersNaam;
+//    }
+//
+//    public void setGebruikersNaam(String gebruikersNaam) {
+//        this.gebruikersNaam = gebruikersNaam;
+//    }
 
 }

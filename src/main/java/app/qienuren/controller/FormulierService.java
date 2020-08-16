@@ -1,7 +1,8 @@
 package app.qienuren.controller;
 
 import app.qienuren.model.Formulier;
-import app.qienuren.model.FormulierStatus;
+import app.qienuren.model.AdminStatus;
+import app.qienuren.model.OpdrachtgeverStatus;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -36,17 +37,31 @@ public class FormulierService {
         return formulierRepository.findById(id).get();
     }
 
-    public Formulier updateFormulierStatusGoed(long id) {
+    public Formulier AdminStatusGoed(long id) {
         System.out.println("hij doet updaten");
         Formulier formuliertijdelijk = formulierRepository.findById(id).get();
-        formuliertijdelijk.setFormulierStatus(FormulierStatus.GOEDGEKEURD);
+        formuliertijdelijk.setAdminStatus(AdminStatus.GOEDGEKEURD);
         return formulierRepository.save(formuliertijdelijk);
     }
 
-    public Formulier updateFormulierStatusFout(long id) {
+    public Formulier AdminStatusFout(long id) {
         System.out.println("hij doet fout updaten");
         Formulier formuliertijdelijk = formulierRepository.findById(id).get();
-        formuliertijdelijk.setFormulierStatus(FormulierStatus.AFGEKEURD);
+        formuliertijdelijk.setAdminStatus(AdminStatus.AFGEKEURD);
+        return formulierRepository.save(formuliertijdelijk);
+    }
+
+    public Formulier OpdrachtgeverStatusGoed(long id) {
+        System.out.println("hij doet updaten");
+        Formulier formuliertijdelijk = formulierRepository.findById(id).get();
+        formuliertijdelijk.setOpdrachtgeverStatus(OpdrachtgeverStatus.GOEDGEKEURD);
+        return formulierRepository.save(formuliertijdelijk);
+    }
+
+    public Formulier OpdrachtgeverStatusFout(long id) {
+        System.out.println("hij doet fout updaten");
+        Formulier formuliertijdelijk = formulierRepository.findById(id).get();
+        formuliertijdelijk.setOpdrachtgeverStatus(OpdrachtgeverStatus.AFGEKEURD);
         return formulierRepository.save(formuliertijdelijk);
     }
 }
