@@ -1,6 +1,7 @@
 package app.qienuren.security;
 
 
+import app.qienuren.controller.MyUserDetailsService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.context.annotation.Bean;
@@ -22,7 +23,7 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
 
     @Qualifier("myUserDetailsService")
     @Autowired
-    UserDetailsService userDetailsService;
+    MyUserDetailsService myUserDetailsService;
 
     @Bean
     public AuthenticationSuccessHandler myAuthenticationSuccessHandler() {
@@ -31,39 +32,26 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
 
     @Override
     protected void configure(AuthenticationManagerBuilder auth) throws Exception {
-
-        auth.userDetailsService(userDetailsService);
-
-
-//        auth.inMemoryAuthentication()
-//                .withUser("lala")
-//                .password("lala")
-//                .roles("USER")
-//                .and()
-//                .withUser("zozo")
-//                .password("zozo")
-//                .roles("ADMIN");
+        auth.userDetailsService(myUserDetailsService);
+        auth.authenticationProvider(authenticationProvider());
     }
 
-//
-
+//    @Bean
+//    public PasswordEncoder getPasswordEncoder() {
+//        return NoOpPasswordEncoder.getInstance();
+//    }
+    @Bean
+    public BCryptPasswordEncoder passwordEncoder() {
+        return new BCryptPasswordEncoder();
+    }
 
     @Bean
-    public PasswordEncoder getPasswordEncoder() {
-        return NoOpPasswordEncoder.getInstance();
+    public DaoAuthenticationProvider authenticationProvider() {
+        DaoAuthenticationProvider auth = new DaoAuthenticationProvider();
+        auth.setUserDetailsService(myUserDetailsService);
+        auth.setPasswordEncoder(passwordEncoder());
+        return auth;
     }
-//    @Bean
-//    public BCryptPasswordEncoder passwordEncoder() {
-//        return new BCryptPasswordEncoder();
-//    }
-//
-//    @Bean
-//    public DaoAuthenticationProvider authenticationProvider() {
-//        DaoAuthenticationProvider auth = new DaoAuthenticationProvider();
-//        auth.setUserDetailsService(userDetailsService);
-//        auth.setPasswordEncoder(passwordEncoder());
-//        return auth;
-//    }
 
     @Override
     protected void configure(HttpSecurity http) throws Exception {
@@ -74,10 +62,8 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
                 .antMatchers("/traineeformulier").hasAnyRole("TRAINEE", "ADMIN")
                 //.antMatchers("/user**").hasAnyRole("USER", "ADMIN")
                 .antMatchers("/api/**").permitAll()
-
                 .antMatchers("/js/**", "/css/**", "/img/**").permitAll()
-
-                .antMatchers("/").permitAll()
+             //   .antMatchers("/").permitAll()
 
 
                 //.antMatchers("/admin").hasRole("ADMIN") alleen admin heeft toegang tot /admin pagina's "ROLE_ADMIN"
@@ -91,10 +77,8 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
                 //.defaultSuccessUrl("/inlogsucces",true)
 
                 .and()
-
                 .logout() //dit gedeelte zorgt voor een logout, en verwijdert cookies, je komt weer terecht op login pagina
                 .logoutUrl("/logout")
-
                 .logoutSuccessUrl("/login");
         http.csrf().disable();
 

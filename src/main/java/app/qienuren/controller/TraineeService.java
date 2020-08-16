@@ -5,6 +5,7 @@ import app.qienuren.model.Formulier;
 import app.qienuren.model.KlantContactPersoon;
 import app.qienuren.model.Trainee;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 
 import javax.transaction.Transactional;
@@ -22,8 +23,13 @@ public class TraineeService {
     @Autowired
     FormulierRepository formulierRepository;
 
+    @Autowired
+    private PasswordEncoder passwordEncoder;
+
+
     public Trainee addTrainee(Trainee trainee) {
         System.out.println("trainee aangemaakt");
+        trainee.setPassword(passwordEncoder.encode(trainee.getPassword()));
         return traineeRepository.save(trainee);
     }
 
