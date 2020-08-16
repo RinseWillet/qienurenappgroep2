@@ -1,10 +1,12 @@
 package app.qienuren.model;
 
 
+import app.qienuren.auth.User;
+
 import javax.persistence.*;
 
 @Entity
-public class Persoon {
+public class Persoon  {
 
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)
@@ -12,15 +14,25 @@ public class Persoon {
     private String naam;
     private String emailadres;
     private String telefoonnr;
-    private String gebruikersNaam;
-    private String wachtwoord;
+    private String userName;
+    private String password;
 
-    public String getWachtwoord() {
-        return wachtwoord;
+    public String getRoles() {
+        return roles;
     }
 
-    public void setWachtwoord(String wachtwoord) {
-        this.wachtwoord = wachtwoord;
+    public void setRoles(String roles) {
+        this.roles = roles;
+    }
+
+    private String roles;
+
+    public String getPassword() {
+        return password;
+    }
+
+    public void setPassword(String wachtwoord) {
+        this.password = wachtwoord;
     }
 
     public long getId() {
@@ -55,12 +67,12 @@ public class Persoon {
         this.telefoonnr = telefoonnr;
     }
 
-    public String getGebruikersNaam() {
-        return gebruikersNaam;
+    public String getUserName() {
+        return userName;
     }
 
-    public void setGebruikersNaam(String gebruikersNaam) {
-        this.gebruikersNaam = gebruikersNaam;
+    public void setUserName(String gebruikersNaam) {
+        this.userName = gebruikersNaam;
     }
 
 }
