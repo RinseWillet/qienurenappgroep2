@@ -178,6 +178,8 @@ const laatMedewerkersZien = () => {
 
             if (deMedewerkers.length > 0) {
                 deMedewerkers.forEach((e) => {
+                    console.log(e.type);
+                    if (e.type === "Admin") return;
                     console.log("in foreach: " + e)
                     // Als trainee geen opdrachtgever heeft dan veranderen naar "Niet geplaatst"
                     console.log(e.leidingGevende)
@@ -195,6 +197,12 @@ const laatMedewerkersZien = () => {
                         e.type = "Interne Medewerker";
                         e.leidingGevende.company = {
                             "naam": "Qien"
+                        }
+                    }
+                    // Als KCP niet gekoppeld is aan een bedrijf kan dit een probleem veroorzaken. Vandaar onderstaand if-statement
+                    if (e.leidingGevende.company === null) {
+                        e.leidingGevende.company = {
+                            naam : "Niet geplaatst"
                         }
                     }
                     inTeVoegenHTML = `<li data-toggle="modal" data-target="#staticBackdrop" 
@@ -759,6 +767,6 @@ AANROEPEN VAN METHODES BIJ OPENEN PAGINA
 
 laatFormulierenZien();
 laatMedewerkersZien();
-laatBedrijvenZien();
+// laatBedrijvenZien();
 updateTraineeSelector();
 updateContactPersoonSelector();
