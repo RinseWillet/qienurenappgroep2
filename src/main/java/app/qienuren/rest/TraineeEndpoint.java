@@ -14,11 +14,6 @@ public class TraineeEndpoint {
     @Autowired
     TraineeService traineeService;
 
-    @PostMapping("/add")
-    public Trainee newTrainee(@RequestBody Trainee trainee){
-        return traineeService.addTrainee(trainee);
-    }
-
     @GetMapping("/{id}")
     public Trainee getTraineeById(@PathVariable(value = "id") long id){
         return traineeService.getTraineeById(id);
