@@ -10,8 +10,10 @@ const goedkeurKnopje = document.getElementById("goedkeuren");
 const afkeurKnopje = document.getElementById("afkeuren");
 const relatieAanmakenKnop = document.getElementById("knop-relatie-aanmaken");
 const toevoegenGebruikerContainer = document.getElementById("toevoegen-gebruiker-container");
-const selectTrainee = document.getElementById("trainee_select");
-const selectContactPersoon = document.getElementById("contactpersoon_select");
+var selectTrainee = document.getElementById("trainee_select");
+var selectContactPersoon = document.getElementById("contactpersoon_select");
+var selectBedrijf = document.getElementById("bedrijf_select");
+const relatieContainer = document.getElementById("relatiekoppel-container");
 var selectTraineeId;
 
 const maandNummerNaarString = (maandNummer) => {
@@ -159,8 +161,6 @@ formulierenLijst.onclick = function (event) {
     })
 
 
-
-
 };
 
 /*
@@ -247,7 +247,6 @@ const laatBedrijvenZien = () => {
                             "naam": "Niet gekoppeld"
                         }
                     }
-
 
                     inTeVoegenHTML = `<li data-toggle="modal" data-target="#staticBackdrop" 
                     class="list-group-item list-group-item-action d-flex justify-content-between" id="${e.id}"><span id="${e.id}">${e.naam}</span><span id="${e.id}">${e.contactPersoon}</span><i id="${e.id}" class="far fa-eye"></i></li>`;
@@ -633,43 +632,24 @@ for (var i = 0; i < radios.length; i++) {
 trainees laden selectorknop relatie koppelen
 */
 
-
-
 const updateTraineeSelector = () => {
     let xhr = new XMLHttpRequest();
 
     xhr.onreadystatechange = function () {
         if (xhr.readyState == 4) {
             deTrainees = JSON.parse(this.responseText);
-            let inTeVoegenHTML = ``;
-            console.log(deTrainees);
+            let inTeVoegenHTML = ``; 
 
-
-            if (deTrainees.length > 0) {
-                console.log("in de if");
+            if (deTrainees.length > 0) {                
                 deTrainees.forEach((e) => {
 
                     // inTeVoegenHTML = `<li data-toggle="modal" data-target="#staticBackdrop" href="./formulier.html?id=${e.id}"
                     // class="list-group-item list-group-item-action" id="${e.id}">${e.naam} | ${e.maand} | ${e.jaar} | ${e.formulierstatus}</li>`;
-                    inTeVoegenHTML = `<option id=${e.id}>${e.naam}</option>`;
-                    selectTrainee.insertAdjacentHTML('beforeend', inTeVoegenHTML);
+                    inTeVoegenHTML = `<option id=${e.id}>${e.naam}</option>`;                    
+                    selectTrainee=document.getElementById("trainee_select");
+                    selectTrainee.insertAdjacentHTML('beforeend', inTeVoegenHTML);                   
                 })
-            } else {
-                console.log("in de else");
-                inTeVoegenHTML = `<div class="alert alert-danger" role="alert"><h4 class="alert-heading">Sapristi, geen formulieren!</h4>
-                <p>tekst - veel plezier</p>
-                <hr>
-                <p class="mb-0">text - nog meer plezier.</p>
-            </div>`;
-            }
-
-
-            //     console.log(inTeVoegenHTML);
-            //     formulierenLijst.insertAdjacentHTML('beforeend', inTeVoegenHTML);
-            // }
-            // <button type="button" class="btn btn-primary" data-toggle="modal" data-target="#staticBackdrop">
-            //             Launch static backdrop modal
-            //         </button>
+            } 
         }
     }
 
@@ -695,27 +675,12 @@ const updateContactPersoonSelector = () => {
                 console.log("in de if");
                 deContactPersonen.forEach((e) => {
 
-                    // inTeVoegenHTML = `<li data-toggle="modal" data-target="#staticBackdrop" href="./formulier.html?id=${e.id}"
-                    // class="list-group-item list-group-item-action" id="${e.id}">${e.naam} | ${e.maand} | ${e.jaar} | ${e.formulierstatus}</li>`;
                     inTeVoegenHTML = `<option id=${e.id}>${e.naam}</option>`;
+                    selectContactPersoon = document.getElementById("contactpersoon_select");
                     selectContactPersoon.insertAdjacentHTML('beforeend', inTeVoegenHTML);
-                })
-            } else {
-                console.log("in de else");
-                inTeVoegenHTML = `<div class="alert alert-danger" role="alert"><h4 class="alert-heading">Sapristi, geen formulieren!</h4>
-                <p>tekst - veel plezier</p>
-                <hr>
-                <p class="mb-0">text - nog meer plezier.</p>
-            </div>`;
-            }
-
-
-            //     console.log(inTeVoegenHTML);
-            //     formulierenLijst.insertAdjacentHTML('beforeend', inTeVoegenHTML);
-            // }
-            // <button type="button" class="btn btn-primary" data-toggle="modal" data-target="#staticBackdrop">
-            //             Launch static backdrop modal
-            //         </button>
+                });
+            } 
+            
         }
     }
 
@@ -723,41 +688,111 @@ const updateContactPersoonSelector = () => {
     xhr.send();
 }
 
+/*
+bedrijven laden selectorknop relatie koppelen
+*/
 
-//hier verder werken!!!
+const updateBedrijfSelector = () => {
+    let xhr = new XMLHttpRequest();
+
+    xhr.onreadystatechange = function () {
+        if (xhr.readyState == 4) {
+            deBedrijven = JSON.parse(this.responseText);
+            let inTeVoegenHTML = ``; 
+
+            if (deBedrijven.length > 0) {                
+                deBedrijven.forEach((e) => {
+
+                    // inTeVoegenHTML = `<li data-toggle="modal" data-target="#staticBackdrop" href="./formulier.html?id=${e.id}"
+                    // class="list-group-item list-group-item-action" id="${e.id}">${e.naam} | ${e.maand} | ${e.jaar} | ${e.formulierstatus}</li>`;
+                    inTeVoegenHTML = `<option id=${e.id}>${e.naam}</option>`;                    
+                    selectBedrijf=document.getElementById("bedrijf_select");
+                    selectBedrijf.insertAdjacentHTML('beforeend', inTeVoegenHTML);                   
+                })
+            } 
+        }
+    }
+
+    xhr.open("GET", "http://localhost:8082/api/admin/bedrijf/all", true);
+    xhr.send();
+}
+
+
+/*TO DO:
+checken dat save changes knop bij bedrijf - kcp ook die opslaat
+koppeling bedrijf - kcp maken
+*/
+
+/*
+Trainee aan Contactpersoon koppelen
+ */
 
 function koppelTraineeContactpersoon(s, d){
+    console.log(s[s.selectedIndex].id);
+    console.log(d[d.selectedIndex].id);
     var xhr = new XMLHttpRequest();
     var traineeId = s[s.selectedIndex].id;
     var ContactPersoonId = d[d.selectedIndex].id;
 
     xhr.onreadystatechange = function () {
         console.log("nieuwe koppeling gemaakt")
+        if (xhr.readyState == 4) {
+            location.reload();
+        }
     }
-
-    xhr.open("PUT", "http://localhost:8082/api/admin/trainee/koppelContactPersoon/{id}/{bedrijfid} " + id, true);
-
-    console.log(s[s.selectedIndex].id);
-    console.log(d[d.selectedIndex].id);
-
+    xhr.open("PUT", `http://localhost:8082/api/admin/trainee/koppelContactPersoon/${traineeId}/${ContactPersoonId}`, true);
+    xhr.send();
 }
 
+/*
+radio selectorknop relaties
+*/
 
-// function newSalary(){
-//     var xhr = new XMLHttpRequest();
-//     var id = document.getElementById("id").value
-//     var obj = {};
-//     obj.salary = document.getElementById("nieuwsalaris").value;
-//     objJSON =JSON.stringify(obj);
-//     xhr.onreadystatechange = function(){
-//         console.log("nieuw salaris ingevoerd")
-//     }
-//     xhr.open("PUT", "http://localhost:8082/api/admin/koppelContactPersoon/{id}//newsalary/" + id, true);
-//     xhr.setRequestHeader("Content-type", "application/json")
-//     xhr.send(objJSON);
-
-// }
-
+const radiosKoppelen = document.querySelectorAll(".form-check-input1")
+var prev = null;
+for (var i = 0; i < radiosKoppelen.length; i++) {
+    radiosKoppelen[i].addEventListener('change', function () {
+        (prev) ? prev.value : null;
+        if (this !== prev) {
+            prev = this;
+        }
+        if (this.value == "trainee-kcp") {
+        relatieContainer.innerHTML = `<div class="col mb-3">            
+            <select id="trainee_select" required>
+                <option>--Trainee--</option>
+                
+            </select>
+        </div>
+        <div class="col">            
+            <select id="contactpersoon_select" required>
+                <option>--ContactPersoon--</option>
+               
+            </select>
+        </div>`
+        updateTraineeSelector();
+        updateContactPersoonSelector();       
+        } else {
+            relatieContainer.innerHTML =`<div class="col mb-3">
+           
+            <select id="bedrijf_select" required>
+                <option>--Bedrijf--</option>
+               
+            </select>
+        </div>
+        <div class="col">
+           
+            <select id="contactpersoon_select" required>
+                <option>--ContactPersoon--</option>
+               
+            </select>
+        </div>`
+        updateContactPersoonSelector();
+        updateBedrijfSelector();
+        }      
+       
+    });
+  
+}
 
 
 
