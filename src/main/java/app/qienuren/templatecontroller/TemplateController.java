@@ -34,6 +34,6 @@ public class TemplateController {
     @GetMapping("opdrachtgever")
     public String getOpdrachtgeverPage() { return "opdrachtgever";}
 
-    @GetMapping("traineeformulier")
-    public String getTraineeFormulier() { return "traineeformulier";}
+   /* @GetMapping("traineeformulier")
+    public String getTraineeFormulier() { return "traineeformulier";}*/
 }

@@ -62,7 +62,7 @@
                             <a class="nav-link" id="bedrijven-tab-tab" data-toggle="tab" href="#bedrijven-tab"
                                role="tab" aria-controls="bedrijven-tab" aria-selected="false">Bedrijven</a>
                         </li>-->
->>>>>>> master
+
                         <li class="nav-item">
                             <a class="nav-link" id="formulieren-tab-tab" data-toggle="tab" href="#formulieren-tab"
                                role="tab" aria-controls="formulieren-tab" aria-selected="false">Formulieren</a>
@@ -401,38 +401,39 @@
                                     <div class="modal-body">
                                         <form>
                                             <div class="form-group">
-                                                <label for="toevoegen-select-type">Welke relaties wilt u koppelen?</label>
+                                                <label for="koppelen-select-type">Welke relaties wilt u koppelen?</label>
                                                 <br>
 
                                                 <div class="form-check form-check-inline">
-                                                    <input class="form-check-input" type="radio"
+                                                    <input class="form-check-input1" type="radio"
                                                            name="inlineRadioOptions" id="radio-trainee-kcp"
-                                                           value="Trainee aan ContactPersoon" checked>
+                                                           value="trainee-kcp" checked>
                                                     <label class="form-check-label" for="radio-trainee-kcp">Trainee aan ContactPersoon</label>
                                                 </div>
                                                 <div class="form-check form-check-inline">
-                                                    <input class="form-check-input" type="radio"
+                                                    <input class="form-check-input1" type="radio"
                                                            name="inlineRadioOptions" id="radio-bedrijf-kcp"
-                                                           value="Bedrijf aan ContactPersoon">
+                                                           value="bedrijf-kcp">
                                                     <label class="form-check-label"
                                                            for="radio-bedrijf-kcp">Bedrijf aan ContactPersoon</label>
                                                 </div>
                                             </div>
 
+                                            <div id="relatiekoppel-container">
+
                                             <div class="col mb-3">
-                                                <!-- <label for="trainee-select">Geselecteerde trainee: </label> -->
                                                 <select id="trainee_select" required>
                                                     <option>--Trainee--</option>
                                                     <!-- trainees worden gevuld vanuit index.js -->
                                                 </select>
                                             </div>
-                                            <div class="col">
-                                                <!-- <label for="contactpersoon-select">Geselecteerde contactpersoon</label> -->
+                                            <div class="col">                                                
                                                 <select id="contactpersoon_select" required>
                                                     <option>--ContactPersoon--</option>
                                                     <!-- contactpersonen worden gevuld vanuit index.js -->
                                                 </select>
                                             </div>
+                                        </div>
                                         </form>
                                     </div>
                                     <div class="modal-footer">
