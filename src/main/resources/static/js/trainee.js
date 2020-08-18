@@ -63,14 +63,17 @@ const traineeNaamFunction = () => {
                 maand = maandNummerNaarString(formulieren[i].maand);
                 var e = formulieren[i];
 
-                // inTeVoegenHTML = `<li data-toggle="modal" data-target="#staticBackdrop" href="./formulier.html?id=${e.id}"
-                // class="list-group-item list-group-item-action" id="${e.id}">${e.naam} | ${e.maand} | ${e.jaar} | ${e.formulierstatus}</li>`;
 
-                formulierHTML = `<li data-toggle="modal" data-target="#staticBackdrop" 
-                     class="list-group-item list-group-item-action d-flex justify-content-between" id="${e.id}"><span id="${e.id}">${maand}</span><span id="${e.id}">${e.jaar}</span><span id="${e.id}">${e.formulierStatus}</span><i id="${e.id}" class="far fa-eye"></i></li>`;
-                afgelopenFormulieren.insertAdjacentHTML('beforeend', formulierHTML);
 
-            }
+                    // inTeVoegenHTML = `<li data-toggle="modal" data-target="#staticBackdrop" href="./formulier.html?id=${e.id}" 
+                    // class="list-group-item list-group-item-action" id="${e.id}">${e.naam} | ${e.maand} | ${e.jaar} | ${e.formulierstatus}</li>`;
+
+                     formulierHTML = `<li data-toggle="modal" data-target="#staticBackdrop" 
+                     class="list-group-item list-group-item-action d-flex justify-content-between" id="${e.id}"><span id="${e.id}">${maand}</span><span id="${e.id}">${e.jaar}</span><span id="${e.id}">${e.adminStatus}</span><i id="${e.id}" class="far fa-eye"></i></li>`;
+                     afgelopenFormulieren.insertAdjacentHTML('beforeend', formulierHTML);
+                
+                }
+
         }
     }
     xhr.open("GET", `http://localhost:8082/api/trainee/${urlId}` , true);
@@ -126,33 +129,5 @@ afgelopenFormulieren.onclick = function (event) {
 
     xhr.open("GET", `http://localhost:8082/api/formulier/${id}`, true);
     xhr.send();
-
-    goedkeurKnopje.addEventListener('click', () => {
-        console.log(hetFormulier.id);
-
-        xhr.open("PUT", `http://localhost:8082/api/formulier/update/statusgoed/${id}`, true);
-        xhr.send();
-
-        xhr.onreadystatechange = function () {
-            if (xhr.readyState == 4) {
-                location.reload();
-            }
-        }
-    })
-    afkeurKnopje.addEventListener('click', () => {
-        console.log(hetFormulier.id);
-
-        xhr.open("PUT", `http://localhost:8082/api/formulier/update/statusfout/${id}`, true);
-        xhr.send();
-
-        xhr.onreadystatechange = function () {
-            if (xhr.readyState == 4) {
-                location.reload();
-            }
-        }
-    })
-
-
-
 
 };

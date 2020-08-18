@@ -178,12 +178,14 @@ const laatMedewerkersZien = () => {
 
             if (deMedewerkers.length > 0) {
                 deMedewerkers.forEach((e) => {
+                    console.log(e.type);
+                    if (e.type === "Admin") return;
                     console.log("in foreach: " + e)
                     // Als trainee geen opdrachtgever heeft dan veranderen naar "Niet geplaatst"
-                    console.log(">>>>>"+ e.leidingGevende)
-                    console.log(">>>>>"+ e.type)
+
+                    console.log(e.leidingGevende)
                     if (e.type === "Trainee" && e.leidingGevende === null) {
-                        console.log(">>>>>> leidingGevende is null")
+
                         e.leidingGevende = {
                             "naam" : "Niet gekoppeld"
                         }
@@ -197,6 +199,12 @@ const laatMedewerkersZien = () => {
                         e.type = "Interne Medewerker";
                         e.leidingGevende.company = {
                             "naam": "Qien"
+                        }
+                    }
+                    // Als KCP niet gekoppeld is aan een bedrijf kan dit een probleem veroorzaken. Vandaar onderstaand if-statement
+                    if (e.leidingGevende.company === null) {
+                        e.leidingGevende.company = {
+                            naam : "Niet geplaatst"
                         }
                     }
                     inTeVoegenHTML = `<li data-toggle="modal" data-target="#staticBackdrop" 
@@ -720,21 +728,22 @@ const updateContactPersoonSelector = () => {
 
 //hier verder werken!!!
 
-// function koppelTraineeContactpersoon(s, d){
-//     var xhr = new XMLHttpRequest();
-//     var traineeId = s[s.selectedIndex].id;
-//     var ContactPersoonId = d[d.selectedIndex].id;
-//
-//     xhr.onreadystatechange = function () {
-//         console.log("nieuwe koppeling gemaakt")
-//     }
-//
-//     xhr.open("PUT", "http://localhost:8082/api/admin/trainee/koppelContactPersoon/{id}/{bedrijfid} " + id, true);
-//
-//     console.log(s[s.selectedIndex].id);
-//     console.log(d[d.selectedIndex].id);
-//
-// }
+function koppelTraineeContactpersoon(s, d){
+    var xhr = new XMLHttpRequest();
+    var traineeId = s[s.selectedIndex].id;
+    var ContactPersoonId = d[d.selectedIndex].id;
+
+    xhr.onreadystatechange = function () {
+        console.log("nieuwe koppeling gemaakt")
+    }
+
+    xhr.open("PUT", "http://localhost:8082/api/admin/trainee/koppelContactPersoon/{id}/{bedrijfid} " + id, true);
+
+    console.log(s[s.selectedIndex].id);
+    console.log(d[d.selectedIndex].id);
+
+}
+
 
 
 // function newSalary(){
@@ -761,6 +770,6 @@ AANROEPEN VAN METHODES BIJ OPENEN PAGINA
 
 laatFormulierenZien();
 laatMedewerkersZien();
-laatBedrijvenZien();
+// laatBedrijvenZien();
 updateTraineeSelector();
 updateContactPersoonSelector();
