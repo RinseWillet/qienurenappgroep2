@@ -19,7 +19,12 @@ body {
 }
 
 .form-signin {
-    margin-top: 200px !important;
+    margin-top: 30vh !important;
+}
+
+.btn-block {
+    width: 100% !important;
+    cursor: pointer;
 }
 
 .navbar {
