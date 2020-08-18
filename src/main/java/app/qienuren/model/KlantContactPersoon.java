@@ -11,6 +11,8 @@ import java.util.List;
 @Entity
 public class KlantContactPersoon extends Persoon {
 
+    private MedewerkerType type = null;
+
     @ManyToOne
     /*@JsonManagedReference(value = "bedrijf")*/
     private Bedrijf bedrijf;

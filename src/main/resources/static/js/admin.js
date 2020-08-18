@@ -10,8 +10,9 @@ const goedkeurKnopje = document.getElementById("goedkeuren");
 const afkeurKnopje = document.getElementById("afkeuren");
 const relatieAanmakenKnop = document.getElementById("knop-relatie-aanmaken");
 const toevoegenGebruikerContainer = document.getElementById("toevoegen-gebruiker-container");
-const selectTrainee = document.getElementById("trainee-select");
-const selectContactPersoon = document.getElementById("contactpersoon-select");
+const selectTrainee = document.getElementById("trainee_select");
+const selectContactPersoon = document.getElementById("contactpersoon_select");
+var selectTraineeId;
 
 const maandNummerNaarString = (maandNummer) => {
     switch (maandNummer) {
@@ -63,7 +64,7 @@ const laatFormulierenZien = () => {
                         e.adminStatus = "Afgekeurd door klant";
                     }
 
-                    // inTeVoegenHTML = `<li data-toggle="modal" data-target="#staticBackdrop" href="./formulier.html?id=${e.id}" 
+                    // inTeVoegenHTML = `<li data-toggle="modal" data-target="#staticBackdrop" href="./formulier.html?id=${e.id}"
                     // class="list-group-item list-group-item-action" id="${e.id}">${e.naam} | ${e.maand} | ${e.jaar} | ${e.formulierstatus}</li>`;
                     inTeVoegenHTML = `<li data-toggle="modal" data-target="#staticBackdrop" 
                     class="list-group-item list-group-item-action d-flex justify-content-between" id="${e.id}"><span id="${e.id}">Rinse Willet</span><span id="${e.id}">${e.maand}</span><span id="${e.id}">${e.jaar}</span><span id="${e.id}">${e.adminStatus}</span><i id="${e.id}" class="far fa-eye"></i></li>`;
@@ -91,7 +92,7 @@ const genereerFormulier = (formulier) => {
     } else {
         modalFooter.style.display = "flex";
     }
-    
+
     formulier.maand = maandNummerNaarString(formulier.maand);
     modalHeader.innerHTML = `<span class="pt-0">Rinse Willet | ${formulier.maand}/${formulier.jaar}</span><span class="pt-0">Status opdrachtgever: ${formulier.opdrachtgeverStatus}</span>`
     for (let i = 0; i < formulier.werkDagen.length; i++) {
@@ -177,21 +178,35 @@ const laatMedewerkersZien = () => {
 
             if (deMedewerkers.length > 0) {
                 deMedewerkers.forEach((e) => {
+                    console.log(e.type);
+                    if (e.type === "Admin") return;
                     console.log("in foreach: " + e)
                     // Als trainee geen opdrachtgever heeft dan veranderen naar "Niet geplaatst"
-                    console.log(e.naam)
-                    if (e.type === "Trainee" && e.opdrachtgever === null) {
-                        e.opdrachtgever = {
+                    console.log(e.leidingGevende)
+                    if (e.type === "Trainee" && e.leidingGevende === null) {
+                        e.leidingGevende = {
+                            "naam" : "Niet gekoppeld"
+                        }
+                        e.leidingGevende.company = {
                             "naam": "Niet geplaatst"
                         }
                     } else if (e.type === "InterneMedewerker") {
+                        e.leidingGevende = {
+                            "naam" : "Niet gekoppeld"
+                        }
                         e.type = "Interne Medewerker";
-                        e.opdrachtgever = {
+                        e.leidingGevende.company = {
                             "naam": "Qien"
                         }
                     }
+                    // Als KCP niet gekoppeld is aan een bedrijf kan dit een probleem veroorzaken. Vandaar onderstaand if-statement
+                    if (e.leidingGevende.company === null) {
+                        e.leidingGevende.company = {
+                            naam : "Niet geplaatst"
+                        }
+                    }
                     inTeVoegenHTML = `<li data-toggle="modal" data-target="#staticBackdrop" 
-                    class="list-group-item list-group-item-action d-flex justify-content-between" id="${e.id}"><span id="${e.id}">${e.naam}</span><span id="${e.id}">${e.opdrachtgever.naam}</span><span id="${e.id}">${e.type}</span><i id="${e.id}" class="far fa-eye"></i></li>`;
+                    class="list-group-item list-group-item-action d-flex justify-content-between" id="${e.id}"><span id="${e.id}">${e.naam}</span><span id="${e.id}">${e.type}</span><span id="${e.id}">${e.leidingGevende.company.naam}</span><span id="${e.id}">${e.leidingGevende.naam}</span><i id="${e.id}" class="far fa-eye"></i></li>`;
                     medewerkerLijst.insertAdjacentHTML('beforeend', inTeVoegenHTML);
                 })
 
@@ -235,7 +250,7 @@ const laatBedrijvenZien = () => {
 
 
                     inTeVoegenHTML = `<li data-toggle="modal" data-target="#staticBackdrop" 
-                    class="list-group-item list-group-item-action d-flex justify-content-between" id="${e.id}"><span id="${e.id}">${e.naam}</span><span id="${e.id}">${e.contactPersoon.naam}</span><i id="${e.id}" class="far fa-eye"></i></li>`;
+                    class="list-group-item list-group-item-action d-flex justify-content-between" id="${e.id}"><span id="${e.id}">${e.naam}</span><span id="${e.id}">${e.contactPersoon}</span><i id="${e.id}" class="far fa-eye"></i></li>`;
                     bedrijvenLijst.insertAdjacentHTML('beforeend', inTeVoegenHTML);
                 })
 
@@ -634,7 +649,7 @@ const updateTraineeSelector = () => {
                 console.log("in de if");
                 deTrainees.forEach((e) => {
 
-                    // inTeVoegenHTML = `<li data-toggle="modal" data-target="#staticBackdrop" href="./formulier.html?id=${e.id}" 
+                    // inTeVoegenHTML = `<li data-toggle="modal" data-target="#staticBackdrop" href="./formulier.html?id=${e.id}"
                     // class="list-group-item list-group-item-action" id="${e.id}">${e.naam} | ${e.maand} | ${e.jaar} | ${e.formulierstatus}</li>`;
                     inTeVoegenHTML = `<option id=${e.id}>${e.naam}</option>`;
                     selectTrainee.insertAdjacentHTML('beforeend', inTeVoegenHTML);
@@ -680,7 +695,7 @@ const updateContactPersoonSelector = () => {
                 console.log("in de if");
                 deContactPersonen.forEach((e) => {
 
-                    // inTeVoegenHTML = `<li data-toggle="modal" data-target="#staticBackdrop" href="./formulier.html?id=${e.id}" 
+                    // inTeVoegenHTML = `<li data-toggle="modal" data-target="#staticBackdrop" href="./formulier.html?id=${e.id}"
                     // class="list-group-item list-group-item-action" id="${e.id}">${e.naam} | ${e.maand} | ${e.jaar} | ${e.formulierstatus}</li>`;
                     inTeVoegenHTML = `<option id=${e.id}>${e.naam}</option>`;
                     selectContactPersoon.insertAdjacentHTML('beforeend', inTeVoegenHTML);
@@ -709,12 +724,49 @@ const updateContactPersoonSelector = () => {
 }
 
 
+//hier verder werken!!!
+
+function koppelTraineeContactpersoon(s, d){
+    var xhr = new XMLHttpRequest();
+    var traineeId = s[s.selectedIndex].id;
+    var ContactPersoonId = d[d.selectedIndex].id;
+
+    xhr.onreadystatechange = function () {
+        console.log("nieuwe koppeling gemaakt")
+    }
+
+    xhr.open("PUT", "http://localhost:8082/api/admin/trainee/koppelContactPersoon/{id}/{bedrijfid} " + id, true);
+
+    console.log(s[s.selectedIndex].id);
+    console.log(d[d.selectedIndex].id);
+
+}
+
+
+// function newSalary(){
+//     var xhr = new XMLHttpRequest();
+//     var id = document.getElementById("id").value
+//     var obj = {};
+//     obj.salary = document.getElementById("nieuwsalaris").value;
+//     objJSON =JSON.stringify(obj);
+//     xhr.onreadystatechange = function(){
+//         console.log("nieuw salaris ingevoerd")
+//     }
+//     xhr.open("PUT", "http://localhost:8082/api/admin/koppelContactPersoon/{id}//newsalary/" + id, true);
+//     xhr.setRequestHeader("Content-type", "application/json")
+//     xhr.send(objJSON);
+
+// }
+
+
+
+
 /*
 AANROEPEN VAN METHODES BIJ OPENEN PAGINA
 */
 
 laatFormulierenZien();
 laatMedewerkersZien();
-laatBedrijvenZien();
+// laatBedrijvenZien();
 updateTraineeSelector();
 updateContactPersoonSelector();
