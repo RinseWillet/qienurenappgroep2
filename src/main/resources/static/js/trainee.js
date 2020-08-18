@@ -4,7 +4,7 @@ const formBody = document.getElementById("form-body");
 const modalHeader = document.querySelector(".modal-title");
 const klikbaarOogje = document.querySelector(".fa-eye");
 const formulierItem = document.querySelector(".list-group-item");
-
+const traineeOpdrachtgever = document.getElementById("trainee-opdracht");
 
 
 const maandNummerNaarString = (maandNummer) => {
@@ -52,30 +52,37 @@ const traineeNaamFunction = () => {
     xhr.onreadystatechange = function() {
         if (xhr.readyState == 4) {
             trainee = JSON.parse(this.responseText);
-            console.log(trainee)
             let formulierHTML = ``;
-            traineeNaam.innerHTML = `Welkom, ${trainee.naam}!`; 
-                var formulieren = trainee.archief;
-                formulieren.sort(function(a, b){return a.id-b.id});
-                formulieren.reverse();
+            traineeNaam.innerHTML = `Welkom, ${trainee.naam}!`;
+            traineeOpdrachtgever.innerHTML = `Opdrachtgever : ${trainee.opdrachtgever}`;
+            var formulieren = trainee.archief;
+            formulieren.sort(function(a, b){return a.id-b.id});
+            formulieren.reverse();
 
-                for(let i = 0; i < 3; i++) {
-                    maand = maandNummerNaarString(formulieren[i].maand);
-                    var e = formulieren[i];
+            for(let i = 0; i < 3; i++) {
+                maand = maandNummerNaarString(formulieren[i].maand);
+                var e = formulieren[i];
 
-                    // inTeVoegenHTML = `<li data-toggle="modal" data-target="#staticBackdrop" href="./formulier.html?id=${e.id}" 
-                    // class="list-group-item list-group-item-action" id="${e.id}">${e.naam} | ${e.maand} | ${e.jaar} | ${e.formulierstatus}</li>`;
+                // inTeVoegenHTML = `<li data-toggle="modal" data-target="#staticBackdrop" href="./formulier.html?id=${e.id}"
+                // class="list-group-item list-group-item-action" id="${e.id}">${e.naam} | ${e.maand} | ${e.jaar} | ${e.formulierstatus}</li>`;
 
-                     formulierHTML = `<li data-toggle="modal" data-target="#staticBackdrop" 
+                formulierHTML = `<li data-toggle="modal" data-target="#staticBackdrop" 
                      class="list-group-item list-group-item-action d-flex justify-content-between" id="${e.id}"><span id="${e.id}">${maand}</span><span id="${e.id}">${e.jaar}</span><span id="${e.id}">${e.formulierStatus}</span><i id="${e.id}" class="far fa-eye"></i></li>`;
-                     afgelopenFormulieren.insertAdjacentHTML('beforeend', formulierHTML);
-                
-                }
+                afgelopenFormulieren.insertAdjacentHTML('beforeend', formulierHTML);
+
+            }
         }
     }
     xhr.open("GET", `http://localhost:8082/api/trainee/${urlId}` , true);
     xhr.send();
-} 
+}
+
+
+
+
+
+
+
 
 const genereerFormulier = (formulier) => {
     formulier.maand = maandNummerNaarString(formulier.maand);
