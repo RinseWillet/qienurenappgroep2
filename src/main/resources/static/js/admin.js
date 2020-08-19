@@ -187,7 +187,7 @@ const laatMedewerkersZien = () => {
                         e.leidingGevende = {
                             "naam" : "Niet gekoppeld"
                         }
-                        e.leidingGevende.company = {
+                        e.leidingGevende.bedrijf = {
                             "naam": "Niet geplaatst"
                         }
                     } else if (e.type === "InterneMedewerker") {
@@ -195,18 +195,18 @@ const laatMedewerkersZien = () => {
                             "naam" : "Niet gekoppeld"
                         }
                         e.type = "Interne Medewerker";
-                        e.leidingGevende.company = {
+                        e.leidingGevende.bedrijf = {
                             "naam": "Qien"
                         }
                     }
                     // Als KCP niet gekoppeld is aan een bedrijf kan dit een probleem veroorzaken. Vandaar onderstaand if-statement
-                    if (e.leidingGevende.company === null) {
-                        e.leidingGevende.company = {
+                    if (e.leidingGevende.bedrijf === null) {
+                        e.leidingGevende.bedrijf = {
                             naam : "Niet geplaatst"
                         }
                     }
                     inTeVoegenHTML = `<li data-toggle="modal" data-target="#staticBackdrop" 
-                    class="list-group-item list-group-item-action d-flex justify-content-between" id="${e.id}"><span id="${e.id}">${e.naam}</span><span id="${e.id}">${e.type}</span><span id="${e.id}">${e.leidingGevende.company.naam}</span><span id="${e.id}">${e.leidingGevende.naam}</span><i id="${e.id}" class="far fa-eye"></i></li>`;
+                    class="list-group-item list-group-item-action d-flex justify-content-between" id="${e.id}"><span id="${e.id}">${e.naam}</span><span id="${e.id}">${e.type}</span><span id="${e.id}">${e.leidingGevende.bedrijf.naam}</span><span id="${e.id}">${e.leidingGevende.naam}</span><i id="${e.id}" class="far fa-eye"></i></li>`;
                     medewerkerLijst.insertAdjacentHTML('beforeend', inTeVoegenHTML);
                 })
 
@@ -281,6 +281,7 @@ const contactPersoonRadio = document.getElementById("radio-contactpersoon");
 
 relatieAanmakenKnop.addEventListener("click", () => {
     var xhr = new XMLHttpRequest();
+    let dezeIdEmail;
     if (interneMedewerkerRadio.checked) {
         const interneMedewerkerType = interneMedewerkerRadio.value;
         const interneMedewerkerNaam = document.getElementById("interne-mw-naam").value;
@@ -292,10 +293,12 @@ relatieAanmakenKnop.addEventListener("click", () => {
         const interneMedewerkerStartDatum = document.getElementById("interne-mw-startdatum").value;
         const interneMedewerkerEindDatum = document.getElementById("interne-mw-einddatum").value;
 
+
+        dezeIdEmail = null;
         let interneMedewerkerJSON = {};
         interneMedewerkerJSON.type = interneMedewerkerType;
         interneMedewerkerJSON.naam = interneMedewerkerNaam;
-        interneMedewerkerJSON.emailadres = interneMedewerkerEmail;
+        interneMedewerkerJSON.email = interneMedewerkerEmail;
         interneMedewerkerJSON.telefoonnr = interneMedewerkerTelefoon;
         interneMedewerkerJSON.straatNaamNr = interneMedewerkerStraatNaamEnNr;
         interneMedewerkerJSON.postcode = interneMedewerkerPostcode;
@@ -317,9 +320,10 @@ relatieAanmakenKnop.addEventListener("click", () => {
         const bedrijfPostCode = document.getElementById("bedrijf-postcode").value;
         const bedrijfWoonplaats = document.getElementById("bedrijf-woonplaats").value;
 
+        dezeIdEmail = null;
         let bedrijfJSON = {};
         bedrijfJSON.naam = bedrijfNaam;
-        bedrijfJSON.emailadres = bedrijfEmail;
+        bedrijfJSON.email = bedrijfEmail;
         bedrijfJSON.telefoonnr = bedrijfTelefoon;
         bedrijfJSON.straatNaamNr = bedrijfStraatNaamEnNr;
         bedrijfJSON.postcode = bedrijfPostCode;
@@ -341,10 +345,12 @@ relatieAanmakenKnop.addEventListener("click", () => {
         const traineeStartDatum = document.getElementById("trainee-startdatum").value;
         const traineeEindDatum = document.getElementById("trainee-einddatum").value;
 
+        dezeIdEmail = null;
+
         let traineeJSON = {};
         traineeJSON.type = traineeType;
         traineeJSON.naam = traineeNaam;
-        traineeJSON.emailadres = traineeEmail;
+        traineeJSON.email = traineeEmail;
         traineeJSON.telefoonnr = traineeTelefoon;
         traineeJSON.straatNaamNr = traineeStraatNaamEnNr;
         traineeJSON.postcode = traineePostcode;
@@ -359,15 +365,17 @@ relatieAanmakenKnop.addEventListener("click", () => {
         xhr.send(JSON.stringify(traineeJSON));
     }
     if (contactPersoonRadio.checked) {
+
         const contactPersoonType = contactPersoonRadio.value;
         const contactPersoonNaam = document.getElementById("contactpersoon-naam").value;
         const contactPersoonEmail = document.getElementById("contactpersoon-email").value;
         const contactPersoonTelefoon = document.getElementById("contactpersoon-telefoon").value;
 
         let contactPersoonJSON = {};
+        dezeIdEmail = contactPersoonEmail;
         contactPersoonJSON.type = contactPersoonType;
         contactPersoonJSON.naam = contactPersoonNaam;
-        contactPersoonJSON.emailadres = contactPersoonEmail;
+        contactPersoonJSON.email = contactPersoonEmail;
         contactPersoonJSON.telefoonnr = contactPersoonTelefoon;
 
         xhr.open("POST", "http://localhost:8082/api/admin/klantcontactpersoon/nieuw", true);
@@ -375,14 +383,21 @@ relatieAanmakenKnop.addEventListener("click", () => {
 
         xhr.send(JSON.stringify(contactPersoonJSON));
     }
-
-    xhr.onreadystatechange = function () {
+   
+    xhr.onreadystatechange = function () {        
         if (xhr.readyState == 4) {
-            location.reload();
+            console.log("deze ID : " + dezeIdEmail);
+            if(!(dezeIdEmail === null)){
+                console.log("hup naar DezeID");
+                dezeID(dezeIdEmail);
+                } else if (dezeIdEmail === null){
+                console.log("let's reload")
+                location.reload();
+            }
         }
+        
     }
-
-})
+});
 
 const radios = document.querySelectorAll(".form-check-input")
 var prev = null;
@@ -540,14 +555,21 @@ for (var i = 0; i < radios.length; i++) {
                 </div>
                 <div class="col-4">
                     <div class="form-group">
-                        <label
-                            for="contactpersoon-telefoon">Telefoonnummer</label>
+                        <label for="contactpersoon-telefoon">Telefoonnummer</label>
                         <input type="telnum" class="form-control"
                             id="contactpersoon-telefoon"
                             placeholder="+31 6 00000000">
                     </div>
                 </div>
+                <div class="col-4">
+                    <div class="form-group text-muted">
+                        <select class="form-control" id="bedrijf_select" required>
+                            <option>--Bedrijf--</option>
+                        </select>
+                    </div>
+                </div>
             </div>`
+            updateBedrijfSelector();
         } else {
             toevoegenGebruikerContainer.innerHTML = `<div class="interne-mw-form">
             <div class="row">
@@ -728,8 +750,7 @@ Trainee aan Contactpersoon koppelen
  */
 
 function koppelTraineeContactpersoon(s, d){
-    console.log(s[s.selectedIndex].id);
-    console.log(d[d.selectedIndex].id);
+    
     var xhr = new XMLHttpRequest();
     var traineeId = s[s.selectedIndex].id;
     var ContactPersoonId = d[d.selectedIndex].id;
@@ -741,6 +762,52 @@ function koppelTraineeContactpersoon(s, d){
         }
     }
     xhr.open("PUT", `http://localhost:8082/api/admin/trainee/koppelContactPersoon/${traineeId}/${ContactPersoonId}`, true);
+    xhr.send();
+}
+
+/*
+Contactpersoon aan bedrijf koppelen
+*/
+
+function koppelContactpersoonBedrijf(BdId, KcpId) {    
+    var xhr = new XMLHttpRequest();
+    var bedrijfID = BdId[BdId.selectedIndex].id;
+    var ContactPersoonId = KcpId;
+
+    xhr.onreadystatechange = function () {
+        console.log("nieuwe koppeling gemaakt")
+        if (xhr.readyState == 4) {
+            location.reload();
+        }
+    }
+  
+    xhr.open("PUT", `http://localhost:8082/api/admin/klantcontactpersoon/koppelbedrijf/${ContactPersoonId}/${bedrijfID}`, true);
+    xhr.send();
+}
+
+/*
+Deze functie haalt de ID op van het net aangemaakte Contactpersoon en roept vervolgens de koppel methode hierboven aan om aan een bedrijf koppelen
+*/
+
+function dezeID(email) {    
+    let xhr = new XMLHttpRequest();
+    xhr.onreadystatechange = function () {
+
+        if (xhr.readyState == 4) {            
+            ContactPersonenIDS = JSON.parse(this.responseText);
+
+            if (ContactPersonenIDS.length > 0) {                
+                ContactPersonenIDS.forEach((e) => {                    
+                    
+                    if (e.email === email) {
+                        let LocalID = e.id;                        
+                        koppelContactpersoonBedrijf(bedrijf_select, LocalID);
+                    }
+                });
+            }
+        }
+    }
+    xhr.open("GET", "http://localhost:8082/api/admin/klantcontactpersoon/all", true);
     xhr.send();
 }
 
