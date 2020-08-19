@@ -3,10 +3,12 @@ package app.qienuren.controller;
 import app.qienuren.model.Formulier;
 import app.qienuren.model.AdminStatus;
 import app.qienuren.model.OpdrachtgeverStatus;
+import app.qienuren.model.TijdelijkFormulier;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import javax.transaction.Transactional;
+import java.util.ArrayList;
 
 @Service
 @Transactional
@@ -25,7 +27,14 @@ public class FormulierService {
     }
 
     public Iterable<Formulier> getalleFormulieren() {
-        return formulierRepository.findAll();
+        Iterable<Formulier> formulieren = formulierRepository.findAll();
+        ArrayList<Formulier> teVerzendenFormulieren = new ArrayList<>();
+        for (Formulier f : formulieren) {
+            if (!(f instanceof TijdelijkFormulier)) {
+                teVerzendenFormulieren.add(f);
+            }
+        }
+        return teVerzendenFormulieren;
     }
 
 //    public Formulier updateFormulier(Formulier formulier, long id) {

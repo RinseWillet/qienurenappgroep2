@@ -1,7 +1,6 @@
 package app.qienuren.rest;
 
 import app.qienuren.controller.FormulierService;
-import app.qienuren.controller.MedewerkerService;
 import app.qienuren.controller.TijdelijkFormulierService;
 import app.qienuren.model.Formulier;
 import app.qienuren.model.TijdelijkFormulier;
@@ -15,8 +14,8 @@ public class TijdelijkFormulierEndpoint {
     @Autowired
     TijdelijkFormulierService tijdelijkFormulierService;
 
-    @Autowired
-    MedewerkerService medewerkerService;
+/*    @Autowired
+    MedewerkerService medewerkerService;*/
 
     @PostMapping("/nieuw")
     public TijdelijkFormulier nieuwTijdelijkFormulier(@RequestBody TijdelijkFormulier tf) {
@@ -29,8 +28,8 @@ public class TijdelijkFormulierEndpoint {
     }
 
     @PutMapping("/update/{id}")
-    public TijdelijkFormulier updateTijdelijkFormulier(@RequestBody TijdelijkFormulier tf, @PathVariable(value = "id")long id) {
-        return tijdelijkFormulierService.updateTijdelijkFormulier(tf, id);
+    public TijdelijkFormulier updateTijdelijkFormulier(@RequestBody TijdelijkFormulier tf) {
+        return tijdelijkFormulierService.updateTijdelijkFormulier(tf);
     }
 
     @DeleteMapping("/verwijderen/{id}")
