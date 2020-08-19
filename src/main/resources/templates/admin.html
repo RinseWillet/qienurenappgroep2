@@ -121,7 +121,6 @@
                             </div>
                         </div>
 
-
                         <!-- BEDRIJVEN TABBLAD -->
 
 <!--                        <div class="tab-pane" id="bedrijven-tab" role="tabpanel"-->
@@ -219,16 +218,13 @@
 
                 </div>
                 <div class="col-4">
-
                     <div class="row-admin-sidebar mt-5 d-flex align-items-center justify-content-around">
-                        <button type="button"
-                                class="btn btn-purple d-flex justify-content-between align-items-center"
+                        <button type="button" class="btn btn-purple d-flex justify-content-between align-items-center"
                                 data-toggle="modal" data-target="#voegGebruikerToeModal"><i
-                                class="fas fa-user-plus"></i>Voeg
-                            relatie toe</button>
+                                class="fas fa-user-plus"></i>Account aanmaken</button>
                         <i class="fas fa-info-circle ml-2" data-toggle="popover" data-placement="bottom"
-                           title="Uitleg relatie toevoegen"
-                           data-content="Met deze knop kunt u een medewerker, een trainee, een klantcontactpersoon, of een bedrijf toevoegen"></i>
+                           title="Uitleg account aanmaken"
+                           data-content="Met deze knop kunt u een medewerker, een trainee, of een klantcontactpersoon aanmaken. Let op! Zorg dat het bedrijf van de contactpersoon is aangemaakt voordat u een nieuwe contactpersoon aanmaakt. Zonder bedrijf kan geen nieuwe contactpersoon worden aangemaakt."></i>
                     </div>
 
                     <!-- Modal Voeg gebruiker toe-->
@@ -265,13 +261,13 @@
                                                     <label class="form-check-label"
                                                            for="radio-trainee">Trainee</label>
                                                 </div>
-                                                <div class="form-check form-check-inline">
+                                                <!-- <div class="form-check form-check-inline">
                                                     <input class="form-check-input" type="radio"
                                                            name="inlineRadioOptions" id="radio-bedrijf"
                                                            value="Bedrijf">
                                                     <label class="form-check-label"
                                                            for="radio-bedrijf">Bedrijf</label>
-                                                </div>
+                                                </div> -->
                                                 <div class="form-check form-check-inline">
                                                     <input class="form-check-input" type="radio"
                                                            name="inlineRadioOptions" id="radio-contactpersoon"
@@ -363,11 +359,8 @@
 
                                     </div>
                                     <div class="modal-footer">
-                                        <button type="button" class="btn btn-secondary" data-dismiss="modal">Scherm
-                                            Afsluiten</button>
-                                        <button type="button" class="btn btn-success"
-                                                id="knop-relatie-aanmaken">Relatie
-                                            aanmaken</button>
+                                        <button type="button" class="btn btn-secondary" data-dismiss="modal">Scherm Afsluiten</button>
+                                        <button type="button" class="btn btn-success" id="knop-relatie-aanmaken">Account aanmaken</button>
                                     </div>
                                 </div>
                             </div>
@@ -375,57 +368,36 @@
                     </div>
 
                     <div class="row-admin-sidebar mt-2 d-flex align-items-center justify-content-around">
-                        <button type="button"
-                                class="btn btn-purple d-flex justify-content-between align-items-center" data-toggle="modal" data-target="#koppelRelatie"><i
-                                class="fas fa-link"></i>Koppel relatie</button>
+                        <button type="button" class="btn btn-purple d-flex justify-content-between align-items-center" data-toggle="modal" data-target="#koppelRelatie"><i
+                                class="fas fa-link"></i>Trainee koppelen</button>
                         <i class="fas fa-info-circle ml-2" data-toggle="popover" data-placement="bottom"
-                           title="Uitleg koppel relatie"
-                           data-content="Met deze knop kunt u een medewerker, een trainee, een klantcontactpersoon aan een bedrijf koppelen"></i>
+                           title="Uitleg koppelen"
+                           data-content="Met deze knop kunt u een trainee aan een contactpersoon koppelen."></i>
                     </div>
 
-                    <!-- Modal Koppel Relatie -->
+                    <!-- Modal Koppel Trainee aan Contactpersoon -->
 
-                    <div class="modal" id= "koppelRelatie" tabindex="-1">
+                    <div class="modal fade" id= "koppelRelatie" tabindex="-1">
                         <div class="modal-dialog">
-                            <div class="container">
+                            <div class="container w-50">
                                 <div class="modal-content">
                                     <div class="modal-header">
-                                        <h5 class="modal-title">Relatie koppelen</h5>
+                                        <h5 class="modal-title">Trainee aan Contactpersoon koppelen</h5>
                                         <button type="button" class="close" data-dismiss="modal" aria-label="Close">
                                             <span aria-hidden="true">&times;</span>
                                         </button>
                                     </div>
                                     <div class="modal-body">
                                         <form>
-                                            <div class="form-group">
-                                                <label for="koppelen-select-type">Welke relaties wilt u koppelen?</label>
-                                                <br>
-
-                                                <div class="form-check form-check-inline">
-                                                    <input class="form-check-input1" type="radio"
-                                                           name="inlineRadioOptions" id="radio-trainee-kcp"
-                                                           value="trainee-kcp" checked>
-                                                    <label class="form-check-label" for="radio-trainee-kcp">Trainee aan ContactPersoon</label>
-                                                </div>
-                                                <div class="form-check form-check-inline">
-                                                    <input class="form-check-input1" type="radio"
-                                                           name="inlineRadioOptions" id="radio-bedrijf-kcp"
-                                                           value="bedrijf-kcp">
-                                                    <label class="form-check-label"
-                                                           for="radio-bedrijf-kcp">Bedrijf aan ContactPersoon</label>
-                                                </div>
-                                            </div>
-
                                             <div id="relatiekoppel-container">
-
                                             <div class="col mb-3">
-                                                <select id="trainee_select" required>
+                                                <select class="form-control w-50" id="trainee_select" required>
                                                     <option>--Trainee--</option>
                                                     <!-- trainees worden gevuld vanuit index.js -->
                                                 </select>
                                             </div>
                                             <div class="col">                                                
-                                                <select id="contactpersoon_select" required>
+                                                <select class="form-control w-50" id="contactpersoon_select" required>
                                                     <option>--ContactPersoon--</option>
                                                     <!-- contactpersonen worden gevuld vanuit index.js -->
                                                 </select>
@@ -434,13 +406,116 @@
                                         </form>
                                     </div>
                                     <div class="modal-footer">
-                                        <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
-                                        <button type="button" class="btn btn-primary" onclick="koppelTraineeContactpersoon(trainee_select, contactpersoon_select)">Save changes</button>
+                                        <button type="button" class="btn btn-secondary" data-dismiss="modal">Scherm Afsluiten</button>
+                                        <button type="button" class="btn btn-success" onclick="koppelTraineeContactpersoon(trainee_select, contactpersoon_select)">Trainee koppelen</button>
                                     </div>
                                 </div>
                             </div>
                         </div>
                     </div>
+
+                    <div class="row-admin-sidebar mt-2 d-flex align-items-center justify-content-around">
+                        <button type="button"
+                                class="btn btn-purple d-flex justify-content-between align-items-center" data-toggle="modal" data-target="#Bedrijf-Aanmaken"><i
+                                class="fas fa-industry"></i>Bedrijf aanmaken</button>
+                        <i class="fas fa-info-circle ml-2" data-toggle="popover" data-placement="bottom"
+                           title="Uitleg bedrijf aanmaken"
+                           data-content="Met deze knop kunt u een bedrijf aanmaken. Let op! U dient eerst een bedrijf trainee, voordat u een contactpersoon aanmaakt. Zonder bedrijf kunt u geen contactpersoon aanmaken."></i>
+                    </div>
+
+                    <!-- Modal Bedrijf aanmaken -->
+
+                    <div class="modal fade" id= "Bedrijf-Aanmaken" tabindex="-1">
+                        <div class="modal-dialog">
+                            <div class="container">
+                                <div class="modal-content">
+                                    <div class="modal-header">
+                                        <h5 class="modal-title">Bedrijf aanmaken</h5>
+                                        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                                            <span aria-hidden="true">&times;</span>
+                                        </button>
+                                    </div>
+                                    <div class="modal-body">
+                                        <form>
+
+                                            <div class="bedrijf-form">
+                                                <div class="row">
+                                                    <div class="col-4">
+                                                        <div class="form-group">
+                                                            <label for="bedrijf-naam">Naam</label>
+                                                            <input type="text" class="form-control" id="bedrijf-naam"
+                                                                placeholder="Naam bedrijf">
+                                                        </div>
+                                                    </div>
+                                                    <div class="col-4">
+                                                        <div class="form-group">
+                                                            <label for="bedrijf-email">Email</label>
+                                                            <input type="email" class="form-control" id="bedrijf-email"
+                                                                placeholder="info@bedrijf.nl">
+                                                        </div>
+                                                    </div>
+                                                    <div class="col-4">
+                                                        <div class="form-group">
+                                                            <label for="bedrijf-telefoon">Telefoonnummer</label>
+                                                            <input type="telnum" class="form-control"
+                                                                id="bedrijf-telefoon" placeholder="+31 6 00000000">
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                                <div class="row">
+                                                    <div class="col-4">
+                                                        <div class="form-group">
+                                                            <label for="bedrijf-straatnaamennummer">Adres</label>
+                                                            <input type="text" class="form-control"
+                                                                id="bedrijf-straatnaamennummer"
+                                                                placeholder="Atoomweg 350B">
+                                                        </div>
+                                                    </div>
+                                                    <div class="col-4">
+                                                        <div class="form-group">
+                                                            <label for="bedrijf-postcode">Postcode</label>
+                                                            <input type="text" class="form-control"
+                                                                id="bedrijf-postcode" placeholder="3542AB">
+                                                        </div>
+                                                    </div>
+                                                    <div class="col-4">
+                                                        <div class="form-group">
+                                                            <label for="bedrijf-woonplaats">Vestigingsplaats</label>
+                                                            <input type="text" class="form-control"
+                                                                id="bedrijf-woonplaats" placeholder="Utrecht">
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                            </div>
+
+                                            <!-- <div id="relatiekoppel-container">
+                                            <div class="col mb-3">
+                                                <select class="form-control w-50" id="trainee_select" required>
+                                                    <option>--Trainee--</option>
+                                                    
+                                                </select>
+                                            </div>
+                                            <div class="col">                                                
+                                                <select class="form-control w-50" id="contactpersoon_select" required>
+                                                    <option>--ContactPersoon--</option>
+                                                   
+                                                </select>
+                                            </div>
+                                        </div> -->
+                                        </form>
+                                    </div>
+                                    <div class="modal-footer">
+                                        <button type="button" class="btn btn-secondary" data-dismiss="modal">Scherm Afsluiten</button>
+                                        <button type="button" class="btn btn-success" onclick="bedrijfAanmaken()">Bedrijf aanmaken</button>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+
+
+
 
                     <div class="row-admin-sidebar justify-content-around mt-4 mb-2">
                         <div class="col">
