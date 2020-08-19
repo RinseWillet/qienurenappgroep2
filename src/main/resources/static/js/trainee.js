@@ -4,6 +4,21 @@ const formBody = document.getElementById("form-body");
 const modalHeader = document.querySelector(".modal-title");
 const klikbaarOogje = document.querySelector(".fa-eye");
 const formulierItem = document.querySelector(".list-group-item");
+const navlink = document.querySelector(".nav-link");
+const profielpagina = document.getElementById("profielpagina");
+
+
+//haalt id uit huidige url
+var url_string = window.location.href; 
+var url = new URL(url_string); 
+var idpf = url.searchParams.get("id"); 
+
+//voegt ID toe aan profielpaginaurl
+function aanpassenurl(){
+    let pfurl = document.getElementById('profielpaginaurl').href;
+    pfurl = pfurl + "?id=" + idpf;
+    var a = document.querySelector('a[href="/profielpagina"]'); if (a) {   a.setAttribute('href', pfurl) }
+}
 
 
 
@@ -40,6 +55,7 @@ const maandNummerNaarString = (maandNummer) => {
 
 window.onload = () => {
     traineeNaamFunction();
+    aanpassenurl();
 };
 
 const traineeNaamFunction = () => {
@@ -122,3 +138,5 @@ afgelopenFormulieren.onclick = function (event) {
     xhr.send();
 
 };
+
+
