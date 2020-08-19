@@ -33,4 +33,7 @@ public class TemplateController {
 
     @GetMapping("opdrachtgever")
     public String getOpdrachtgeverPage() { return "opdrachtgever";}
+
+    @GetMapping("profielpagina")
+    public String getProfielpagina() { return "profielpagina";}
 }
