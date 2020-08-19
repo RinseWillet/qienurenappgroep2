@@ -28,11 +28,11 @@ public class KlantContactPersoon extends Persoon {
     }
 
     //@JsonIgnore
-    public Bedrijf getCompany() {
+    public Bedrijf getBedrijf() {
         return bedrijf;
     }
 
-    public void setCompany(Bedrijf bedrijf) {
+    public void setBedrijf(Bedrijf bedrijf) {
         this.bedrijf = bedrijf;
     }
 
