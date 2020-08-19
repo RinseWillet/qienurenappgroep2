@@ -1,6 +1,7 @@
 package app.qienuren;
 
 //import app.qienuren.controller.UserRepository;
+import app.qienuren.controller.MedewerkerService;
 import app.qienuren.model.Formulier;
 import app.qienuren.model.WerkDag;
 import org.springframework.boot.SpringApplication;
@@ -15,6 +16,12 @@ public class QienurenApplication {
 
     public static void main(String[] args) {
         SpringApplication.run(QienurenApplication.class, args);
+
+
+        MedewerkerService ms = new MedewerkerService();
+        ms.voegTraineesEnInterneMedewerkersSamen();
+
+
         //regel hieronder niet aanpassen aub
         System.out.println("Uren App groep 2. It's Alive!");
     }

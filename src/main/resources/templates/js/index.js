@@ -97,6 +97,21 @@ const genereerFormulier = (dagen) => {
             <td class="form-verklaring"><input type="text" class="form-input" id="verklaring-overig-${i + 1}"></td>
         </tr>`)
     }
+
+    const formInputs = document.querySelectorAll(".form-input");
+
+    // Functionaliteit voor het opslaan van formulier
+    formInputs.forEach(e => {
+        e.addEventListener("change", () => {
+            alert("something changed")
+        })
+    })
+    console.log(formInputs);
+
+    buttonSubmit.addEventListener("click", () => {
+        formulierObjectMaken();
+    });
+
 }
 
 const verwijderFormulier = () => {
@@ -139,3 +154,6 @@ function formulierObjectMaken(){
     buttonSubmit.style.display = "none";
     buttonDownload.style.display = "none";
 }
+
+/* SAVE ONCHANGE */
+
