@@ -2,6 +2,30 @@ body {
     font-family: 'Titillium Web', sans-serif;
     letter-spacing: 0.1em;
     color: #9B9B9B;
+    padding: 0;
+}
+
+#login-background {
+    background-image: url('https://images.unsplash.com/photo-1488190211105-8b0e65b80b4e?ixlib=rb-1.2.1&auto=format&fit=crop&w=1350&q=80');
+    background-repeat: no-repeat;
+    background-size: cover;
+    background-position: center;
+    height: 100vh !important;
+    width: 100vw !important;
+    max-height: 100%;
+    max-width: 100%;
+    overflow-x: none;
+    opacity: 0.75;
+}
+
+.form-signin {
+    margin-top: 200px !important;	    
+    margin-top: 30vh !important;
+}
+
+.btn-block {
+    width: 100% !important;
+    cursor: pointer;
 }
 
 .navbar {
