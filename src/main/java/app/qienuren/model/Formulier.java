@@ -25,6 +25,9 @@ public class Formulier {
     @OneToMany(cascade = CascadeType.ALL)
     private List<WerkDag> werkDagen = new ArrayList<>();
 
+    private boolean tijdelijkFormulier;
+    private boolean ingezondenFormulier;
+
     public Formulier() {
 
     }
@@ -36,6 +39,8 @@ public class Formulier {
         for (int i = 0; i < aantalDagen; i++) {
             this.werkDagen.add(new WerkDag());
         }
+
+        this.tijdelijkFormulier= true;
     }
 
     public int dagenInMaand(long jaar, long maand) {
@@ -100,6 +105,22 @@ public class Formulier {
 
     public void setWerkDagen(List<WerkDag> werkDagen) {
         this.werkDagen = werkDagen;
+    }
+
+    public boolean isTijdelijkFormulier() {
+        return tijdelijkFormulier;
+    }
+
+    public void setTijdelijkFormulier(boolean tijdelijkFormulier) {
+        this.tijdelijkFormulier = tijdelijkFormulier;
+    }
+
+    public boolean isIngezondenFormulier() {
+        return ingezondenFormulier;
+    }
+
+    public void setIngezondenFormulier(boolean ingezondenFormulier) {
+        this.ingezondenFormulier = ingezondenFormulier;
     }
 
 
