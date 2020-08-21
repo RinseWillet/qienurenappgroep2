@@ -60,7 +60,7 @@
             <div id="profielachtergrond" class="d-flex justify-content-around">
                 <div id="profielblok">
                     <div class="card mb-2">
-                        <div class="card-body profielblokbody"> <i class="far fa-edit fa-sm float-right"></i>
+                        <div class="card-body profielblokbody"> <i class="far fa-edit fa-sm float-right btn btn-primary" data-toggle="modal" data-target="#traineegegevenswijzigen"></i>
                             <h3 class="card-subtitle mb-2 text-muted"><b>Profiel</b></h3> 
                             
                             <div class="d-flex align-items-baseline"><i class="far fa-user fa-sm float-left"></i><p id="profieltrainee-naam"></p></div>
@@ -102,6 +102,39 @@
         </div>
         </div>
         </div>
+
+                    <!-- Modal -->
+
+                    <div class="modal fade profielmodal" id="traineegegevenswijzigen" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+                        <div class="modal-dialog">
+                        <div class="modal-content">
+                            <div class="modal-header">
+                                <h5 class="modal-title" id="traineemodalheading">Modal title</h5>
+                            <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                                <span aria-hidden="true">&times;</span>
+                            </button>
+                            </div>
+                            <div class="modal-body">
+
+                                <form>
+                                    <div class="gegevensformuliermodal">
+                                        <h4>Naam</h4><input type="text" placeholder="Naam" id="persoonNaam">
+                                        <h4>E-mailadres</h4><input type="text" placeholder="E-mail" id="persoonEmail">
+                                        <h4>Telefoonnummer</h4><input type="text" placeholder="Telefoonnummer" id="persoonTelefoonnummer">
+                                        <h4>Adres</h4><input type="text" placeholder="Adres" id="persoonAdres">
+                                        <h4>Postcode</h4><input type="text" placeholder="Postcode" id="persoonPostcode">
+                                        <h4>Woonplaats</h4><input type="text" placeholder="Woonplaats" id="persoonWoonplaats">
+                                    </div>
+                                </form>
+                            </div>
+                            <div class="modal-footer">
+                            <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+                            <button type="button" class="btn btn-success" onclick="gegevensPersoonAanpassen()">Aanpassen</button>
+                            </div>
+                        </div>
+                        </div>
+                    </div>
+
 
     </section>
 
