@@ -1,9 +1,6 @@
 package app.qienuren.controller;
 
-import app.qienuren.model.Bedrijf;
-import app.qienuren.model.Formulier;
-import app.qienuren.model.KlantContactPersoon;
-import app.qienuren.model.Trainee;
+import app.qienuren.model.*;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -21,6 +18,8 @@ public class TraineeService {
     KlantContactPersoonRepository kcpRepository;
     @Autowired
     FormulierRepository formulierRepository;
+    @Autowired
+    TijdelijkeTraineeRepository tijdelijkeTraineeRepository;
 
     public Trainee addTrainee(Trainee trainee) {
         System.out.println("trainee aangemaakt");
@@ -68,26 +67,24 @@ public class TraineeService {
         return traineeRepository.save(traineeTijdelijk);
     }
 
-    public Trainee wijzigGegevens(long traineeID, Trainee trainee) {
+    public Trainee wijzigGegevens(long oorspronkelijkeId, long id) {
         System.out.println("Verzoek gegevens wijzigen ontvangen");
-        Trainee traineetemp = traineeRepository.findById(traineeID).get();
-        traineetemp.setNaam(trainee.getNaam());
-        traineetemp.setEmail(trainee.getEmail());
-        traineetemp.setTelefoonnr(trainee.getTelefoonnr());
-        traineetemp.setPostcode(trainee.getPostcode());
-        traineetemp.setStraatNaamNr(trainee.getStraatNaamNr());
-        traineetemp.setWoonplaats(trainee.getWoonplaats());
-        return traineeRepository.save(traineetemp);
+        //tijdelijke trainee wordt opgehaald
+        TijdelijkeTrainee tijdtrainee = tijdelijkeTraineeRepository.findById(id).get();
+        //echte trainee wordt opgehaald
+        Trainee trainee = traineeRepository.findById(oorspronkelijkeId).get();
+        //echte trainee krijgt waardes van de tijdelijke trainee
+        trainee.setNaam(tijdtrainee.getNaam());
+        trainee.setEmail(tijdtrainee.getEmail());
+        trainee.setTelefoonnr(tijdtrainee.getTelefoonnr());
+        trainee.setPostcode(tijdtrainee.getPostcode());
+        trainee.setStraatNaamNr(tijdtrainee.getStraatNaamNr());
+        trainee.setWoonplaats(tijdtrainee.getWoonplaats());
+        //aangepaste gegevens worden opgeslagen in de database
+        return traineeRepository.save(trainee);
     }
 
-//
-//    public Employee changeSalary(long id, Employee e) {
-//        System.out.println("Request received to update salary");
-//        Employee emp = employeerepository.findById(id).get();
-//        emp.setSalary(e.getSalary());
-//        employeerepository.save(emp);
-//        return emp;
-//    }
+
 
 //    public Trainee updateTrainee(long id) {
 //        System.out.println("trainee updaten");
