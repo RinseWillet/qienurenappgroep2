@@ -22,4 +22,9 @@ public class TraineeEndpoint {
         traineeService.traineeKoppelformulier(traineeID, formulierid);
     }
 
+    @PutMapping("/wijziggegevens/{id}")
+    public Trainee traineeWijzigGegevens(@PathVariable(value = "id") long traineeID, @RequestBody Trainee trainee){
+        return traineeService.wijzigGegevens(traineeID, trainee);
+    }
+
 }

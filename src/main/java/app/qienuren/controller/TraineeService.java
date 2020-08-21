@@ -68,6 +68,26 @@ public class TraineeService {
         return traineeRepository.save(traineeTijdelijk);
     }
 
+    public Trainee wijzigGegevens(long traineeID, Trainee trainee) {
+        System.out.println("Verzoek gegevens wijzigen ontvangen");
+        Trainee traineetemp = traineeRepository.findById(traineeID).get();
+        traineetemp.setNaam(trainee.getNaam());
+        traineetemp.setEmail(trainee.getEmail());
+        traineetemp.setTelefoonnr(trainee.getTelefoonnr());
+        traineetemp.setPostcode(trainee.getPostcode());
+        traineetemp.setStraatNaamNr(trainee.getStraatNaamNr());
+        traineetemp.setWoonplaats(trainee.getWoonplaats());
+        return traineeRepository.save(traineetemp);
+    }
+
+//
+//    public Employee changeSalary(long id, Employee e) {
+//        System.out.println("Request received to update salary");
+//        Employee emp = employeerepository.findById(id).get();
+//        emp.setSalary(e.getSalary());
+//        employeerepository.save(emp);
+//        return emp;
+//    }
 
 //    public Trainee updateTrainee(long id) {
 //        System.out.println("trainee updaten");

@@ -34,7 +34,7 @@ const traineeNaamFunction = () => {
             profieltraineePostcode.innerHTML = `${trainee.postcode}`;
             profieltraineeWoonplaats.innerHTML = `${trainee.woonplaats}`;
             profieltraineeKCP.innerHTML = `${trainee.leidingGevende.naam}`;
-            profieltraineeBedrijf.innerHTML = `${trainee.leidingGevende.company.naam}`;
+            profieltraineeBedrijf.innerHTML = `${trainee.leidingGevende.bedrijf.naam}`;
             profieltraineeKCPtelnr.innerHTML = `${trainee.leidingGevende.telefoonnr}`;
         }
     }
