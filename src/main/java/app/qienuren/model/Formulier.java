@@ -2,6 +2,7 @@ package app.qienuren.model;
 
 import com.fasterxml.jackson.annotation.JsonBackReference;
 import javax.persistence.*;
+import java.time.YearMonth;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -25,8 +26,31 @@ public class Formulier {
     @OneToMany(cascade = CascadeType.ALL)
     private List<WerkDag> werkDagen = new ArrayList<>();
 
+<<<<<<< HEAD
 
     //methodes
+=======
+    public Formulier() {
+
+    }
+
+    public Formulier(long maand, long jaar) {
+        this.setMaand(maand);
+        this.setJaar(jaar);
+        int aantalDagen = dagenInMaand(jaar, maand);
+        for (int i = 0; i < aantalDagen; i++) {
+            this.werkDagen.add(new WerkDag());
+        }
+    }
+
+    public int dagenInMaand(long jaar, long maand) {
+        YearMonth yearMonthObject = YearMonth.of((int)jaar, (int)maand);;
+        int daysInMonth = yearMonthObject.lengthOfMonth(); //28
+        System.out.println(daysInMonth);
+
+        return daysInMonth;
+    }
+>>>>>>> master
 
     public AdminStatus getAdminStatus() {
         return adminStatus;

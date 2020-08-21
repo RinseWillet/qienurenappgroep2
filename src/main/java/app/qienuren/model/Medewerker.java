@@ -1,7 +1,10 @@
 package app.qienuren.model;
 
+import org.springframework.scheduling.annotation.Scheduled;
+
 import javax.persistence.*;
 import java.time.LocalDate;
+import java.util.ArrayList;
 import java.util.List;
 
 @Entity
@@ -15,8 +18,23 @@ public class Medewerker extends Persoon {
     @OneToMany
     private List<Formulier> archief;
 
+    @OneToMany
+    private List<TijdelijkFormulier> tijdelijkeFormulieren;
+
     public String getStraatNaamNr() {
         return straatNaamNr;
+    }
+
+    public List<TijdelijkFormulier> getTijdelijkeFormulieren() {
+        return tijdelijkeFormulieren;
+    }
+
+    public void setTijdelijkeFormulieren(List<TijdelijkFormulier> tijdelijkeFormulieren) {
+        this.tijdelijkeFormulieren = tijdelijkeFormulieren;
+    }
+
+    public void voegTijdelijkFormulierToe(TijdelijkFormulier tf) {
+        this.tijdelijkeFormulieren.add(tf);
     }
 
     public void setStraatNaamNr(String straatNaamNr) {
@@ -62,7 +80,9 @@ public class Medewerker extends Persoon {
     public void setArchief(List<Formulier> archief) {
         this.archief = archief;
     }
+
     public void koppelFormulier(Formulier formulierTijdelijk) {
         this.archief.add(formulierTijdelijk);
     }
+
 }

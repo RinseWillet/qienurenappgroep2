@@ -59,7 +59,10 @@ public class MyAuthenticationSuccessHandler implements AuthenticationSuccessHand
         System.out.println(">>>>>>>>>>>>>>>>>>>" + authentication.getName());
         long id = persoonRepository.findByUserName(authentication.getName()).get().getId();
         Map<String, String> roleTargetUrlMap = new HashMap<>();
+
         roleTargetUrlMap.put("ROLE_TRAINEE", "/trainee?id=" + id);
+        //roleTargetUrlMap.put("ROLE_TRAINEE", "/profielpagina?id=" + id); //staat niet goed, nu na inloggen na profielpagina
+
         roleTargetUrlMap.put("ROLE_ADMIN", "/admin");
         roleTargetUrlMap.put("ROLE_KCP", "/opdrachtgever");
 
