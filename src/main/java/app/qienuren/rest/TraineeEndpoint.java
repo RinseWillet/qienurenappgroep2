@@ -2,12 +2,10 @@ package app.qienuren.rest;
 
 import app.qienuren.controller.TijdelijkFormulierService;
 import app.qienuren.controller.TraineeService;
-<<<<<<< HEAD
-import app.qienuren.model.Persoon;
-=======
+
 import app.qienuren.model.Formulier;
 import app.qienuren.model.TijdelijkFormulier;
->>>>>>> master
+
 import app.qienuren.model.Trainee;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;

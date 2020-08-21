@@ -26,10 +26,6 @@ public class Formulier {
     @OneToMany(cascade = CascadeType.ALL)
     private List<WerkDag> werkDagen = new ArrayList<>();
 
-<<<<<<< HEAD
-
-    //methodes
-=======
     public Formulier() {
 
     }
@@ -50,7 +46,6 @@ public class Formulier {
 
         return daysInMonth;
     }
->>>>>>> master
 
     public AdminStatus getAdminStatus() {
         return adminStatus;
