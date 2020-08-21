@@ -6,8 +6,6 @@ import org.springframework.boot.context.event.ApplicationReadyEvent;
 import org.springframework.context.ApplicationListener;
 import org.springframework.stereotype.Component;
 
-import java.time.LocalDate;
-
 @Component
 public class Event implements ApplicationListener<ApplicationReadyEvent> {
     @Autowired
@@ -15,9 +13,8 @@ public class Event implements ApplicationListener<ApplicationReadyEvent> {
 
     @Override
     public void onApplicationEvent(ApplicationReadyEvent event) {
-        /*medewerkerService.voegTraineesEnInterneMedewerkersSamen();
-        medewerkerService.genereerLeegFormulier();*/
-
+//        medewerkerService.voegTraineesEnInterneMedewerkersSamen();
+//        medewerkerService.genereerLeegFormulier();
     }
 
 

@@ -103,5 +103,11 @@ public class AdminEndpoint {
     public Formulier updateFormulierStatusFout(@PathVariable(value = "id")long id){
         return formulierService.AdminStatusFout(id);
     }
+
+    //goedkeuren wijzigen gegevens trainee
+    @PutMapping("/goedkeurengegevens/{oorspronkelijkeId}/{id}")
+    public Trainee goedkeurenGegevensWijziging(@PathVariable(value = "oorspronkelijkeId")long oorspronkelijkeId, @PathVariable(value = "id") long id){
+        return traineeService.wijzigGegevens(oorspronkelijkeId, id);
+    }
 }
 

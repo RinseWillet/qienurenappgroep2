@@ -49,5 +49,4 @@ public class FormulierEndpoint {
     public void verwijderFormulier(@PathVariable(value = "id") long id) {
         formulierService.verwijderFormulier(id);
     }
-
 }

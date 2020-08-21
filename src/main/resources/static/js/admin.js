@@ -107,7 +107,7 @@ const genereerFormulier = (formulier) => {
             <td class="admin-opmaak" id="ziekte-uren-${i + 1}">${formulier.werkDagen[i].ziekteUren}</td>
             <td class="admin-opmaak"id="training-uren-${i + 1}">${formulier.werkDagen[i].trainingsUren}</td>
             <td class="admin-opmaak"id="overig-uren-${i + 1}">${formulier.werkDagen[i].overigeUren}</td>
-            <td class="admin-opmaak form-verklaring"><class="form-input" id="verklaring-overig-${i + 1}">${formulier.werkDagen[i].overigeUrenUitleg}</td>
+            <td class="admin-opmaak form-verklaring"><class="form-input" id="verklaring-overig-${i + 1}">${(formulier.werkDagen[i].overigeUrenUitleg === null) ? "" : formulier.werkDagen[i].overigeUrenUitleg}</td>
         </tr>`)
     }
 }
@@ -172,6 +172,7 @@ const laatMedewerkersZien = () => {
 
     xhr.onreadystatechange = function () {
         if (xhr.readyState == 4) {
+
             deMedewerkers = JSON.parse(this.responseText);            
             let inTeVoegenHTML = ``;
 
@@ -179,7 +180,9 @@ const laatMedewerkersZien = () => {
                 deMedewerkers.forEach((e) => {                   
                     if (e.type === "Admin") return;                    
                     // Als trainee geen opdrachtgever heeft dan veranderen naar "Niet geplaatst"                    
+
                     if (e.type === "Trainee" && e.leidingGevende === null) {
+
                         e.leidingGevende = {
                             "naam" : "Niet gekoppeld"
                         }
@@ -838,6 +841,7 @@ function bedrijfAanmaken() {
     xhr.send(JSON.stringify(bedrijfJSON));
 
 }
+
 
 
 
