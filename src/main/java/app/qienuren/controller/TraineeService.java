@@ -73,13 +73,13 @@ public class TraineeService {
         TijdelijkeTrainee tijdtrainee = tijdelijkeTraineeRepository.findById(id).get();
         //echte trainee wordt opgehaald
         Trainee trainee = traineeRepository.findById(oorspronkelijkeId).get();
-        //echte trainee krijgt waardes van de tijdelijke trainee
-        trainee.setNaam(tijdtrainee.getNaam());
-        trainee.setEmail(tijdtrainee.getEmail());
-        trainee.setTelefoonnr(tijdtrainee.getTelefoonnr());
-        trainee.setPostcode(tijdtrainee.getPostcode());
-        trainee.setStraatNaamNr(tijdtrainee.getStraatNaamNr());
-        trainee.setWoonplaats(tijdtrainee.getWoonplaats());
+        //echte trainee krijgt waardes van de tijdelijke trainee, tenzij niets is ingevuld
+        if( tijdtrainee.getNaam() != null){trainee.setNaam(tijdtrainee.getNaam());}
+        if( tijdtrainee.getEmail() != null){ trainee.setEmail(tijdtrainee.getEmail());}
+        if( tijdtrainee.getTelefoonnr() != null){trainee.setTelefoonnr(tijdtrainee.getTelefoonnr());}
+        if( tijdtrainee.getPostcode() != null){trainee.setPostcode(tijdtrainee.getPostcode());}
+        if( tijdtrainee.getStraatNaamNr() != null){trainee.setStraatNaamNr(tijdtrainee.getStraatNaamNr());}
+        if( tijdtrainee.getWoonplaats() != null){trainee.setWoonplaats(tijdtrainee.getWoonplaats());}
         //aangepaste gegevens worden opgeslagen in de database
         return traineeRepository.save(trainee);
     }
