@@ -4,6 +4,7 @@ const formBody = document.getElementById("form-body");
 const modalHeader = document.querySelector(".modal-title");
 const klikbaarOogje = document.querySelector(".fa-eye");
 const formulierItem = document.querySelector(".list-group-item");
+
 const navlink = document.querySelector(".nav-link");
 const profielpagina = document.getElementById("profielpagina");
 
@@ -13,12 +14,21 @@ var url_string = window.location.href;
 var url = new URL(url_string); 
 var idpf = url.searchParams.get("id"); 
 
-//voegt ID toe aan profielpaginaurl
+//voegt ID toe aan urls
 function aanpassenurl(){
+    //profielpagina
     let pfurl = document.getElementById('profielpaginaurl').href;
     pfurl = pfurl + "?id=" + idpf;
-    var a = document.querySelector('a[href="/profielpagina"]'); if (a) {   a.setAttribute('href', pfurl) }
+    var a = document.querySelector('a[href="/profielpagina"]'); if (a) {   a.setAttribute('href', pfurl)};
+
+    //urenformulier
+    let formurl = document.getElementById('urenformurl').href;
+    formurl = formurl + "?id=" + idpf;
+    var b = document.querySelector('a[href="/traineeformulier"]'); if (b) {   b.setAttribute('href', formurl)}
+
+
 }
+
 
 
 
@@ -68,16 +78,17 @@ const traineeNaamFunction = () => {
     xhr.onreadystatechange = function() {
         if (xhr.readyState == 4) {
             trainee = JSON.parse(this.responseText);
-            console.log(trainee)
             let formulierHTML = ``;
-            traineeNaam.innerHTML = `Welkom, ${trainee.naam}!`; 
-                var formulieren = trainee.archief;
-                formulieren.sort(function(a, b){return a.id-b.id});
-                formulieren.reverse();
+            traineeNaam.innerHTML = `Welkom, ${trainee.naam}!`;
+            traineeOpdrachtgever.innerHTML = `Opdrachtgever : ${trainee.opdrachtgever}`;
+            var formulieren = trainee.archief;
+            formulieren.sort(function(a, b){return a.id-b.id});
+            formulieren.reverse();
 
-                for(let i = 0; i < 3; i++) {
-                    maand = maandNummerNaarString(formulieren[i].maand);
-                    var e = formulieren[i];
+            for(let i = 0; i < 3; i++) {
+                maand = maandNummerNaarString(formulieren[i].maand);
+                var e = formulieren[i];
+
 
 
                     // inTeVoegenHTML = `<li data-toggle="modal" data-target="#staticBackdrop" href="./formulier.html?id=${e.id}" 
@@ -88,11 +99,19 @@ const traineeNaamFunction = () => {
                      afgelopenFormulieren.insertAdjacentHTML('beforeend', formulierHTML);
                 
                 }
+
         }
     }
     xhr.open("GET", `http://localhost:8082/api/trainee/${urlId}` , true);
     xhr.send();
-} 
+}
+
+
+
+
+
+
+
 
 const genereerFormulier = (formulier) => {
     formulier.maand = maandNummerNaarString(formulier.maand);

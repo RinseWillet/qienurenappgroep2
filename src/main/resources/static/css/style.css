@@ -293,3 +293,7 @@ h2{
 .profielblokbody{
     min-height: 250px;
 }
+
+.alert-warning{
+    display: none;
+}

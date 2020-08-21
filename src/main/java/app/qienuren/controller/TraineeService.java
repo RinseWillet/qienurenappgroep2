@@ -1,9 +1,6 @@
 package app.qienuren.controller;
 
-import app.qienuren.model.Bedrijf;
-import app.qienuren.model.Formulier;
-import app.qienuren.model.KlantContactPersoon;
-import app.qienuren.model.Trainee;
+import app.qienuren.model.*;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -21,6 +18,8 @@ public class TraineeService {
     KlantContactPersoonRepository kcpRepository;
     @Autowired
     FormulierRepository formulierRepository;
+    @Autowired
+    TijdelijkeTraineeRepository tijdelijkeTraineeRepository;
 
     public Trainee addTrainee(Trainee trainee) {
         System.out.println("trainee aangemaakt");
@@ -67,6 +66,24 @@ public class TraineeService {
 
         return traineeRepository.save(traineeTijdelijk);
     }
+
+    public Trainee wijzigGegevens(long oorspronkelijkeId, long id) {
+        System.out.println("Verzoek gegevens wijzigen ontvangen");
+        //tijdelijke trainee wordt opgehaald
+        TijdelijkeTrainee tijdtrainee = tijdelijkeTraineeRepository.findById(id).get();
+        //echte trainee wordt opgehaald
+        Trainee trainee = traineeRepository.findById(oorspronkelijkeId).get();
+        //echte trainee krijgt waardes van de tijdelijke trainee
+        trainee.setNaam(tijdtrainee.getNaam());
+        trainee.setEmail(tijdtrainee.getEmail());
+        trainee.setTelefoonnr(tijdtrainee.getTelefoonnr());
+        trainee.setPostcode(tijdtrainee.getPostcode());
+        trainee.setStraatNaamNr(tijdtrainee.getStraatNaamNr());
+        trainee.setWoonplaats(tijdtrainee.getWoonplaats());
+        //aangepaste gegevens worden opgeslagen in de database
+        return traineeRepository.save(trainee);
+    }
+
 
 
 //    public Trainee updateTrainee(long id) {
