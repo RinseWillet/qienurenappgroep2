@@ -14,11 +14,19 @@ var url_string = window.location.href;
 var url = new URL(url_string); 
 var idpf = url.searchParams.get("id"); 
 
-//voegt ID toe aan profielpaginaurl
+//voegt ID toe aan urls
 function aanpassenurl(){
+    //profielpagina
     let pfurl = document.getElementById('profielpaginaurl').href;
     pfurl = pfurl + "?id=" + idpf;
-    var a = document.querySelector('a[href="/profielpagina"]'); if (a) {   a.setAttribute('href', pfurl) }
+    var a = document.querySelector('a[href="/profielpagina"]'); if (a) {   a.setAttribute('href', pfurl)};
+
+    //urenformulier
+    let formurl = document.getElementById('urenformurl').href;
+    formurl = formurl + "?id=" + idpf;
+    var b = document.querySelector('a[href="/traineeformulier"]'); if (b) {   b.setAttribute('href', formurl)}
+
+
 }
 
 

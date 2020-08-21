@@ -1,7 +1,9 @@
 package app.qienuren.rest;
 
-import app.qienuren.controller.FormulierService;
+import app.qienuren.controller.TijdelijkeTraineeService;
 import app.qienuren.controller.TraineeService;
+import app.qienuren.model.TijdelijkeTrainee;
+import app.qienuren.controller.FormulierService;
 import app.qienuren.model.Formulier;
 import app.qienuren.model.Trainee;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -17,8 +19,9 @@ public class TraineeEndpoint {
     @Autowired
     TraineeService traineeService;
 
-//    @Autowired
-//    TijdelijkFormulierService tijdelijkFormulierService;
+
+    @Autowired
+    TijdelijkeTraineeService tijdelijkeTraineeService;
 
     @GetMapping("/{id}")
     public Trainee getTraineeById(@PathVariable(value = "id") long id){
@@ -30,6 +33,11 @@ public class TraineeEndpoint {
         traineeService.traineeKoppelformulier(traineeID, formulierid);
     }
 
+    @PostMapping("/nieuwegegevens/{id}")
+   public TijdelijkeTrainee addTijdelijkeTrainee(@PathVariable(value = "id") long traineeID, @RequestBody TijdelijkeTrainee tijdtrainee){
+        return tijdelijkeTraineeService.addTijdelijkeTrainee(traineeID, tijdtrainee); }
+
+
     @PutMapping("/formulier/update/{formulierid}")
     public Formulier updateFormulier(@RequestBody Formulier tf) {
         return formulierService.updateFormulier(tf);
@@ -40,5 +48,6 @@ public class TraineeEndpoint {
         Trainee t = traineeService.getTraineeById(id);
         return t.getTijdelijkeFormulieren();
     }
+
 
 }
