@@ -107,7 +107,7 @@ const genereerFormulier = (formulier) => {
             <td class="admin-opmaak" id="ziekte-uren-${i + 1}">${formulier.werkDagen[i].ziekteUren}</td>
             <td class="admin-opmaak"id="training-uren-${i + 1}">${formulier.werkDagen[i].trainingsUren}</td>
             <td class="admin-opmaak"id="overig-uren-${i + 1}">${formulier.werkDagen[i].overigeUren}</td>
-            <td class="admin-opmaak form-verklaring"><class="form-input" id="verklaring-overig-${i + 1}">${formulier.werkDagen[i].overigeUrenUitleg}</td>
+            <td class="admin-opmaak form-verklaring"><class="form-input" id="verklaring-overig-${i + 1}">${(formulier.werkDagen[i].overigeUrenUitleg === null) ? "" : formulier.werkDagen[i].overigeUrenUitleg}</td>
         </tr>`)
     }
 }
@@ -172,18 +172,17 @@ const laatMedewerkersZien = () => {
 
     xhr.onreadystatechange = function () {
         if (xhr.readyState == 4) {
-            deMedewerkers = JSON.parse(this.responseText);
-            console.log(deMedewerkers)
+
+            deMedewerkers = JSON.parse(this.responseText);            
             let inTeVoegenHTML = ``;
 
             if (deMedewerkers.length > 0) {
-                deMedewerkers.forEach((e) => {
-                    console.log(e.type);
-                    if (e.type === "Admin") return;
-                    console.log("in foreach: " + e)
-                    // Als trainee geen opdrachtgever heeft dan veranderen naar "Niet geplaatst"
-                    console.log(e.leidingGevende)
+                deMedewerkers.forEach((e) => {                   
+                    if (e.type === "Admin") return;                    
+                    // Als trainee geen opdrachtgever heeft dan veranderen naar "Niet geplaatst"                    
+
                     if (e.type === "Trainee" && e.leidingGevende === null) {
+
                         e.leidingGevende = {
                             "naam" : "Niet gekoppeld"
                         }
@@ -233,7 +232,6 @@ BEDRIJVEN
 const laatBedrijvenZien = () => {
     let xhr = new XMLHttpRequest();
 
-
     xhr.onreadystatechange = function () {
         if (xhr.readyState == 4) {
             deBedrijven = JSON.parse(this.responseText);
@@ -276,7 +274,7 @@ RELATIE AANMAKEN
 // RADIO buttons ophalen
 const interneMedewerkerRadio = document.getElementById("radio-interne-mw");
 const traineeRadio = document.getElementById("radio-trainee");
-const bedrijfRadio = document.getElementById("radio-bedrijf");
+// const bedrijfRadio = document.getElementById("radio-bedrijf");
 const contactPersoonRadio = document.getElementById("radio-contactpersoon");
 
 relatieAanmakenKnop.addEventListener("click", () => {
@@ -312,28 +310,28 @@ relatieAanmakenKnop.addEventListener("click", () => {
 
         xhr.send(JSON.stringify(interneMedewerkerJSON));
     }
-    if (bedrijfRadio.checked) {
-        const bedrijfNaam = document.getElementById("bedrijf-naam").value;
-        const bedrijfEmail = document.getElementById("bedrijf-email").value;
-        const bedrijfTelefoon = document.getElementById("bedrijf-telefoon").value;
-        const bedrijfStraatNaamEnNr = document.getElementById("bedrijf-straatnaamennummer").value;
-        const bedrijfPostCode = document.getElementById("bedrijf-postcode").value;
-        const bedrijfWoonplaats = document.getElementById("bedrijf-woonplaats").value;
+    // if (bedrijfRadio.checked) {
+    //     const bedrijfNaam = document.getElementById("bedrijf-naam").value;
+    //     const bedrijfEmail = document.getElementById("bedrijf-email").value;
+    //     const bedrijfTelefoon = document.getElementById("bedrijf-telefoon").value;
+    //     const bedrijfStraatNaamEnNr = document.getElementById("bedrijf-straatnaamennummer").value;
+    //     const bedrijfPostCode = document.getElementById("bedrijf-postcode").value;
+    //     const bedrijfWoonplaats = document.getElementById("bedrijf-woonplaats").value;
 
-        dezeIdEmail = null;
-        let bedrijfJSON = {};
-        bedrijfJSON.naam = bedrijfNaam;
-        bedrijfJSON.email = bedrijfEmail;
-        bedrijfJSON.telefoonnr = bedrijfTelefoon;
-        bedrijfJSON.straatNaamNr = bedrijfStraatNaamEnNr;
-        bedrijfJSON.postcode = bedrijfPostCode;
-        bedrijfJSON.woonplaats = bedrijfWoonplaats;
+    //     dezeIdEmail = null;
+    //     let bedrijfJSON = {};
+    //     bedrijfJSON.naam = bedrijfNaam;
+    //     bedrijfJSON.email = bedrijfEmail;
+    //     bedrijfJSON.telefoonnr = bedrijfTelefoon;
+    //     bedrijfJSON.straatNaamNr = bedrijfStraatNaamEnNr;
+    //     bedrijfJSON.postcode = bedrijfPostCode;
+    //     bedrijfJSON.woonplaats = bedrijfWoonplaats;
 
-        xhr.open("POST", "http://localhost:8082/api/admin/bedrijf/nieuw", true);
-        xhr.setRequestHeader("Content-Type", "application/json");
+    //     xhr.open("POST", "http://localhost:8082/api/admin/bedrijf/nieuw", true);
+    //     xhr.setRequestHeader("Content-Type", "application/json");
 
-        xhr.send(JSON.stringify(bedrijfJSON));
-    }
+    //     xhr.send(JSON.stringify(bedrijfJSON));
+    // }
     if (traineeRadio.checked) {
         const traineeType = traineeRadio.value;
         const traineeNaam = document.getElementById("trainee-naam").value;
@@ -365,38 +363,43 @@ relatieAanmakenKnop.addEventListener("click", () => {
         xhr.send(JSON.stringify(traineeJSON));
     }
     if (contactPersoonRadio.checked) {
-
-        const contactPersoonType = contactPersoonRadio.value;
-        const contactPersoonNaam = document.getElementById("contactpersoon-naam").value;
-        const contactPersoonEmail = document.getElementById("contactpersoon-email").value;
-        const contactPersoonTelefoon = document.getElementById("contactpersoon-telefoon").value;
-
-        let contactPersoonJSON = {};
-        dezeIdEmail = contactPersoonEmail;
-        contactPersoonJSON.type = contactPersoonType;
-        contactPersoonJSON.naam = contactPersoonNaam;
-        contactPersoonJSON.email = contactPersoonEmail;
-        contactPersoonJSON.telefoonnr = contactPersoonTelefoon;
-
-        xhr.open("POST", "http://localhost:8082/api/admin/klantcontactpersoon/nieuw", true);
-        xhr.setRequestHeader("Content-Type", "application/json");
-
-        xhr.send(JSON.stringify(contactPersoonJSON));
-    }
-   
-    xhr.onreadystatechange = function () {        
-        if (xhr.readyState == 4) {
-            console.log("deze ID : " + dezeIdEmail);
-            if(!(dezeIdEmail === null)){
-                console.log("hup naar DezeID");
-                dezeID(dezeIdEmail);
-                } else if (dezeIdEmail === null){
-                console.log("let's reload")
-                location.reload();
-            }
-        }
+        let bedrijfgeselecteerd = bedrijf_select[bedrijf_select.selectedIndex].id
         
+
+        if (bedrijfgeselecteerd === "") {
+            alert("geen bedrijf geselecteerd");
+            
+        } else if(!(bedrijfgeselecteerd ==="")){
+            
+
+            const contactPersoonType = contactPersoonRadio.value;
+            const contactPersoonNaam = document.getElementById("contactpersoon-naam").value;
+            const contactPersoonEmail = document.getElementById("contactpersoon-email").value;
+            const contactPersoonTelefoon = document.getElementById("contactpersoon-telefoon").value;
+
+            let contactPersoonJSON = {};
+            dezeIdEmail = contactPersoonEmail;
+            contactPersoonJSON.type = contactPersoonType;
+            contactPersoonJSON.naam = contactPersoonNaam;
+            contactPersoonJSON.email = contactPersoonEmail;
+            contactPersoonJSON.telefoonnr = contactPersoonTelefoon;
+
+            xhr.open("POST", "http://localhost:8082/api/admin/klantcontactpersoon/nieuw", true);
+            xhr.setRequestHeader("Content-Type", "application/json");
+
+            xhr.send(JSON.stringify(contactPersoonJSON));
+        }
     }
+
+        xhr.onreadystatechange = function () {
+            if (xhr.readyState == 4) {
+                if (!(dezeIdEmail === null)) {              
+                    dezeID(dezeIdEmail);
+                } else if (dezeIdEmail === null) {                    
+                    location.reload();
+                }
+            }
+        }    
 });
 
 const radios = document.querySelectorAll(".form-check-input")
@@ -508,7 +511,6 @@ for (var i = 0; i < radios.length; i++) {
                     </div>
                 </div>
             </div>
-
             <div class="row">
                 <div class="col-4">
                     <div class="form-group">
@@ -739,12 +741,6 @@ const updateBedrijfSelector = () => {
     xhr.send();
 }
 
-
-/*TO DO:
-checken dat save changes knop bij bedrijf - kcp ook die opslaat
-koppeling bedrijf - kcp maken
-*/
-
 /*
 Trainee aan Contactpersoon koppelen
  */
@@ -774,8 +770,7 @@ function koppelContactpersoonBedrijf(BdId, KcpId) {
     var bedrijfID = BdId[BdId.selectedIndex].id;
     var ContactPersoonId = KcpId;
 
-    xhr.onreadystatechange = function () {
-        console.log("nieuwe koppeling gemaakt")
+    xhr.onreadystatechange = function () {        
         if (xhr.readyState == 4) {
             location.reload();
         }
@@ -810,6 +805,45 @@ function dezeID(email) {
     xhr.open("GET", "http://localhost:8082/api/admin/klantcontactpersoon/all", true);
     xhr.send();
 }
+
+/*
+Bedrijf aanmaken
+*/
+
+function bedrijfAanmaken() {
+    var xhr = new XMLHttpRequest();
+    console.log("je bent er jongen");
+    const bedrijfNaam = document.getElementById("bedrijf-naam").value;
+    const bedrijfEmail = document.getElementById("bedrijf-email").value;
+    const bedrijfTelefoon = document.getElementById("bedrijf-telefoon").value;
+    const bedrijfStraatNaamEnNr = document.getElementById("bedrijf-straatnaamennummer").value;
+    const bedrijfPostCode = document.getElementById("bedrijf-postcode").value;
+    const bedrijfWoonplaats = document.getElementById("bedrijf-woonplaats").value;
+
+    dezeIdEmail = null;
+    let bedrijfJSON = {};
+    bedrijfJSON.naam = bedrijfNaam;
+    bedrijfJSON.email = bedrijfEmail;
+    bedrijfJSON.telefoonnr = bedrijfTelefoon;
+    bedrijfJSON.straatNaamNr = bedrijfStraatNaamEnNr;
+    bedrijfJSON.postcode = bedrijfPostCode;
+    bedrijfJSON.woonplaats = bedrijfWoonplaats;
+
+    xhr.onreadystatechange = function () {        
+        if (xhr.readyState == 4) {
+            location.reload();
+        }
+    }
+
+    xhr.open("POST", "http://localhost:8082/api/admin/bedrijf/nieuw", true);
+    xhr.setRequestHeader("Content-Type", "application/json");
+
+    xhr.send(JSON.stringify(bedrijfJSON));
+
+}
+
+
+
 
 /*
 radio selectorknop relaties
@@ -855,10 +889,8 @@ for (var i = 0; i < radiosKoppelen.length; i++) {
         </div>`
         updateContactPersoonSelector();
         updateBedrijfSelector();
-        }      
-       
-    });
-  
+        }
+    });  
 }
 
 

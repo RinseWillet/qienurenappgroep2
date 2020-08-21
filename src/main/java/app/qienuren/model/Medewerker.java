@@ -1,6 +1,7 @@
 package app.qienuren.model;
 
-import javax.persistence.*;
+import javax.persistence.Entity;
+import javax.persistence.OneToMany;
 import java.time.LocalDate;
 import java.util.List;
 
@@ -15,8 +16,23 @@ public class Medewerker extends Persoon {
     @OneToMany
     private List<Formulier> archief;
 
+    @OneToMany
+    private List<Formulier> tijdelijkeFormulieren;
+
     public String getStraatNaamNr() {
         return straatNaamNr;
+    }
+
+    public List<Formulier> getTijdelijkeFormulieren() {
+        return tijdelijkeFormulieren;
+    }
+
+    public void setTijdelijkeFormulieren(List<Formulier> tijdelijkeFormulieren) {
+        this.tijdelijkeFormulieren = tijdelijkeFormulieren;
+    }
+
+    public void voegFormulierToe(Formulier tf) {
+        this.tijdelijkeFormulieren.add(tf);
     }
 
     public void setStraatNaamNr(String straatNaamNr) {
@@ -62,7 +78,9 @@ public class Medewerker extends Persoon {
     public void setArchief(List<Formulier> archief) {
         this.archief = archief;
     }
+
     public void koppelFormulier(Formulier formulierTijdelijk) {
         this.archief.add(formulierTijdelijk);
     }
+
 }

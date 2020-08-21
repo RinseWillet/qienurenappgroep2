@@ -3,6 +3,8 @@ package app.qienuren.rest;
 import app.qienuren.controller.TijdelijkeTraineeService;
 import app.qienuren.controller.TraineeService;
 import app.qienuren.model.TijdelijkeTrainee;
+import app.qienuren.controller.FormulierService;
+import app.qienuren.model.Formulier;
 import app.qienuren.model.Trainee;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
@@ -12,7 +14,11 @@ import org.springframework.web.bind.annotation.*;
 public class TraineeEndpoint {
 
     @Autowired
+    FormulierService formulierService;
+
+    @Autowired
     TraineeService traineeService;
+
 
     @Autowired
     TijdelijkeTraineeService tijdelijkeTraineeService;
@@ -27,16 +33,21 @@ public class TraineeEndpoint {
         traineeService.traineeKoppelformulier(traineeID, formulierid);
     }
 
-//    @PutMapping("/wijziggegevens/{id}")
-//    public Trainee traineeWijzigGegevens(@PathVariable(value = "id") long traineeID, @RequestBody Trainee trainee){
-//        return traineeService.wijzigGegevens(traineeID, trainee);
-//    }
-
     @PostMapping("/nieuwegegevens/{id}")
    public TijdelijkeTrainee addTijdelijkeTrainee(@PathVariable(value = "id") long traineeID, @RequestBody TijdelijkeTrainee tijdtrainee){
         return tijdelijkeTraineeService.addTijdelijkeTrainee(traineeID, tijdtrainee); }
 
 
+    @PutMapping("/formulier/update/{formulierid}")
+    public Formulier updateFormulier(@RequestBody Formulier tf) {
+        return formulierService.updateFormulier(tf);
+    }
+
+    @GetMapping("/tijdelijkeformulieren/{id}")
+    public Iterable<Formulier> getTijdelijkeFormulierenByTraineeId(@PathVariable(value = "id") long id) {
+        Trainee t = traineeService.getTraineeById(id);
+        return t.getTijdelijkeFormulieren();
+    }
 
 
 }

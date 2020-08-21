@@ -1,6 +1,7 @@
 package app.qienuren.model;
 
 import javax.persistence.*;
+import java.time.YearMonth;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -24,7 +25,31 @@ public class Formulier {
     @OneToMany(cascade = CascadeType.ALL)
     private List<WerkDag> werkDagen = new ArrayList<>();
 
-    //methodes
+    private boolean tijdelijkFormulier;
+    private boolean ingezondenFormulier;
+
+    public Formulier() {
+
+    }
+
+    public Formulier(long maand, long jaar) {
+        this.setMaand(maand);
+        this.setJaar(jaar);
+        int aantalDagen = dagenInMaand(jaar, maand);
+        for (int i = 0; i < aantalDagen; i++) {
+            this.werkDagen.add(new WerkDag());
+        }
+
+        this.tijdelijkFormulier= true;
+    }
+
+    public int dagenInMaand(long jaar, long maand) {
+        YearMonth yearMonthObject = YearMonth.of((int)jaar, (int)maand);;
+        int daysInMonth = yearMonthObject.lengthOfMonth(); //28
+        System.out.println(daysInMonth);
+
+        return daysInMonth;
+    }
 
     public AdminStatus getAdminStatus() {
         return adminStatus;
@@ -80,6 +105,22 @@ public class Formulier {
 
     public void setWerkDagen(List<WerkDag> werkDagen) {
         this.werkDagen = werkDagen;
+    }
+
+    public boolean isTijdelijkFormulier() {
+        return tijdelijkFormulier;
+    }
+
+    public void setTijdelijkFormulier(boolean tijdelijkFormulier) {
+        this.tijdelijkFormulier = tijdelijkFormulier;
+    }
+
+    public boolean isIngezondenFormulier() {
+        return ingezondenFormulier;
+    }
+
+    public void setIngezondenFormulier(boolean ingezondenFormulier) {
+        this.ingezondenFormulier = ingezondenFormulier;
     }
 
 
