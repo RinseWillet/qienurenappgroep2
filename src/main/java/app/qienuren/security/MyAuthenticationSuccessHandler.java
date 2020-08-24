@@ -61,7 +61,7 @@ public class MyAuthenticationSuccessHandler implements AuthenticationSuccessHand
         Map<String, String> roleTargetUrlMap = new HashMap<>();
 
         roleTargetUrlMap.put("ROLE_TRAINEE", "/trainee?id=" + id);
-        roleTargetUrlMap.put("ROLE_TRAINEE", "/profielpagina?id=" + id); //staat niet goed, nu na inloggen na profielpagina
+        // roleTargetUrlMap.put("ROLE_TRAINEE", "/profielpagina?id=" + id); //staat niet goed, nu na inloggen na profielpagina
 
         roleTargetUrlMap.put("ROLE_ADMIN", "/admin");
         roleTargetUrlMap.put("ROLE_KCP", "/opdrachtgever");
