@@ -45,18 +45,8 @@ public class MedewerkerService {
                 medewerkers.add(i);
             }
         }
-
         return (ArrayList<Medewerker>)medewerkers;
     }
-
-    // loop over medewerkers en geef ze een leeg formulier
-
-//    public void genereerLeegFormulier() {
-//        ArrayList<Medewerker> deMedewerkers = voegTraineesEnInterneMedewerkersSamen();
-//        for (Medewerker m : deMedewerkers) {
-//            m.voegTijdelijkFormulierToe(tfs.addNieuwTijdelijkFormulier(new TijdelijkFormulier(LocalDate.now().getMonthValue(), LocalDate.now().getYear())));
-//        }
-//    }
 
     public void genereerLeegFormulier() {
         ArrayList<Medewerker> deMedewerkers = voegTraineesEnInterneMedewerkersSamen();
@@ -64,6 +54,12 @@ public class MedewerkerService {
             m.voegFormulierToe(fs.addNieuwFormulier(new Formulier(LocalDate.now().getMonthValue(), LocalDate.now().getYear())));
         }
     }
+
+
+
+
+
+
 
     @Scheduled(cron = "0 0 0 1 1/1 ? *")
     public void maakMaandelijksFormulier() {
