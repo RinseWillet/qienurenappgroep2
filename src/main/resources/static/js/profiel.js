@@ -9,6 +9,44 @@ const profieltraineeWoonplaats = document.getElementById("profieltrainee-woonpla
 const profieltraineeKCP = document.getElementById("profieltrainee-kcp");
 const profieltraineeBedrijf = document.getElementById("profieltrainee-bedrijf");
 const profieltraineeKCPtelnr = document.getElementById("profieltrainee-kcptelnr");
+var urlId;
+
+
+function gegevensPersoonAanpassen() {
+
+    var xhr = new XMLHttpRequest();
+    console.log("je bent er dude");
+    const persoonNaam = document.getElementById("persoonNaam").value;
+    const persoonEmail = document.getElementById("persoonEmail").value;
+    const persoonTelefoon = document.getElementById("persoonTelefoonnummer").value;
+    const persoonAdres = document.getElementById("persoonAdres").value;
+    const persoonPostcode = document.getElementById("persoonPostcode").value;
+    const persoonWoonplaats = document.getElementById("persoonWoonplaats").value;
+
+    let persoonJSON = {};
+    persoonJSON.naam = persoonNaam;
+    persoonJSON.email = persoonEmail;
+    persoonJSON.telefoonnr = persoonTelefoon;
+    persoonJSON.straatNaamNr = persoonAdres;
+    persoonJSON.postcode = persoonPostcode;
+    persoonJSON.woonplaats = persoonWoonplaats;
+
+    xhr.onreadystatechange = function () {        
+        if (xhr.readyState == 4) {
+            location.reload();
+        }
+    }
+
+    xhr.open("POST", "http://localhost:8082/api/trainee/nieuwegegevens/" + urlId, true);
+    xhr.setRequestHeader("Content-Type", "application/json");
+
+    xhr.send(JSON.stringify(persoonJSON));
+
+} 
+
+
+
+
 // window.onload = () => {
 //     traineeNaamFunction();
 //     console.log("onload");
@@ -16,7 +54,7 @@ const profieltraineeKCPtelnr = document.getElementById("profieltrainee-kcptelnr"
 const traineeNaamFunction = () => {
     var urlString = window.location.href;
     var url = new URL(urlString);
-    var urlId = url.searchParams.get("id");
+    urlId = url.searchParams.get("id");
 
     let xhr = new XMLHttpRequest();
 
@@ -28,7 +66,7 @@ const traineeNaamFunction = () => {
             profieltraineeNaam.innerHTML = `${trainee.naam}`;
             profieltraineeEmail.innerHTML = `${trainee.email}`;
             profieltraineeStartdatum.innerHTML = `${trainee.startDatum}`;
-            profieltraineeRol.innerHTML = `${trainee.roles}`;
+           // profieltraineeRol.innerHTML = `${trainee.roles}`;
             profieltraineeTelnr.innerHTML = `${trainee.telefoonnr}`;
             profieltraineeAdres.innerHTML = `${trainee.straatNaamNr}`;
             profieltraineePostcode.innerHTML = `${trainee.postcode}`;

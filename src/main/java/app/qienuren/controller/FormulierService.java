@@ -65,14 +65,7 @@ public class FormulierService {
     }
 
     public Iterable<Formulier> getalleFormulieren() {
-        Iterable<Formulier> formulieren = formulierRepository.findAll();
-        ArrayList<Formulier> teVerzendenFormulieren = new ArrayList<>();
-        for (Formulier f : formulieren) {
-            if (!(f instanceof TijdelijkFormulier)) {
-                teVerzendenFormulieren.add(f);
-            }
-        }
-        return teVerzendenFormulieren;
+        return formulierRepository.findAll();
     }
 
     public void verwijderFormulier(long id) {
@@ -84,10 +77,18 @@ public class FormulierService {
         return formulierRepository.findById(id).get();
     }
 
-    public Formulier AdminStatusGoed(long id) {
+    public Formulier AdminStatusGoed(long formulierid, long medewerkerid) {
         System.out.println("hij doet updaten");
-        Formulier formuliertijdelijk = formulierRepository.findById(id).get();
+        Formulier formuliertijdelijk = formulierRepository.findById(formulierid).get();
+//        Medewerker
         formuliertijdelijk.setAdminStatus(AdminStatus.GOEDGEKEURD);
+
+        //Wanneer adminstatus goedgekeurd wordt
+        //verwijder formulier uit tijdelijkelijst
+        //voeg formulier toe aan archief
+        //bijhorende booleans aanpassen
+
+
         return formulierRepository.save(formuliertijdelijk);
     }
 
@@ -110,5 +111,29 @@ public class FormulierService {
         Formulier formuliertijdelijk = formulierRepository.findById(id).get();
         formuliertijdelijk.setOpdrachtgeverStatus(OpdrachtgeverStatus.AFGEKEURD);
         return formulierRepository.save(formuliertijdelijk);
+    }
+
+    public Iterable<Formulier> getAlleFormulierenVoorOpdrachtGever() {
+        Iterable<Formulier> formulieren = formulierRepository.findAll();
+        ArrayList<Formulier> teVerzendenFormulieren = new ArrayList<>();
+
+        for (Formulier f : formulieren) {
+            if (f.isIngezondenFormulier() == true && f.isTijdelijkFormulier() == true) {
+                teVerzendenFormulieren.add(f);
+            }
+        }
+        return teVerzendenFormulieren;
+    }
+
+    public Iterable<Formulier> getAlleFormulierenVoorAdmin() {
+        Iterable<Formulier> formulieren = formulierRepository.findAll();
+        ArrayList<Formulier> teVerzendenFormulieren = new ArrayList<>();
+
+        for (Formulier f : formulieren) {
+            if (f.isIngezondenFormulier() == true && f.isTijdelijkFormulier() == true) {
+                teVerzendenFormulieren.add(f);
+            }
+        }
+        return teVerzendenFormulieren;
     }
 }

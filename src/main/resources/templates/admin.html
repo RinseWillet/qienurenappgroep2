@@ -17,7 +17,7 @@
 <section>
     <nav class="navbar navbar-expand-lg navbar-light bg-light">
         <div class="container">
-            <img src="img/logo.svg">
+            <img src="./img/logo.svg">
             <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarNav"
                     aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
                 <span class="navbar-toggler-icon"></span>
@@ -223,7 +223,6 @@
                         </div>
                     </div>
 
-
                 </div>
                 <div class="col-4">
                     <div class="row-admin-sidebar mt-5 d-flex align-items-center justify-content-around">
@@ -243,18 +242,17 @@
                             <div class="container">
                                 <div class="modal-content">
                                     <div class="modal-header">
-                                        <h5 class="modal-title" id="voegGebruikerToeModal">Voeg een relatie toe</h5>
+                                        <h5 class="modal-title" id="voegGebruikerToeModal">Account aanmaken</h5>
                                         <button type="button" class="close" data-dismiss="modal" aria-label="Close">
                                             <span aria-hidden="true">&times;</span>
                                         </button>
                                     </div>
                                     <div class="modal-body">
-                                        <form>
+                                        <form id="account-aanmaken" class="was-validated" onsubmit="test()">
                                             <div class="form-group">
-                                                <label for="toevoegen-select-type">Wat voor soort relatie wilt u
+                                                <label for="toevoegen-select-type">Wat voor soort account wilt u
                                                     aanmaken? </label>
                                                 <br>
-
                                                 <div class="form-check form-check-inline">
                                                     <input class="form-check-input" type="radio"
                                                            name="inlineRadioOptions" id="radio-interne-mw"
@@ -286,7 +284,58 @@
                                                 </div>
                                             </div>
 
-                                            <div id="toevoegen-gebruiker-container">
+                                            <!-- <div id="toevoegen-gebruiker-container">
+                                            <div class="form-group">
+                                                <label for="interne-mw-naam">Naam</label>
+                                                <input type="text" class="form-control" id="interne-mw-naam" placeholder="Naam medewerker" required>
+                                                <div class="valid-feedback">correct</div>
+                                                <div class="invalid-feedback">graag invullen</div>
+                                              </div>
+                                              <div class="form-group">
+                                                <label for="interne-mw-email">E-mail</label>
+                                                <input type="email" class="form-control" id="interne-mw-email" placeholder="naam@qien.nl" required>
+                                                <div class="valid-feedback">correct</div>
+                                                <div class="invalid-feedback">graag invullen</div>
+                                              </div>
+                                              <div class="form-group">
+                                                <label for="interne-mw-telefoon">Telefoonnummer</label>
+                                                <input type="text" class="form-control" id="interne-mw-telefoon"
+                                                placeholder="+31 6 00000000" required>
+                                                <div class="valid-feedback">correct</div>
+                                                <div class="invalid-feedback">graag invullen</div>
+                                              </div>
+                                              <div class="form-group">
+                                                <label for="interne-mw-straatnaamennummer">Adres</label>
+                                                <input type="text" class="form-control" id="interne-mw-straatnaamennummer" placeholder="Atoomweg 350B" required>
+                                                <div class="valid-feedback">correct</div>
+                                                <div class="invalid-feedback">graag invullen</div>
+                                              </div>
+                                              <div class="form-group">
+                                                <label for="interne-mw-postcode">Postcode</label>
+                                                <input type="text" class="form-control" id="interne-mw-postcode" placeholder="3542AB" required>
+                                                <div class="valid-feedback">correct</div>
+                                                <div class="invalid-feedback">graag invullen</div>
+                                              </div>
+                                              <div class="form-group">
+                                                <label for="interne-mw-woonplaats">Woonplaats</label>
+                                                <input type="text" class="form-control" id="interne-mw-woonplaats"
+                                                placeholder="Utrecht" required>
+                                                <div class="valid-feedback">correct</div>
+                                                <div class="invalid-feedback">graag invullen</div>
+                                              </div>
+                                              <div class="form-group">
+                                                <label for="interne-mw-startdatum">Startdatum</label>
+                                                <input type="date" class="form-control" id="interne-mw-startdatum" min="01-01-2020" required>
+                                                <div class="valid-feedback">correct</div>
+                                                <div class="invalid-feedback">graag invullen</div>
+                                              </div>
+                                              <div class="form-group">
+                                                <label for="interne-mw-einddatum">Einddatum</label>
+                                                <input type="date" class="form-control" id="interne-mw-einddatum" min="01-01-2020" required>
+                                                <div class="valid-feedback">correct</div>
+                                                <div class="invalid-feedback">graag invullen</div>
+                                              </div>                   -->
+                                             <div id="toevoegen-gebruiker-container">
                                                 <div class="interne-mw-form">
                                                     <div class="row">
                                                         <div class="col-4">
@@ -294,15 +343,17 @@
                                                                 <label for="interne-mw-naam">Naam</label>
                                                                 <input type="text" class="form-control"
                                                                        id="interne-mw-naam"
-                                                                       placeholder="Naam medewerker">
+                                                                       placeholder="Naam medewerker" required>
                                                             </div>
+                                                            <div class="valid-feedback">Valid.</div>
+                                                            <div class="invalid-feedback">Please fill out this field.</div>
                                                         </div>
                                                         <div class="col-4">
                                                             <div class="form-group">
                                                                 <label for="interne-mw-email">Email</label>
                                                                 <input type="email" class="form-control"
                                                                        id="interne-mw-email"
-                                                                       placeholder="naam@qien.nl">
+                                                                       placeholder="naam@qien.nl" required>
                                                             </div>
                                                         </div>
                                                         <div class="col-4">
@@ -311,7 +362,7 @@
                                                                         for="interne-mw-telefoon">Telefoonnummer</label>
                                                                 <input type="telnum" class="form-control"
                                                                        id="interne-mw-telefoon"
-                                                                       placeholder="+31 6 00000000">
+                                                                       placeholder="+31 6 00000000" required>
                                                             </div>
                                                         </div>
                                                     </div>
@@ -322,14 +373,14 @@
                                                                 <label for="interne-mw-straatnaamennummer">Adres</label>
                                                                 <input type="text" class="form-control"
                                                                        id="interne-mw-straatnaamennummer"
-                                                                       placeholder="Atoomweg 350B">
+                                                                       placeholder="Atoomweg 350B" required>
                                                             </div>
                                                         </div>
                                                         <div class="col-4">
                                                             <div class="form-group">
                                                                 <label for="interne-mw-postcode">Postcode</label>
                                                                 <input type="text" class="form-control"
-                                                                       id="interne-mw-postcode" placeholder="3542AB">
+                                                                       id="interne-mw-postcode" placeholder="3542AB" required>
                                                             </div>
                                                         </div>
                                                         <div class="col-4">
@@ -337,7 +388,7 @@
                                                                 <label for="interne-mw-woonplaats">Woonplaats</label>
                                                                 <input type="text" class="form-control"
                                                                        id="interne-mw-woonplaats"
-                                                                       placeholder="Utrecht">
+                                                                       placeholder="Utrecht" required>
                                                             </div>
                                                         </div>
                                                     </div>
@@ -347,7 +398,7 @@
                                                             <div class="form-group">
                                                                 <label for="interne-mw-startdatum">Startdatum</label>
                                                                 <input type="date" class="form-control"
-                                                                       id="interne-mw-startdatum" min="01-01-2020">
+                                                                       id="interne-mw-startdatum" min="01-01-2020" required>
                                                             </div>
                                                         </div>
                                                         <div class="col-4">
@@ -359,17 +410,14 @@
                                                         </div>
                                                     </div>
                                                 </div>
+                                             
                                             </div>
-
+                                            <div class="modal-footer">
+                                                <button type="button" form="account-aanmaken" class="btn btn-secondary" data-dismiss="modal">Scherm Afsluiten</button>
+                                                <button type="submit" form="account-aanmaken" class="btn btn-success" id="knop-relatie-aanmaken">Account aanmaken</button>
+                                            </div>
                                         </form>
-
-
-
-                                    </div>
-                                    <div class="modal-footer">
-                                        <button type="button" class="btn btn-secondary" data-dismiss="modal">Scherm Afsluiten</button>
-                                        <button type="button" class="btn btn-success" id="knop-relatie-aanmaken">Account aanmaken</button>
-                                    </div>
+                                    </div>                                
                                 </div>
                             </div>
                         </div>
@@ -396,17 +444,17 @@
                                         </button>
                                     </div>
                                     <div class="modal-body">
-                                        <form>
+                                        <form id="koppel-form">
                                             <div id="relatiekoppel-container">
                                             <div class="col mb-3">
                                                 <select class="form-control w-50" id="trainee_select" required>
-                                                    <option>--Trainee--</option>
+                                                    <option value="">--Trainee--</option>
                                                     <!-- trainees worden gevuld vanuit index.js -->
                                                 </select>
                                             </div>
                                             <div class="col">                                                
                                                 <select class="form-control w-50" id="contactpersoon_select" required>
-                                                    <option>--ContactPersoon--</option>
+                                                    <option value="">--ContactPersoon--</option>
                                                     <!-- contactpersonen worden gevuld vanuit index.js -->
                                                 </select>
                                             </div>
@@ -414,8 +462,8 @@
                                         </form>
                                     </div>
                                     <div class="modal-footer">
-                                        <button type="button" class="btn btn-secondary" data-dismiss="modal">Scherm Afsluiten</button>
-                                        <button type="button" class="btn btn-success" onclick="koppelTraineeContactpersoon(trainee_select, contactpersoon_select)">Trainee koppelen</button>
+                                        <button type="button" form="koppel-form" class="btn btn-secondary" data-dismiss="modal">Scherm Afsluiten</button>
+                                        <button type="submit" form="koppel-form" class="btn btn-success" onclick="koppelTraineeContactpersoon(trainee_select, contactpersoon_select)">Trainee koppelen</button>
                                     </div>
                                 </div>
                             </div>
@@ -444,29 +492,28 @@
                                         </button>
                                     </div>
                                     <div class="modal-body">
-                                        <form>
-
+                                        <form id="bedrijf-maken-form" class="was-validated" onsubmit="bedrijfAanmaken()">
                                             <div class="bedrijf-form">
                                                 <div class="row">
                                                     <div class="col-4">
                                                         <div class="form-group">
                                                             <label for="bedrijf-naam">Naam</label>
                                                             <input type="text" class="form-control" id="bedrijf-naam"
-                                                                placeholder="Naam bedrijf">
+                                                                placeholder="Naam bedrijf" required>
                                                         </div>
                                                     </div>
                                                     <div class="col-4">
                                                         <div class="form-group">
                                                             <label for="bedrijf-email">Email</label>
                                                             <input type="email" class="form-control" id="bedrijf-email"
-                                                                placeholder="info@bedrijf.nl">
+                                                                placeholder="info@bedrijf.nl" required>
                                                         </div>
                                                     </div>
                                                     <div class="col-4">
                                                         <div class="form-group">
                                                             <label for="bedrijf-telefoon">Telefoonnummer</label>
                                                             <input type="telnum" class="form-control"
-                                                                id="bedrijf-telefoon" placeholder="+31 6 00000000">
+                                                                id="bedrijf-telefoon" placeholder="+31 6 00000000" required>
                                                         </div>
                                                     </div>
                                                 </div>
@@ -476,45 +523,30 @@
                                                             <label for="bedrijf-straatnaamennummer">Adres</label>
                                                             <input type="text" class="form-control"
                                                                 id="bedrijf-straatnaamennummer"
-                                                                placeholder="Atoomweg 350B">
+                                                                placeholder="Atoomweg 350B" required>
                                                         </div>
                                                     </div>
                                                     <div class="col-4">
                                                         <div class="form-group">
                                                             <label for="bedrijf-postcode">Postcode</label>
                                                             <input type="text" class="form-control"
-                                                                id="bedrijf-postcode" placeholder="3542AB">
+                                                                id="bedrijf-postcode" placeholder="3542AB" required>
                                                         </div>
                                                     </div>
                                                     <div class="col-4">
                                                         <div class="form-group">
                                                             <label for="bedrijf-woonplaats">Vestigingsplaats</label>
                                                             <input type="text" class="form-control"
-                                                                id="bedrijf-woonplaats" placeholder="Utrecht">
+                                                                id="bedrijf-woonplaats" placeholder="Utrecht" required>
                                                         </div>
                                                     </div>
                                                 </div>
-                                            </div>
-
-                                            <!-- <div id="relatiekoppel-container">
-                                            <div class="col mb-3">
-                                                <select class="form-control w-50" id="trainee_select" required>
-                                                    <option>--Trainee--</option>
-                                                    
-                                                </select>
-                                            </div>
-                                            <div class="col">                                                
-                                                <select class="form-control w-50" id="contactpersoon_select" required>
-                                                    <option>--ContactPersoon--</option>
-                                                   
-                                                </select>
-                                            </div>
-                                        </div> -->
+                                            </div>                                          
                                         </form>
                                     </div>
                                     <div class="modal-footer">
-                                        <button type="button" class="btn btn-secondary" data-dismiss="modal">Scherm Afsluiten</button>
-                                        <button type="button" class="btn btn-success" onclick="bedrijfAanmaken()">Bedrijf aanmaken</button>
+                                        <button type="button" form="bedrijf-maken-form" class="btn btn-secondary" data-dismiss="modal">Scherm Afsluiten</button>
+                                        <button type="submit" form="bedrijf-maken-form" class="btn btn-success">Bedrijf aanmaken</button>
                                     </div>
                                 </div>
                             </div>
