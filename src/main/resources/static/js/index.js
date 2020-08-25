@@ -150,10 +150,11 @@ const verzendFormulier = (formulierId) => {
 }
 
 const genereerFormulier = (formulier) => {
+    console.log(formulier.id);
     for (let i = 0; i < formulier.werkDagen.length; i++) {
         if(formulier.ingezondenFormulier === false){
             formBody.insertAdjacentHTML("beforeend",
-            `<tr id="dag-${i}" class="formulier-rij">
+                `<tr id="dag-${i}" class="formulier-rij">
                 <th scope="row">${i + 1}</th>
                 <td><input type="number" class="form-input" id="opdracht-uren-${i}" value="${formulier.werkDagen[i].opdrachtUren}"></td>
                 <td><input type="number" class="form-input" id="overwerk-uren-${i}" value="${formulier.werkDagen[i].overwerkUren}"></td>
@@ -167,7 +168,7 @@ const genereerFormulier = (formulier) => {
 
         }else{
             formBody.insertAdjacentHTML("beforeend",
-            `<tr id="dag-${i}" class="formulier-rij">
+                `<tr id="dag-${i}" class="formulier-rij">
                 <th scope="row">${i + 1}</th>
                 <td class="admin-opmaak" id="opdracht-uren-${i}" value="">${formulier.werkDagen[i].opdrachtUren}</td>
                 <td class="admin-opmaak" id="overwerk-uren-${i}" value="">${formulier.werkDagen[i].overwerkUren}</td>
@@ -180,9 +181,9 @@ const genereerFormulier = (formulier) => {
 
             alertIngezonden.style.display = "block";
             buttonSubmit.style.display = "none";
-            
+
         }
-       
+
     }
 
     const formInputs = document.querySelectorAll(".form-input");
@@ -229,6 +230,7 @@ const genereerFormulier = (formulier) => {
     buttonSubmit.addEventListener("click", () => {
         verzendFormulier(formulier.id);
         //formulierObjectMaken();
+        location.reload();
     });
 
 }
@@ -252,4 +254,3 @@ haalFormulierOp();
 //     xhr.send();
 
 // };
-
