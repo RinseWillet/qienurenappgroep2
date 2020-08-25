@@ -4,6 +4,7 @@ import app.qienuren.model.Bedrijf;
 import app.qienuren.model.KlantContactPersoon;
 import app.qienuren.model.Trainee;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.crossstore.ChangeSetPersister;
 import org.springframework.stereotype.Service;
 
 import javax.transaction.Transactional;
@@ -56,5 +57,9 @@ public class BedrijfService {
 
         return bedrijfRepository.save(tijdelijkBedrijf);
 
+    }
+
+    public Bedrijf getBedrijfbyID(long bedrijfsId) {
+        return bedrijfRepository.findById(bedrijfsId).get();
     }
 }

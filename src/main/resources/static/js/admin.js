@@ -181,8 +181,6 @@ formulierenLijst.onclick = function (event) {
             }
         }
     })
-
-
 };
 
 /*
@@ -299,10 +297,11 @@ const traineeRadio = document.getElementById("radio-trainee");
 // const bedrijfRadio = document.getElementById("radio-bedrijf");
 const contactPersoonRadio = document.getElementById("radio-contactpersoon");
 
-relatieAanmakenKnop.addEventListener("click", () => {
+const test = () => {   
+    console.log("hieroo in de test");
     var xhr = new XMLHttpRequest();
     let dezeIdEmail;
-    if (interneMedewerkerRadio.checked) {
+    if (interneMedewerkerRadio.checked) {        
         const interneMedewerkerType = interneMedewerkerRadio.value;
         const interneMedewerkerNaam = document.getElementById("interne-mw-naam").value;
         const interneMedewerkerEmail = document.getElementById("interne-mw-email").value;
@@ -313,8 +312,8 @@ relatieAanmakenKnop.addEventListener("click", () => {
         const interneMedewerkerStartDatum = document.getElementById("interne-mw-startdatum").value;
         const interneMedewerkerEindDatum = document.getElementById("interne-mw-einddatum").value;
 
-
         dezeIdEmail = null;
+
         let interneMedewerkerJSON = {};
         interneMedewerkerJSON.type = interneMedewerkerType;
         interneMedewerkerJSON.naam = interneMedewerkerNaam;
@@ -326,34 +325,11 @@ relatieAanmakenKnop.addEventListener("click", () => {
         interneMedewerkerJSON.startDatum = interneMedewerkerStartDatum;
         interneMedewerkerJSON.eindDatum = interneMedewerkerEindDatum;
 
-
         xhr.open("POST", "http://localhost:8082/api/admin/internemedewerker/nieuw", true);
         xhr.setRequestHeader("Content-Type", "application/json");
-
         xhr.send(JSON.stringify(interneMedewerkerJSON));
     }
-    // if (bedrijfRadio.checked) {
-    //     const bedrijfNaam = document.getElementById("bedrijf-naam").value;
-    //     const bedrijfEmail = document.getElementById("bedrijf-email").value;
-    //     const bedrijfTelefoon = document.getElementById("bedrijf-telefoon").value;
-    //     const bedrijfStraatNaamEnNr = document.getElementById("bedrijf-straatnaamennummer").value;
-    //     const bedrijfPostCode = document.getElementById("bedrijf-postcode").value;
-    //     const bedrijfWoonplaats = document.getElementById("bedrijf-woonplaats").value;
 
-    //     dezeIdEmail = null;
-    //     let bedrijfJSON = {};
-    //     bedrijfJSON.naam = bedrijfNaam;
-    //     bedrijfJSON.email = bedrijfEmail;
-    //     bedrijfJSON.telefoonnr = bedrijfTelefoon;
-    //     bedrijfJSON.straatNaamNr = bedrijfStraatNaamEnNr;
-    //     bedrijfJSON.postcode = bedrijfPostCode;
-    //     bedrijfJSON.woonplaats = bedrijfWoonplaats;
-
-    //     xhr.open("POST", "http://localhost:8082/api/admin/bedrijf/nieuw", true);
-    //     xhr.setRequestHeader("Content-Type", "application/json");
-
-    //     xhr.send(JSON.stringify(bedrijfJSON));
-    // }
     if (traineeRadio.checked) {
         const traineeType = traineeRadio.value;
         const traineeNaam = document.getElementById("trainee-naam").value;
@@ -378,51 +354,46 @@ relatieAanmakenKnop.addEventListener("click", () => {
         traineeJSON.startDatum = traineeStartDatum;
         traineeJSON.eindDatum = traineeEindDatum;
 
-
         xhr.open("POST", "http://localhost:8082/api/admin/trainee/nieuw", true);
         xhr.setRequestHeader("Content-Type", "application/json");
-
         xhr.send(JSON.stringify(traineeJSON));
     }
-    if (contactPersoonRadio.checked) {
-        let bedrijfgeselecteerd = bedrijf_select[bedrijf_select.selectedIndex].id
 
+    if (contactPersoonRadio.checked) {
+
+        var bedrijfgeselecteerd = bedrijf_select[bedrijf_select.selectedIndex].id
 
         if (bedrijfgeselecteerd === "") {
             alert("geen bedrijf geselecteerd");
-
         } else if (!(bedrijfgeselecteerd === "")) {
-
-
-            const contactPersoonType = contactPersoonRadio.value;
-            const contactPersoonNaam = document.getElementById("contactpersoon-naam").value;
-            const contactPersoonEmail = document.getElementById("contactpersoon-email").value;
-            const contactPersoonTelefoon = document.getElementById("contactpersoon-telefoon").value;
-
-            let contactPersoonJSON = {};
-            dezeIdEmail = contactPersoonEmail;
-            contactPersoonJSON.type = contactPersoonType;
-            contactPersoonJSON.naam = contactPersoonNaam;
-            contactPersoonJSON.email = contactPersoonEmail;
-            contactPersoonJSON.telefoonnr = contactPersoonTelefoon;
-
-            xhr.open("POST", "http://localhost:8082/api/admin/klantcontactpersoon/nieuw", true);
-            xhr.setRequestHeader("Content-Type", "application/json");
-
-            xhr.send(JSON.stringify(contactPersoonJSON));
+            ContactPersoonAanmaken(bedrijfgeselecteerd);
         }
     }
 
-    xhr.onreadystatechange = function () {
-        if (xhr.readyState == 4) {
-            if (!(dezeIdEmail === null)) {
-                dezeID(dezeIdEmail);
-            } else if (dezeIdEmail === null) {
-                location.reload();
-            }
-        }
-    }
-});
+}
+
+/*
+methode om ContactPersoon aan te maken
+*/
+
+const ContactPersoonAanmaken =(bedrijfsID) => {
+
+    var xhr = new XMLHttpRequest();
+    const contactPersoonType = contactPersoonRadio.value;
+    const contactPersoonNaam = document.getElementById("contactpersoon-naam").value;
+    const contactPersoonEmail = document.getElementById("contactpersoon-email").value;
+    const contactPersoonTelefoon = document.getElementById("contactpersoon-telefoon").value;
+
+    let contactPersoonJSON = {};
+    contactPersoonJSON.type = contactPersoonType;
+    contactPersoonJSON.naam = contactPersoonNaam;
+    contactPersoonJSON.email = contactPersoonEmail;
+    contactPersoonJSON.telefoonnr = contactPersoonTelefoon;
+
+    xhr.open("POST", "http://localhost:8082/api/admin/klantcontactpersoon/nieuw?bedrijfsId=" + bedrijfsID, true);
+    xhr.setRequestHeader("Content-Type", "application/json");
+    xhr.send(JSON.stringify(contactPersoonJSON));
+}
 
 const radios = document.querySelectorAll(".form-check-input")
 var prev = null;
@@ -440,7 +411,7 @@ for (var i = 0; i < radios.length; i++) {
                         <label for="trainee-naam">Naam</label>
                         <input type="text" class="form-control"
                             id="trainee-naam"
-                            placeholder="Naam trainee" required="required">
+                            placeholder="Naam trainee" required="true">
                     </div>
                 </div>
                 <div class="col-4">
@@ -448,7 +419,7 @@ for (var i = 0; i < radios.length; i++) {
                         <label for="trainee-email">Email</label>
                         <input type="email" class="form-control"
                             id="trainee-email"
-                            placeholder="trainee@mail.com">
+                            placeholder="trainee@mail.com" required="true">
                     </div>
                 </div>
                 <div class="col-4">
@@ -457,7 +428,7 @@ for (var i = 0; i < radios.length; i++) {
                             for="trainee-telefoon">Telefoonnummer</label>
                         <input type="telnum" class="form-control"
                             id="trainee-telefoon"
-                            placeholder="+31 6 00000000">
+                            placeholder="+31 6 00000000" required="true">
                     </div>
                 </div>
             </div>
@@ -469,14 +440,14 @@ for (var i = 0; i < radios.length; i++) {
                             for="trainee-straatnaamennummer">Adres</label>
                         <input type="text" class="form-control"
                             id="trainee-straatnaamennummer"
-                            placeholder="Atoomweg 350B">
+                            placeholder="Atoomweg 350B" required="true">
                     </div>
                 </div>
                 <div class="col-4">
                     <div class="form-group">
                         <label for="trainee-postcode">Postcode</label>
                         <input type="text" class="form-control"
-                            id="trainee-postcode" placeholder="3542AB">
+                            id="trainee-postcode" placeholder="3542AB" required="true">
                     </div>
                 </div>
                 <div class="col-4">
@@ -485,7 +456,7 @@ for (var i = 0; i < radios.length; i++) {
                             for="trainee-woonplaats">Woonplaats</label>
                         <input type="text" class="form-control"
                             id="trainee-woonplaats"
-                            placeholder="Utrecht">
+                            placeholder="Utrecht" required="true">
                     </div>
                 </div>
             </div>
@@ -496,14 +467,14 @@ for (var i = 0; i < radios.length; i++) {
                         <label
                             for="trainee-startdatum">Startdatum</label>
                         <input type="date" class="form-control"
-                            id="trainee-startdatum" min="01-01-2020">
+                            id="trainee-startdatum" min="01-01-2020" required="true">
                     </div>
                 </div>
                 <div class="col-4">
                     <div class="form-group">
                         <label for="trainee-einddatum">Einddatum</label>
                         <input type="date" class="form-control"
-                            id="trainee-einddatum" min="01-01-2020">
+                            id="trainee-einddatum" min="01-01-2020" required="true">
                     </div>
                 </div>
             </div>
@@ -566,7 +537,7 @@ for (var i = 0; i < radios.length; i++) {
                         <label for="contactpersoon-naam">Naam</label>
                         <input type="text" class="form-control"
                             id="contactpersoon-naam"
-                            placeholder="Naam contactpersoon">
+                            placeholder="Naam contactpersoon" required="true">
                     </div>
                 </div>
                 <div class="col-4">
@@ -574,7 +545,7 @@ for (var i = 0; i < radios.length; i++) {
                         <label for="contactpersoon-email">Email</label>
                         <input type="email" class="form-control"
                             id="contactpersoon-email"
-                            placeholder="contactpersoon@bedrijf.com">
+                            placeholder="contactpersoon@bedrijf.com" required="true">
                     </div>
                 </div>
                 <div class="col-4">
@@ -582,13 +553,13 @@ for (var i = 0; i < radios.length; i++) {
                         <label for="contactpersoon-telefoon">Telefoonnummer</label>
                         <input type="telnum" class="form-control"
                             id="contactpersoon-telefoon"
-                            placeholder="+31 6 00000000">
+                            placeholder="+31 6 00000000" required="true">
                     </div>
                 </div>
                 <div class="col-4">
                     <div class="form-group text-muted">
                         <select class="form-control" id="bedrijf_select" required>
-                            <option>--Bedrijf--</option>
+                            <option value="">--Bedrijf--</option>
                         </select>
                     </div>
                 </div>
@@ -602,7 +573,7 @@ for (var i = 0; i < radios.length; i++) {
                         <label for="interne-mw-naam">Naam</label>
                         <input type="text" class="form-control"
                             id="interne-mw-naam"
-                            placeholder="Naam medewerker">
+                            placeholder="Naam medewerker" required="true">
                     </div>
                 </div>
                 <div class="col-4">
@@ -610,7 +581,7 @@ for (var i = 0; i < radios.length; i++) {
                         <label for="interne-mw-email">Email</label>
                         <input type="email" class="form-control"
                             id="interne-mw-email"
-                            placeholder="naam@qien.nl">
+                            placeholder="naam@qien.nl" required="true">
                     </div>
                 </div>
                 <div class="col-4">
@@ -619,7 +590,7 @@ for (var i = 0; i < radios.length; i++) {
                             for="interne-mw-telefoon">Telefoonnummer</label>
                         <input type="telnum" class="form-control"
                             id="interne-mw-telefoon"
-                            placeholder="+31 6 00000000">
+                            placeholder="+31 6 00000000" required="true">
                     </div>
                 </div>
             </div>
@@ -631,14 +602,14 @@ for (var i = 0; i < radios.length; i++) {
                             for="interne-mw-straatnaamennummer">Adres</label>
                         <input type="text" class="form-control"
                             id="interne-mw-straatnaamennummer"
-                            placeholder="Atoomweg 350B">
+                            placeholder="Atoomweg 350B" required="true">
                     </div>
                 </div>
                 <div class="col-4">
                     <div class="form-group">
                         <label for="interne-mw-postcode">Postcode</label>
                         <input type="text" class="form-control"
-                            id="interne-mw-postcode" placeholder="3542AB">
+                            id="interne-mw-postcode" placeholder="3542AB" required="true">
                     </div>
                 </div>
                 <div class="col-4">
@@ -647,7 +618,7 @@ for (var i = 0; i < radios.length; i++) {
                             for="interne-mw-woonplaats">Woonplaats</label>
                         <input type="text" class="form-control"
                             id="interne-mw-woonplaats"
-                            placeholder="Utrecht">
+                            placeholder="Utrecht" required="true">
                     </div>
                 </div>
             </div>
@@ -658,7 +629,7 @@ for (var i = 0; i < radios.length; i++) {
                         <label
                             for="interne-mw-startdatum">Startdatum</label>
                         <input type="date" class="form-control"
-                            id="interne-mw-startdatum" min="01-01-2020">
+                            id="interne-mw-startdatum" min="01-01-2020" required="true">
                     </div>
                 </div>
                 <div class="col-4">
@@ -685,12 +656,8 @@ const updateTraineeSelector = () => {
         if (xhr.readyState == 4) {
             deTrainees = JSON.parse(this.responseText);
             let inTeVoegenHTML = ``;
-
             if (deTrainees.length > 0) {
-                deTrainees.forEach((e) => {
-
-                    // inTeVoegenHTML = `<li data-toggle="modal" data-target="#staticBackdrop" href="./formulier.html?id=${e.id}"
-                    // class="list-group-item list-group-item-action" id="${e.id}">${e.naam} | ${e.maand} | ${e.jaar} | ${e.formulierstatus}</li>`;
+                deTrainees.forEach((e) => {                    
                     inTeVoegenHTML = `<option id=${e.id}>${e.naam}</option>`;
                     selectTrainee = document.getElementById("trainee_select");
                     selectTrainee.insertAdjacentHTML('beforeend', inTeVoegenHTML);
@@ -698,7 +665,6 @@ const updateTraineeSelector = () => {
             }
         }
     }
-
     xhr.open("GET", "http://localhost:8082/api/admin/trainee/all", true);
     xhr.send();
 }
@@ -713,12 +679,9 @@ const updateContactPersoonSelector = () => {
     xhr.onreadystatechange = function () {
         if (xhr.readyState == 4) {
             deContactPersonen = JSON.parse(this.responseText);
-            let inTeVoegenHTML = ``;
-            console.log(deContactPersonen);
+            let inTeVoegenHTML = ``;         
 
-
-            if (deContactPersonen.length > 0) {
-                console.log("in de if");
+            if (deContactPersonen.length > 0) {                
                 deContactPersonen.forEach((e) => {
 
                     inTeVoegenHTML = `<option id=${e.id}>${e.naam}</option>`;
@@ -735,7 +698,7 @@ const updateContactPersoonSelector = () => {
 }
 
 /*
-bedrijven laden selectorknop relatie koppelen
+bedrijven laden selectorknop contactpersoon koppelen
 */
 
 const updateBedrijfSelector = () => {
@@ -772,67 +735,26 @@ function koppelTraineeContactpersoon(s, d) {
     var xhr = new XMLHttpRequest();
     var traineeId = s[s.selectedIndex].id;
     var ContactPersoonId = d[d.selectedIndex].id;
-
-    xhr.onreadystatechange = function () {
-        console.log("nieuwe koppeling gemaakt")
-        if (xhr.readyState == 4) {
-            location.reload();
-        }
-    }
-    xhr.open("PUT", `http://localhost:8082/api/admin/trainee/koppelContactPersoon/${traineeId}/${ContactPersoonId}`, true);
-    xhr.send();
-}
-
-/*
-Contactpersoon aan bedrijf koppelen
-*/
-
-function koppelContactpersoonBedrijf(BdId, KcpId) {
-    var xhr = new XMLHttpRequest();
-    var bedrijfID = BdId[BdId.selectedIndex].id;
-    var ContactPersoonId = KcpId;
-
-    xhr.onreadystatechange = function () {
-        if (xhr.readyState == 4) {
-            location.reload();
-        }
-    }
-
-    xhr.open("PUT", `http://localhost:8082/api/admin/klantcontactpersoon/koppelbedrijf/${ContactPersoonId}/${bedrijfID}`, true);
-    xhr.send();
-}
-
-/*
-Deze functie haalt de ID op van het net aangemaakte Contactpersoon en roept vervolgens de koppel methode hierboven aan om aan een bedrijf koppelen
-*/
-
-function dezeID(email) {
-    let xhr = new XMLHttpRequest();
-    xhr.onreadystatechange = function () {
-
-        if (xhr.readyState == 4) {
-            ContactPersonenIDS = JSON.parse(this.responseText);
-
-            if (ContactPersonenIDS.length > 0) {
-                ContactPersonenIDS.forEach((e) => {
-
-                    if (e.email === email) {
-                        let LocalID = e.id;
-                        koppelContactpersoonBedrijf(bedrijf_select, LocalID);
-                    }
-                });
+    // if (traineeId === "" || ContactPersoonId === "") {
+    //     console.log("hierrrro");
+    //     alert("Graag een trainee en een contactpersoon selecteren");
+    // } else {
+        xhr.onreadystatechange = function () {
+            console.log("nieuwe koppeling gemaakt")
+            if (xhr.readyState == 4) {
+                location.reload();
             }
         }
-    }
-    xhr.open("GET", "http://localhost:8082/api/admin/klantcontactpersoon/all", true);
-    xhr.send();
+        xhr.open("PUT", `http://localhost:8082/api/admin/trainee/koppelContactPersoon/${traineeId}/${ContactPersoonId}`, true);
+        xhr.send();
+    //}
 }
 
 /*
 Bedrijf aanmaken
 */
 
-function bedrijfAanmaken() {
+const bedrijfAanmaken = () => {
     var xhr = new XMLHttpRequest();
     console.log("je bent er jongen");
     const bedrijfNaam = document.getElementById("bedrijf-naam").value;
@@ -864,9 +786,6 @@ function bedrijfAanmaken() {
 
 }
 
-
-
-
 /*
 radio selectorknop relaties
 */
@@ -881,14 +800,14 @@ for (var i = 0; i < radiosKoppelen.length; i++) {
         }
         if (this.value == "trainee-kcp") {
             relatieContainer.innerHTML = `<div class="col mb-3">            
-            <select id="trainee_select" required>
-                <option>--Trainee--</option>
-                
+
+            <select id="trainee_select" required="true">
+                <option value="">--Trainee--</option>               
             </select>
         </div>
         <div class="col">            
-            <select id="contactpersoon_select" required>
-                <option>--ContactPersoon--</option>
+            <select id="contactpersoon_select" required="true">
+                <option value="">--ContactPersoon--</option>
                
             </select>
         </div>`
@@ -914,8 +833,6 @@ for (var i = 0; i < radiosKoppelen.length; i++) {
         }
     });
 }
-
-
 
 /*
 AANROEPEN VAN METHODES BIJ OPENEN PAGINA
