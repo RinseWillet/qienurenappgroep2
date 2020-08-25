@@ -68,7 +68,7 @@ const laatFormulierenZien = () => {
         }
     }
 
-    xhr.open("GET", "http://localhost:8082/api/formulier/all", true);
+    xhr.open("GET", "http://localhost:8082/api/opdrachtgever/formulieren/all", true);
     xhr.send();
 }
 
@@ -85,7 +85,7 @@ const genereerFormulier = (formulier) => {
             <td class="admin-opmaak" id="ziekte-uren-${i + 1}">${formulier.werkDagen[i].ziekteUren}</td>
             <td class="admin-opmaak"id="training-uren-${i + 1}">${formulier.werkDagen[i].trainingsUren}</td>
             <td class="admin-opmaak"id="overig-uren-${i + 1}">${formulier.werkDagen[i].overigeUren}</td>
-            <td class="admin-opmaak form-verklaring"><class="form-input" id="verklaring-overig-${i + 1}">${formulier.werkDagen[i].overigeUrenUitleg}</td>
+            <td class="admin-opmaak form-verklaring"><class="form-input" id="verklaring-overig-${i + 1}">${(formulier.werkDagen[i].overigeUrenUitleg === null) ? "" : formulier.werkDagen[i].overigeUrenUitleg}</td>
         </tr>`)
     }
 }

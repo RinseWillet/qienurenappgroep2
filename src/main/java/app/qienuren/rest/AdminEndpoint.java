@@ -78,6 +78,11 @@ public class AdminEndpoint {
         return persoonService.getAllMedewerkers();
     }
 
+    @GetMapping("/formulieren/ingezonden")
+    public Iterable<Formulier> alleFormulieren() {
+        return formulierService.getAlleFormulierenVoorAdmin();
+    }
+
 
 
     // Alle Put Mapping om van een Entiteit de data up te daten
@@ -103,13 +108,19 @@ public class AdminEndpoint {
 //    }
 
     // Endpoints voor goed- of afkeuren formulier door Admin
-    @PutMapping("/update/statusgoed/{id}")
-    public Formulier updateFormulierStatusGoed(@PathVariable(value = "id")long id){
-        return formulierService.AdminStatusGoed(id);
+    @PutMapping("/update/statusgoed/{formulierid}/{medewerkerid}")
+    public Formulier updateFormulierStatusGoed(@PathVariable(value = "formulierid")long formulierid, @PathVariable(value = "medewerkerid") long medewerkerid){
+        return formulierService.AdminStatusGoed(formulierid, medewerkerid);
     }
     @PutMapping("/update/statusfout/{id}")
     public Formulier updateFormulierStatusFout(@PathVariable(value = "id")long id){
         return formulierService.AdminStatusFout(id);
+    }
+
+    //goedkeuren wijzigen gegevens trainee
+    @PutMapping("/goedkeurengegevens/{oorspronkelijkeId}/{id}")
+    public Trainee goedkeurenGegevensWijziging(@PathVariable(value = "oorspronkelijkeId")long oorspronkelijkeId, @PathVariable(value = "id") long id){
+        return traineeService.wijzigGegevens(oorspronkelijkeId, id);
     }
 }
 

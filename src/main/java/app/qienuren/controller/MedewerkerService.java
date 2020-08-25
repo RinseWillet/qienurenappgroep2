@@ -2,7 +2,6 @@ package app.qienuren.controller;
 
 import app.qienuren.model.*;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.http.converter.json.GsonBuilderUtils;
 import org.springframework.scheduling.annotation.Scheduled;
 import org.springframework.stereotype.Service;
 
@@ -22,7 +21,7 @@ public class MedewerkerService {
     InterneMedewerkerService ims;
 
     @Autowired
-    TijdelijkFormulierService tfs;
+    FormulierService fs;
 
     @Autowired
     TraineeRepository traineeRepository;
@@ -46,18 +45,21 @@ public class MedewerkerService {
                 medewerkers.add(i);
             }
         }
-
         return (ArrayList<Medewerker>)medewerkers;
     }
-
-    // loop over medewerkers en geef ze een leeg formulier
 
     public void genereerLeegFormulier() {
         ArrayList<Medewerker> deMedewerkers = voegTraineesEnInterneMedewerkersSamen();
         for (Medewerker m : deMedewerkers) {
-            m.voegTijdelijkFormulierToe(tfs.addNieuwTijdelijkFormulier(new TijdelijkFormulier(LocalDate.now().getMonthValue(), LocalDate.now().getYear())));
+            m.voegFormulierToe(fs.addNieuwFormulier(new Formulier(LocalDate.now().getMonthValue(), LocalDate.now().getYear())));
         }
     }
+
+
+
+
+
+
 
     @Scheduled(cron = "0 0 0 1 1/1 ? *")
     public void maakMaandelijksFormulier() {
