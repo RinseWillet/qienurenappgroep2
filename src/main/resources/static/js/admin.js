@@ -159,8 +159,6 @@ formulierenLijst.onclick = function (event) {
             }
         }
     })
-
-
 };
 
 /*
@@ -335,44 +333,94 @@ const test = () => {
         xhr.setRequestHeader("Content-Type", "application/json");
         xhr.send(JSON.stringify(traineeJSON));
     }
+
     if (contactPersoonRadio.checked) {
-        let bedrijfgeselecteerd = bedrijf_select[bedrijf_select.selectedIndex].id
+        var bedrijfgeselecteerd = bedrijf_select[bedrijf_select.selectedIndex].id
 
         if (bedrijfgeselecteerd === "") {
             alert("geen bedrijf geselecteerd");
 
         } else if (!(bedrijfgeselecteerd === "")) {
-            console.log("yo dit is dus het hele bedrijf dat is geselecteerd yo: " + bedrijfgeselecteerd);
-            const contactPersoonType = contactPersoonRadio.value;
-            const contactPersoonNaam = document.getElementById("contactpersoon-naam").value;
-            const contactPersoonEmail = document.getElementById("contactpersoon-email").value;
-            const contactPersoonTelefoon = document.getElementById("contactpersoon-telefoon").value;
+            ContactPersoonAanmaken(bedrijfgeselecteerd);
 
-            let contactPersoonJSON = {};
-            dezeIdEmail = contactPersoonEmail;
-            contactPersoonJSON.type = contactPersoonType;
-            contactPersoonJSON.naam = contactPersoonNaam;
-            contactPersoonJSON.email = contactPersoonEmail;
-            contactPersoonJSON.telefoonnr = contactPersoonTelefoon;
-
-            xhr.open("POST", "http://localhost:8082/api/admin/klantcontactpersoon/nieuw", true);
-            xhr.setRequestHeader("Content-Type", "application/json");
-
-            xhr.send(JSON.stringify(contactPersoonJSON));
-        }
-    }
-
-    xhr.onreadystatechange = function () {
-        if (xhr.readyState == 4) {
-            if (!(dezeIdEmail === null)) {
-               dezeID(dezeIdEmail);
-            } else if (dezeIdEmail === null) {
-              location.reload();
-            }
         }
     }
 
 }
+
+/*
+methode om ContactPersoon aan te maken
+*/
+
+const ContactPersoonAanmaken =(bedrijfsID) => {
+
+    var xhr = new XMLHttpRequest();
+    const contactPersoonType = contactPersoonRadio.value;
+    const contactPersoonNaam = document.getElementById("contactpersoon-naam").value;
+    const contactPersoonEmail = document.getElementById("contactpersoon-email").value;
+    const contactPersoonTelefoon = document.getElementById("contactpersoon-telefoon").value;
+
+    let contactPersoonJSON = {};
+    contactPersoonJSON.type = contactPersoonType;
+    contactPersoonJSON.naam = contactPersoonNaam;
+    contactPersoonJSON.email = contactPersoonEmail;
+    contactPersoonJSON.telefoonnr = contactPersoonTelefoon;
+
+    xhr.open("POST", "http://localhost:8082/api/admin/klantcontactpersoon/nieuw?bedrijfsId=" + bedrijfsID, true);
+    xhr.setRequestHeader("Content-Type", "application/json");
+    xhr.send(JSON.stringify(contactPersoonJSON));
+}
+
+
+/*
+Deze functie haalt de ID op van het net aangemaakte Contactpersoon en roept vervolgens de koppel methode hierboven aan om aan een bedrijf koppelen
+
+
+const ContactPersoonIDophalen = (email) => {
+
+    let xhr = new XMLHttpRequest();
+    xhr.onreadystatechange = function () {
+
+
+        if (xhr.readyState == 4) {
+            ContactPersonenIDS = JSON.parse(this.responseText);
+
+
+            if (ContactPersonenIDS.length > 0) {
+                ContactPersonenIDS.forEach((e) => {
+
+                    if (e.email === email) {
+                        let LocalID = e.id;
+                        alert("nu pas hiero aan het eind");
+                    }
+                });
+            }
+        }
+    }
+    xhr.open("GET", "http://localhost:8082/api/admin/klantcontactpersoon/all", true);
+    xhr.send();
+}
+
+
+Contactpersoon aan bedrijf koppelen
+
+
+const koppelContactpersoonBedrijf = (BdId, KcpId) => {
+    var xhr = new XMLHttpRequest();
+    var bedrijfID = BdId;
+    var ContactPersoonId = KcpId;
+
+    xhr.onreadystatechange = function () {
+        if (xhr.readyState == 4) {
+            //location.reload();
+        }
+    }
+
+    xhr.open("PUT", `http://localhost:8082/api/admin/klantcontactpersoon/koppelbedrijf/${ContactPersoonId}/${bedrijfID}`, true);
+    xhr.send();
+}
+
+*/
 
 // relatieAanmakenKnop.addEventListener("click", () => {
 //     var xhr = new XMLHttpRequest();
@@ -856,53 +904,8 @@ function koppelTraineeContactpersoon(s, d) {
     //}
 }
 
-/*
-Contactpersoon aan bedrijf koppelen
-*/
 
-const koppelContactpersoonBedrijf = (BdId, KcpId) => {
-    var xhr = new XMLHttpRequest();
-    var bedrijfID = BdId[BdId.selectedIndex].id;
-    var ContactPersoonId = KcpId;
 
-    xhr.onreadystatechange = function () {
-        if (xhr.readyState == 4) {
-            location.reload();
-        }
-    }
-
-    xhr.open("PUT", `http://localhost:8082/api/admin/klantcontactpersoon/koppelbedrijf/${ContactPersoonId}/${bedrijfID}`, true);
-    xhr.send();
-}
-
-/*
-Deze functie haalt de ID op van het net aangemaakte Contactpersoon en roept vervolgens de koppel methode hierboven aan om aan een bedrijf koppelen
-*/
-
-const dezeID = (email) => {
-
-    console.log("in deze email");
-
-    let xhr = new XMLHttpRequest();
-    xhr.onreadystatechange = function () {
-
-        if (xhr.readyState == 4) {
-            ContactPersonenIDS = JSON.parse(this.responseText);
-
-            if (ContactPersonenIDS.length > 0) {
-                ContactPersonenIDS.forEach((e) => {
-
-                    if (e.email === email) {
-                        let LocalID = e.id;
-                        koppelContactpersoonBedrijf(bedrijf_select, LocalID);
-                    }
-                });
-            }
-        }
-    }
-    xhr.open("GET", "http://localhost:8082/api/admin/klantcontactpersoon/all", true);
-    xhr.send();
-}
 
 /*
 Bedrijf aanmaken

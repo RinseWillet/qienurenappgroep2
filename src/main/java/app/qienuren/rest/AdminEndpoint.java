@@ -33,16 +33,21 @@ public class AdminEndpoint {
     public Trainee newTrainee(@RequestBody Trainee trainee) {
         return traineeService.addTrainee(trainee);
     }
+
     @PostMapping("/internemedewerker/nieuw")
     public InterneMedewerker newInterneMedewerker(@RequestBody InterneMedewerker interneMedewerker) {
         return interneMedewerkerService.addInterneMederwerker(interneMedewerker);
     }
+
     @PostMapping("/bedrijf/nieuw")
     public Bedrijf newBedrijf(@RequestBody Bedrijf bedrijf) {
         return bedrijfService.addBedrijf(bedrijf);
     }
+
     @PostMapping("klantcontactpersoon/nieuw")
-    public KlantContactPersoon newKlantContactPersoon(@RequestBody KlantContactPersoon klantContactPersoon) {
+    public KlantContactPersoon newKlantContactPersoon(@RequestBody KlantContactPersoon klantContactPersoon, @RequestParam long bedrijfsId) {
+        Bedrijf bedrijf = bedrijfService.getBedrijfbyID(bedrijfsId);
+        klantContactPersoon.setBedrijf(bedrijf);
         return klantContactPersoonService.addKlantContactPersoon(klantContactPersoon);
     }
 
@@ -52,10 +57,12 @@ public class AdminEndpoint {
     public Iterable<Trainee> alleTrainees() {
         return traineeService.getAllTrainees();
     }
+
     @GetMapping("internemedewerker/all")
     public Iterable<InterneMedewerker> getAllInterneMederwerkers() {
         return interneMedewerkerService.getAllInterneMedewerkers();
     }
+
     @GetMapping("bedrijf/all")
     public Iterable<Bedrijf> getAllBedrijf() {
         return bedrijfService.getAllBedrijf();
@@ -65,6 +72,7 @@ public class AdminEndpoint {
     public Iterable<KlantContactPersoon> getAllKlantContactPersoon() {
         return klantContactPersoonService.getAllKlantContactPersoon();
     }
+
     @GetMapping("/medewerker/all")
     public Iterable<Persoon> getAllMedewerkers() {
         return persoonService.getAllMedewerkers();
