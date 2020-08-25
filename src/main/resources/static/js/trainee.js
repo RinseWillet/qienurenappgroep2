@@ -1,8 +1,11 @@
 const traineeNaam = document.getElementById("trainee-naam");
 const afgelopenFormulieren = document.getElementById("afgelopen-formulieren");
-const tijdelijkeFormulieren = document.getElementById("tijdelijke-formulieren");
 const formBody = document.getElementById("form-body");
 const modalHeader = document.querySelector(".modal-title");
+const klikbaarOogje = document.querySelector(".fa-eye");
+const formulierItem = document.querySelector(".list-group-item");
+const navlink = document.querySelector(".nav-link");
+const profielpagina = document.getElementById("profielpagina");
 
 
 
@@ -26,29 +29,29 @@ function aanpassenurl(){
 
 const maandNummerNaarString = (maandNummer) => {
     switch (maandNummer) {
-        case 1:
+        case 0:
             return "Januari";
-        case 2:
+        case 1:
             return "Februari";
-        case 3:
+        case 2:
             return "Maart";
-        case 4:
+        case 3:
             return "April";
-        case 5:
+        case 4:
             return "Mei";
-        case 6:
+        case 5:
             return "Juni";
-        case 7:
+        case 6:
             return "Juli";
-        case 8:
+        case 7:
             return "Augustus";
-        case 9:
+        case 8:
             return "September";
-        case 10:
+        case 9:
             return "Oktober";
-        case 11:
+        case 10:
             return "November";
-        case 12:
+        case 11:
             return "December";
     }
 }
@@ -99,6 +102,7 @@ const traineeNaamFunction = () => {
 
                     formulierHTML = `<li data-toggle="modal" data-target="#staticBackdrop" 
                      class="list-group-item list-group-item-action d-flex justify-content-between" id="${e.id}"><span id="${e.id}">${maand}</span><span id="${e.id}">${e.jaar}</span><span id="${e.id}">${e.adminStatus}</span><i id="${e.id}" class="far fa-eye"></i></li>`;
+
                     afgelopenFormulieren.insertAdjacentHTML('beforeend', archiefFormulierHTML);
 
                 }
@@ -114,11 +118,14 @@ const traineeNaamFunction = () => {
                 }
 
             }
+
         }
         xhr.open("GET", `http://localhost:8082/api/trainee/${urlId}`, true);
         xhr.send();
     }
+
 }
+
 
 const genereerFormulier = (formulier) => {
     formulier.maand = maandNummerNaarString(formulier.maand);

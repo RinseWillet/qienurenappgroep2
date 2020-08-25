@@ -8,7 +8,6 @@ const medewerkerNaam = document.getElementById("medewerker-naam");
 const medewerkerOpdrachtgever = document.getElementById("medewerker-opdrachtgever");
 const huidigeMaand = document.getElementById("huidige-maand");
 const huidigJaar = document.getElementById("huidig-jaar");
-const alertIngezonden = document.getElementById("alert-warning");
 
 const maandNummerNaarString = (maandNummer) => {
     switch (maandNummer) {
@@ -62,40 +61,40 @@ const verwijderFormulier = () => {
     formBody.innerHTML = "";
 }
 
-// function formulierObjectMaken() {
-//     var xhr = new XMLHttpRequest();
-//     var x = document.getElementsByClassName("formulier-rij");
-//     var dagen = [];
+function formulierObjectMaken() {
+    var xhr = new XMLHttpRequest();
+    var x = document.getElementsByClassName("formulier-rij");
+    var dagen = [];
 
-//     for (var i = 0; i < x.length; i++) {
-//         var dag = {};
-//         dag.opdrachtUren = document.getElementById(`opdracht-uren-${i}`).value;
-//         dag.overwerkUren = document.getElementById(`overwerk-uren-${i}`).value;
-//         dag.verlofUren = document.getElementById(`verlof-uren-${i}`).value;
-//         dag.ziekteUren = document.getElementById(`ziekte-uren-${i}`).value;
-//         dag.trainingUren = document.getElementById(`training-uren-${i}`).value;
-//         dag.overigeUren = document.getElementById(`overig-uren-${i}`).value;
-//         dag.overigeUrenUitleg = document.getElementById(`verklaring-overig-${i}`).value;
-//         dagen.push(dag);
-//     }
+    for (var i = 0; i < x.length; i++) {
+        var dag = {};
+        dag.opdrachtUren = document.getElementById(`opdracht-uren-${i}`).value;
+        dag.overwerkUren = document.getElementById(`overwerk-uren-${i}`).value;
+        dag.verlofUren = document.getElementById(`verlof-uren-${i}`).value;
+        dag.ziekteUren = document.getElementById(`ziekte-uren-${i}`).value;
+        dag.trainingUren = document.getElementById(`training-uren-${i}`).value;
+        dag.overigeUren = document.getElementById(`overig-uren-${i}`).value;
+        dag.overigeUrenUitleg = document.getElementById(`verklaring-overig-${i}`).value;
+        dagen.push(dag);
+    }
 
-//     var nieuwFormulier = {};
-//     nieuwFormulier.jaar = formulier.jaar;
-//     nieuwFormulier.maand = formulier.maand;
-//     nieuwFormulier.id = formulier.id;
-//     nieuwFormulier.werkDagen = dagen;
+    var nieuwFormulier = {};
+    nieuwFormulier.jaar = formulier.jaar;
+    nieuwFormulier.maand = formulier.maand;
+    nieuwFormulier.id = formulier.id;
+    nieuwFormulier.werkDagen = dagen;
 
-//     console.log(JSON.stringify(nieuwFormulier));
+    console.log(JSON.stringify(nieuwFormulier));
 
-//     xhr.open("POST", "http://localhost:8082/api/formulier/nieuw", true);
-//     xhr.setRequestHeader("Content-Type", "application/json");
-//     xhr.send(JSON.stringify(nieuwFormulier));
+    xhr.open("POST", "http://localhost:8082/api/formulier/nieuw", true);
+    xhr.setRequestHeader("Content-Type", "application/json");
+    xhr.send(JSON.stringify(nieuwFormulier));
 
-//     tableSelect.style.display = "none";
-//     alertSuccess.style.display = "block";
-//     buttonSubmit.style.display = "none";
-//     buttonDownload.style.display = "none";
-// }
+    tableSelect.style.display = "none";
+    alertSuccess.style.display = "block";
+    buttonSubmit.style.display = "none";
+    buttonDownload.style.display = "none";
+}
 
 /* SAVE ONCHANGE */
 
@@ -120,35 +119,6 @@ const haalFormulierOp = () => {
     xhr.send();
 }
 
-const verzendFormulier = (formulierId) => {
-    var xhr = new XMLHttpRequest();
-    console.log(formulierId);
-
-    xhr.onreadystatechange = function () {
-        if (xhr.readyState == 4) {
-            const formulier = JSON.parse(this.responseText);
-
-            console.log(formulier.id);
-            console.log(formulier);
-
-            var nieuwFormulier = formulier;
-            nieuwFormulier.ingezondenFormulier = true;
-            // formulieren.forEach(e => {
-            //     genereerFormulier(e);
-            //     vulMaandEnJaar(e);
-            // })
-            xhr2 = new XMLHttpRequest();
-            xhr2.open("PUT", `http://localhost:8082/api/trainee/formulier/update/${nieuwFormulier.id}`, true);
-            xhr2.setRequestHeader("Content-Type", "application/json");
-            xhr2.send(JSON.stringify(nieuwFormulier));
-        }
-    }
-
-
-    xhr.open("GET", `http://localhost:8082/api/formulier/${formulierId}`, true);
-    xhr.send();
-}
-
 const genereerFormulier = (formulier) => {
     console.log(formulier.id);
     for (let i = 0; i < formulier.werkDagen.length; i++) {
@@ -164,8 +134,6 @@ const genereerFormulier = (formulier) => {
                 <td><input type="number" class="form-input" id="overig-uren-${i}" value="${formulier.werkDagen[i].overigeUren}"></td>
                 <td class="form-verklaring"><input type="text" class="form-input" id="verklaring-overig-${i}" value="${(formulier.werkDagen[i].overigeUrenUitleg === null) ? "" : formulier.werkDagen[i].overigeUrenUitleg}"></td>
             </tr>`)
-
-
         }else{
             formBody.insertAdjacentHTML("beforeend",
                 `<tr id="dag-${i}" class="formulier-rij">
@@ -183,7 +151,6 @@ const genereerFormulier = (formulier) => {
             buttonSubmit.style.display = "none";
 
         }
-
     }
 
     const formInputs = document.querySelectorAll(".form-input");
@@ -220,7 +187,7 @@ const genereerFormulier = (formulier) => {
 
             console.log(JSON.stringify(nieuwFormulier));
 
-            xhr.open("PUT", `http://localhost:8082/api/trainee/formulier/update/${nieuwFormulier.id}`, true);
+            xhr.open("PUT", `http://localhost:8082/api/trainee/tijdelijkformulier/update/1122`, true);
             xhr.setRequestHeader("Content-Type", "application/json");
             xhr.send(JSON.stringify(nieuwFormulier));
 

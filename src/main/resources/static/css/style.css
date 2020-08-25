@@ -294,6 +294,9 @@ h2{
     min-height: 250px;
 }
 
-.alert-warning{
-    display: none;
+/* Modal styling profielpagina */
+
+.profielmodal {
+    width: 70%;
+    margin: 100px auto;
 }
