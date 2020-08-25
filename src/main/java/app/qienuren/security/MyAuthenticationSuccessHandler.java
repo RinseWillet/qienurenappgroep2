@@ -1,16 +1,6 @@
 package app.qienuren.security;
 
-import java.io.IOException;
-import java.util.Collection;
-import java.util.HashMap;
-import java.util.Map;
-
-import javax.servlet.http.HttpServletRequest;
-import javax.servlet.http.HttpServletResponse;
-import javax.servlet.http.HttpSession;
-
 import app.qienuren.controller.PersoonRepository;
-import app.qienuren.model.Persoon;
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -20,6 +10,14 @@ import org.springframework.security.web.DefaultRedirectStrategy;
 import org.springframework.security.web.RedirectStrategy;
 import org.springframework.security.web.WebAttributes;
 import org.springframework.security.web.authentication.AuthenticationSuccessHandler;
+
+import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpServletResponse;
+import javax.servlet.http.HttpSession;
+import java.io.IOException;
+import java.util.Collection;
+import java.util.HashMap;
+import java.util.Map;
 
 public class MyAuthenticationSuccessHandler implements AuthenticationSuccessHandler {
 
@@ -61,7 +59,7 @@ public class MyAuthenticationSuccessHandler implements AuthenticationSuccessHand
         Map<String, String> roleTargetUrlMap = new HashMap<>();
 
         roleTargetUrlMap.put("ROLE_TRAINEE", "/trainee?id=" + id);
-        roleTargetUrlMap.put("ROLE_TRAINEE", "/profielpagina?id=" + id); //staat niet goed, nu na inloggen na profielpagina
+    //    roleTargetUrlMap.put("ROLE_TRAINEE", "/profielpagina?id=" + id); //staat niet goed, nu na inloggen na profielpagina
 
         roleTargetUrlMap.put("ROLE_ADMIN", "/admin");
         roleTargetUrlMap.put("ROLE_KCP", "/opdrachtgever");
