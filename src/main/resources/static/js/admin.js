@@ -70,6 +70,8 @@ const laatFormulierenZien = () => {
             if (deMedewerkers.length > 0) {
                 deMedewerkers.forEach((mw) => {
                     mw.tijdelijkeFormulieren.forEach((tf) => {
+                        console.log("======> " + mw.naam);
+                        console.log("======> " + tf.id);
 
                         if (tf.ingezondenFormulier === true) {
 
@@ -118,7 +120,7 @@ const genereerFormulier = (formulier) => {
     }
 
     formulier.maand = maandNummerNaarString(formulier.maand);
-    modalHeader.innerHTML = `<span class="pt-0">Rinse Willet | ${formulier.maand}/${formulier.jaar}</span><span class="pt-0">Status opdrachtgever: ${formulier.opdrachtgeverStatus}</span>`
+    modalHeader.innerHTML = `<span class="pt-0">Jan Doedel | ${formulier.maand}/${formulier.jaar}</span><span class="pt-0">Status opdrachtgever: ${formulier.opdrachtgeverStatus}</span>`
     for (let i = 0; i < formulier.werkDagen.length; i++) {
         formBody.insertAdjacentHTML("beforeend",
             `<tr id="dag-${i + 1}" class="formulier-rij">
@@ -129,7 +131,7 @@ const genereerFormulier = (formulier) => {
             <td class="admin-opmaak" id="ziekte-uren-${i + 1}">${formulier.werkDagen[i].ziekteUren}</td>
             <td class="admin-opmaak"id="training-uren-${i + 1}">${formulier.werkDagen[i].trainingsUren}</td>
             <td class="admin-opmaak"id="overig-uren-${i + 1}">${formulier.werkDagen[i].overigeUren}</td>
-            <td class="admin-opmaak form-verklaring"><class="form-input" id="verklaring-overig-${i + 1}">${formulier.werkDagen[i].overigeUrenUitleg}</td>
+            <td class="admin-opmaak form-verklaring"><class="form-input" id="verklaring-overig-${i + 1}">${(formulier.werkDagen[i].overigeUrenUitleg === null) ? "" : formulier.werkDagen[i].overigeUrenUitleg}</td>
         </tr>`)
     }
 }
@@ -195,15 +197,16 @@ const laatMedewerkersZien = () => {
     xhr.onreadystatechange = function () {
         if (xhr.readyState == 4) {
 
-            deMedewerkers = JSON.parse(this.responseText);            
-
+            deMedewerkers = JSON.parse(this.responseText);
             let inTeVoegenHTML = ``;
 
             if (deMedewerkers.length > 0) {
                 deMedewerkers.forEach((e) => {
                     if (e.type === "Admin") return;
-                    // Als trainee geen opdrachtgever heeft dan veranderen naar "Niet geplaatst"                    
+                    // Als trainee geen opdrachtgever heeft dan veranderen naar "Niet geplaatst"
+
                     if (e.type === "Trainee" && e.leidingGevende === null) {
+
                         e.leidingGevende = {
                             "naam": "Niet gekoppeld"
                         }
@@ -713,7 +716,6 @@ const updateContactPersoonSelector = () => {
         if (xhr.readyState == 4) {
             deContactPersonen = JSON.parse(this.responseText);
             let inTeVoegenHTML = ``;
-            console.log(deContactPersonen);
 
 
             if (deContactPersonen.length > 0) {
@@ -862,6 +864,7 @@ function bedrijfAanmaken() {
     xhr.send(JSON.stringify(bedrijfJSON));
 
 }
+
 
 
 

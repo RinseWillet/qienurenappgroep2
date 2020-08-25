@@ -16,6 +16,4 @@ public class Event implements ApplicationListener<ApplicationReadyEvent> {
         //medewerkerService.voegTraineesEnInterneMedewerkersSamen();
         //medewerkerService.genereerLeegFormulier();
     }
-
-
 }
