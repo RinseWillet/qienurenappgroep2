@@ -1,6 +1,7 @@
 package app.qienuren.model;
 
 
+import app.qienuren.controller.PersoonService;
 import lombok.Getter;
 import lombok.Setter;
 
@@ -13,6 +14,8 @@ public class Persoon {
     @GeneratedValue(strategy = GenerationType.AUTO)
     private long id;
     private String naam;
+
+    @Unique(service = PersoonService.class, fieldName = "email", message = "{email.unique.violation}")
     private String email;
     private String telefoonnr;
 
