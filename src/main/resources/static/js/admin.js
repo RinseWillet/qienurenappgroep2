@@ -70,6 +70,8 @@ const laatFormulierenZien = () => {
             if (deMedewerkers.length > 0) {
                 deMedewerkers.forEach((mw) => {
                     mw.tijdelijkeFormulieren.forEach((tf) => {
+                        console.log("======> " + mw.naam);
+                        console.log("======> " + tf.id);
 
                         if (tf.ingezondenFormulier === true) {
 
@@ -118,7 +120,7 @@ const genereerFormulier = (formulier) => {
     }
 
     formulier.maand = maandNummerNaarString(formulier.maand);
-    modalHeader.innerHTML = `<span class="pt-0">Rinse Willet | ${formulier.maand}/${formulier.jaar}</span><span class="pt-0">Status opdrachtgever: ${formulier.opdrachtgeverStatus}</span>`
+    modalHeader.innerHTML = `<span class="pt-0">Jan Doedel | ${formulier.maand}/${formulier.jaar}</span><span class="pt-0">Status opdrachtgever: ${formulier.opdrachtgeverStatus}</span>`
     for (let i = 0; i < formulier.werkDagen.length; i++) {
         formBody.insertAdjacentHTML("beforeend",
             `<tr id="dag-${i + 1}" class="formulier-rij">
@@ -199,7 +201,7 @@ const laatMedewerkersZien = () => {
             if (deMedewerkers.length > 0) {
                 deMedewerkers.forEach((e) => {
                     if (e.type === "Admin") return;
-                    // Als trainee geen opdrachtgever heeft dan veranderen naar "Niet geplaatst"                    
+                    // Als trainee geen opdrachtgever heeft dan veranderen naar "Niet geplaatst"
 
                     if (e.type === "Trainee" && e.leidingGevende === null) {
 
@@ -679,7 +681,9 @@ const updateContactPersoonSelector = () => {
     xhr.onreadystatechange = function () {
         if (xhr.readyState == 4) {
             deContactPersonen = JSON.parse(this.responseText);
-            let inTeVoegenHTML = ``;         
+
+            let inTeVoegenHTML = ``;
+
 
             if (deContactPersonen.length > 0) {                
                 deContactPersonen.forEach((e) => {

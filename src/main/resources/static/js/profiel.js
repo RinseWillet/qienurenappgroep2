@@ -66,7 +66,7 @@ const traineeNaamFunction = () => {
             profieltraineeNaam.innerHTML = `${trainee.naam}`;
             profieltraineeEmail.innerHTML = `${trainee.email}`;
             profieltraineeStartdatum.innerHTML = `${trainee.startDatum}`;
-           // profieltraineeRol.innerHTML = `${trainee.roles}`;
+            profieltraineeRol.innerHTML = `${trainee.roles}`;
             profieltraineeTelnr.innerHTML = `${trainee.telefoonnr}`;
             profieltraineeAdres.innerHTML = `${trainee.straatNaamNr}`;
             profieltraineePostcode.innerHTML = `${trainee.postcode}`;
