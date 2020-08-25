@@ -13,9 +13,7 @@ public class Event implements ApplicationListener<ApplicationReadyEvent> {
 
     @Override
     public void onApplicationEvent(ApplicationReadyEvent event) {
-//        medewerkerService.voegTraineesEnInterneMedewerkersSamen();
-//        medewerkerService.genereerLeegFormulier();
+        //medewerkerService.voegTraineesEnInterneMedewerkersSamen();
+        //medewerkerService.genereerLeegFormulier();
     }
-
-
 }
