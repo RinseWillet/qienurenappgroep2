@@ -56,8 +56,6 @@ const maandNummerNaarString = (maandNummer) => {
     }
 }
 
-
-
 window.onload = () => {
     traineeNaamFunction();
     aanpassenurl();
