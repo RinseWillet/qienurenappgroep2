@@ -77,7 +77,9 @@ const traineeNaamFunction = () => {
             let archiefFormulierHTML = ``;
             let huidigMaandFormulier = ``;
 
-            traineeNaam.innerHTML = `Welkom, ${trainee.naam}!`;
+            console.log(traineeNaam)
+
+            traineeNaam.innerHTML = `${trainee.naam}`;
             // traineeOpdrachtgever.innerHTML = `Opdrachtgever : ${trainee.leidingGevende}`;
 
             var formulieren = trainee.archief;
@@ -120,9 +122,10 @@ const traineeNaamFunction = () => {
             }
 
         }
-        xhr.open("GET", `http://localhost:8082/api/trainee/${urlId}`, true);
-        xhr.send();
+        
     }
+    xhr.open("GET", `http://localhost:8082/api/trainee/${urlId}`, true);
+        xhr.send();
 
 }
 
@@ -171,5 +174,7 @@ afgelopenFormulieren.onclick = function (event) {
     xhr.send();
 
 };
+
+// Methode voor naam in welkomstbericht
 
 
