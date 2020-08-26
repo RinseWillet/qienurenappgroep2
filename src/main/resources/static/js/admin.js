@@ -111,7 +111,6 @@ const laatFormulierenZien = () => {
     xhr.send();
 }
 
-
 const genereerFormulier = (formulier) => {
     if (formulier.opdrachtgeverStatus === "OPEN" || formulier.opdrachtgeverStatus === "AFGEKEURD") {
         modalFooter.style.display = "none";

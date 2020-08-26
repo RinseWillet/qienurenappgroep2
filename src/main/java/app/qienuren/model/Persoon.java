@@ -15,7 +15,7 @@ public class Persoon {
     private long id;
     private String naam;
 
-    @Unique(service = PersoonService.class, fieldName = "email", message = "{email.unique.violation}")
+    @Column(uni)
     private String email;
     private String telefoonnr;
 
