@@ -25,6 +25,8 @@ public class AdminEndpoint {
     PersoonService persoonService;
     @Autowired
     FormulierService formulierService;
+    @Autowired
+    TijdelijkeTraineeService tijdelijkeTraineeService;
 
 
     // Alle Post Mapping om nieuwe Entiteiten aan te maken
@@ -83,6 +85,10 @@ public class AdminEndpoint {
         return formulierService.getAlleFormulierenVoorAdmin();
     }
 
+    @GetMapping("/tijdelijkeTrainee/all")
+    public Iterable<TijdelijkeTrainee> getAlleTijdelijkeTrainee() {
+        return tijdelijkeTraineeService.getAllTijdelijkeTrainee();
+    }
 
 
     // Alle Put Mapping om van een Entiteit de data up te daten

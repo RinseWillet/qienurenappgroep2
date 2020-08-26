@@ -19,7 +19,6 @@ public class TraineeEndpoint {
     @Autowired
     TraineeService traineeService;
 
-
     @Autowired
     TijdelijkeTraineeService tijdelijkeTraineeService;
 
