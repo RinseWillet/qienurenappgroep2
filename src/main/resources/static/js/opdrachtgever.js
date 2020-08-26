@@ -5,70 +5,131 @@ const klikbaarOogje = document.querySelector(".fa-eye");
 const goedkeurKnopje = document.getElementById("goedkeuren");
 const afkeurKnopje = document.getElementById("afkeuren");
 
+//haalt id uit huidige url
+var url_string = window.location.href; 
+var url = new URL(url_string); 
+var idpf = url.searchParams.get("id"); 
+console.log(idpf)
+
 const maandNummerNaarString = (maandNummer) => {
     switch (maandNummer) {
-        case 0:
-            return "Januari";
         case 1:
-            return "Februari";
+            return "Januari";
         case 2:
-            return "Maart";
+            return "Februari";
         case 3:
-            return "April";
+            return "Maart";
         case 4:
-            return "Mei";
+            return "April";
         case 5:
-            return "Juni";
+            return "Mei";
         case 6:
-            return "Juli";
+            return "Juni";
         case 7:
-            return "Augustus";
+            return "Juli";
         case 8:
-            return "September";
+            return "Augustus";
         case 9:
-            return "Oktober";
+            return "September";
         case 10:
-            return "November";
+            return "Oktober";
         case 11:
+            return "November";
+        case 12:
             return "December";
     }
 }
 
+
 /*
 FORMULIEREN
 */
+
+// const laatFormulierenZien = () => {
+//     let xhr = new XMLHttpRequest();
+
+//     xhr.onreadystatechange = function () {
+//         if (xhr.readyState == 4) {
+//             deFormulieren = JSON.parse(this.responseText);
+//             let inTeVoegenHTML = ``;
+
+//             if (deFormulieren.length > 0) {
+//                 deFormulieren.forEach((e) => {
+//                     e.maand = maandNummerNaarString(e.maand);
+
+//                     // inTeVoegenHTML = `<li data-toggle="modal" data-target="#staticBackdrop" href="./formulier.html?id=${e.id}" 
+//                     // class="list-group-item list-group-item-action" id="${e.id}">${e.naam} | ${e.maand} | ${e.jaar} | ${e.formulierstatus}</li>`;
+//                     inTeVoegenHTML = `<li data-toggle="modal" data-target="#staticBackdrop" 
+//                     class="list-group-item list-group-item-action d-flex justify-content-between" id="${e.id}"><span id="${e.id}">Jan Doedel</span><span id="${e.id}">${e.maand}</span><span id="${e.id}">${e.jaar}</span><span id="${e.id}">${e.opdrachtgeverStatus}</span><i id="${e.id}" class="far fa-eye"></i></li>`;
+//                     formulierenLijst.insertAdjacentHTML('beforeend', inTeVoegenHTML);
+//                 })
+//             } else {
+//                 inTeVoegenHTML = `<div class="alert alert-danger" role="alert"><h4 class="alert-heading">Sapristi, geen formulieren!</h4>
+//                 <p>tekst - veel plezier</p>
+//                 <hr>
+//                 <p class="mb-0">text - nog meer plezier.</p>
+//             </div>`;
+
+//                 formulierenLijst.insertAdjacentHTML('beforeend', inTeVoegenHTML);
+//             }
+//         }
+//     }
+
+//     xhr.open("GET", "http://localhost:8082/api/opdrachtgever/formulieren/all", true);
+//     xhr.send();
+// }
 
 const laatFormulierenZien = () => {
     let xhr = new XMLHttpRequest();
 
     xhr.onreadystatechange = function () {
         if (xhr.readyState == 4) {
-            deFormulieren = JSON.parse(this.responseText);
+            deMedewerkers = JSON.parse(this.responseText);
+
+
             let inTeVoegenHTML = ``;
 
-            if (deFormulieren.length > 0) {
-                deFormulieren.forEach((e) => {
-                    e.maand = maandNummerNaarString(e.maand);
+            if (deMedewerkers.length > 0) {
+                deMedewerkers.forEach((mw) => {
+                    mw.tijdelijkeFormulieren.forEach((tf) => {
+                        console.log("======> " + mw.naam);
+                        console.log("======> " + tf.id);
 
-                    // inTeVoegenHTML = `<li data-toggle="modal" data-target="#staticBackdrop" href="./formulier.html?id=${e.id}" 
+                        if (tf.ingezondenFormulier === true) {
+
+                            tf.maand = maandNummerNaarString(tf.maand);
+
+                            if (tf.opdrachtgeverStatus === "OPEN") {
+                                tf.adminStatus = "Bij Klant";
+                            } else if (tf.opdrachtgeverStatus === "AFGEKEURD") {
+                                tf.adminStatus = "Afgekeurd door klant";
+                            }
+
+                            inTeVoegenHTML = `<li data-toggle="modal" data-target="#staticBackdrop" 
+                            class="list-group-item list-group-item-action d-flex justify-content-between" id="${tf.id}"><span id="${tf.id}">${mw.naam}</span><span id="${tf.id}">${tf.maand}</span><span id="${tf.id}">${tf.jaar}</span><span id="${tf.id}">${tf.opdrachtgeverStatus}</span><i id="${tf.id}" class="far fa-eye"></i></li>`;
+                            formulierenLijst.insertAdjacentHTML('beforeend', inTeVoegenHTML);
+                        }
+                    })
+
+                    // inTeVoegenHTML = `<li data-toggle="modal" data-target="#staticBackdrop" href="./formulier.html?id=${e.id}"
                     // class="list-group-item list-group-item-action" id="${e.id}">${e.naam} | ${e.maand} | ${e.jaar} | ${e.formulierstatus}</li>`;
-                    inTeVoegenHTML = `<li data-toggle="modal" data-target="#staticBackdrop" 
-                    class="list-group-item list-group-item-action d-flex justify-content-between" id="${e.id}"><span id="${e.id}">Jan Doedel</span><span id="${e.id}">${e.maand}</span><span id="${e.id}">${e.jaar}</span><span id="${e.id}">${e.opdrachtgeverStatus}</span><i id="${e.id}" class="far fa-eye"></i></li>`;
-                    formulierenLijst.insertAdjacentHTML('beforeend', inTeVoegenHTML);
+                    // inTeVoegenHTML = `<li data-toggle="modal" data-target="#staticBackdrop" 
+                    // class="list-group-item list-group-item-action d-flex justify-content-between" id="${e.id}"><span id="${e.id}">Rinse Willet</span><span id="${e.id}">${e.maand}</span><span id="${e.id}">${e.jaar}</span><span id="${e.id}">${e.adminStatus}</span><i id="${e.id}" class="far fa-eye"></i></li>`;
+                    // formulierenLijst.insertAdjacentHTML('beforeend', inTeVoegenHTML);
                 })
             } else {
                 inTeVoegenHTML = `<div class="alert alert-danger" role="alert"><h4 class="alert-heading">Sapristi, geen formulieren!</h4>
                 <p>tekst - veel plezier</p>
                 <hr>
                 <p class="mb-0">text - nog meer plezier.</p>
-            </div>`;
+                </div>`;
 
                 formulierenLijst.insertAdjacentHTML('beforeend', inTeVoegenHTML);
             }
         }
     }
 
-    xhr.open("GET", "http://localhost:8082/api/opdrachtgever/formulieren/all", true);
+    xhr.open("GET", "http://localhost:8082/api/opdrachtgever/trainees/" + idpf, true);
     xhr.send();
 }
 

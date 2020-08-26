@@ -2,13 +2,11 @@ package app.qienuren.controller;
 
 import app.qienuren.model.*;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.dao.DataIntegrityViolationException;
 import org.springframework.stereotype.Service;
 
 import javax.transaction.Transactional;
-import java.sql.SQLException;
-import java.sql.SQLIntegrityConstraintViolationException;
-import java.util.List;
+import java.util.ArrayList;
+
 
 @Service
 @Transactional
@@ -97,6 +95,19 @@ public class TraineeService {
         if( tijdtrainee.getWoonplaats() != null){trainee.setWoonplaats(tijdtrainee.getWoonplaats());}
         //aangepaste gegevens worden opgeslagen in de database
         return traineeRepository.save(trainee);
+    }
+
+    public Iterable<Trainee> getTraineesByKCPId(long kcpId) {
+        Iterable<Trainee> trainees = traineeRepository.findAll();
+        ArrayList<Trainee> traineesBehorendAanKCP = new ArrayList<>();
+        for (Trainee t : trainees) {
+            if (t.getLeidingGevende() != null) {
+                if (t.getLeidingGevende().getId() == kcpId) {
+                    traineesBehorendAanKCP.add(t);
+                }
+            }
+        }
+        return traineesBehorendAanKCP;
     }
 
 
