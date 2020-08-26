@@ -2,9 +2,13 @@ package app.qienuren.controller;
 
 import app.qienuren.model.*;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.dao.DataIntegrityViolationException;
 import org.springframework.stereotype.Service;
 
 import javax.transaction.Transactional;
+import java.sql.SQLException;
+import java.sql.SQLIntegrityConstraintViolationException;
+import java.util.List;
 
 @Service
 @Transactional
@@ -21,15 +25,26 @@ public class TraineeService {
     @Autowired
     TijdelijkeTraineeRepository tijdelijkeTraineeRepository;
 
-    public Trainee addTrainee(Trainee trainee) {
-        System.out.println("trainee aangemaakt");
+    //kijkt eerst of het emailadres al in de database staat.
+    public Trainee addTrainee(Trainee trainee){
+
+        for (Trainee traineedb: traineeRepository.findAll()) {
+            if (trainee.getEmail().equals(traineedb.getEmail())) {
+                System.out.println("email bestaat al");
+                return null;
+            }
+        }
+        System.out.println("emailadres bestaat nog niet");
         return traineeRepository.save(trainee);
     }
+
 
     public Iterable<Trainee> getAllTrainees() {
         System.out.println("Alle trainees opgevraagd");
         return traineeRepository.findAll();
     }
+
+
 
    /* public Trainee bedrijfToevoegenTrainee(long traineeID, long bedrijfID) {
         Trainee tijdelijkTrainee = traineeRepository.findById(traineeID).get();

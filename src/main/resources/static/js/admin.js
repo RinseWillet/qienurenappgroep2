@@ -356,6 +356,7 @@ const test = () => {
         traineeJSON.startDatum = traineeStartDatum;
         traineeJSON.eindDatum = traineeEindDatum;
 
+
         xhr.open("POST", "http://localhost:8082/api/admin/trainee/nieuw", true);
         xhr.setRequestHeader("Content-Type", "application/json");
         xhr.send(JSON.stringify(traineeJSON));
