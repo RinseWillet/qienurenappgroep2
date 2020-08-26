@@ -297,3 +297,33 @@ h2{
 .alert-warning{
     display: none;
 }
+
+#welkomst-bericht {
+    padding: 0;
+    margin-top: 2rem;
+    background-color: #fff;
+    color: #9D3FF3;
+    transition: 0.1s all;
+    animation-name: popup;
+    animation-duration: 1.5s;
+}
+
+#welkomst-bericht h1 {
+    font-size: 2rem;
+}
+
+@keyframes popup {
+    0%{
+        opacity:0;
+        transform: translateY(-5rem);
+    }
+
+    28%{
+        opacity: 0;
+    }
+
+    100%{
+        opacity: 1;
+        transform: translateY(0rem;)
+    }
+}

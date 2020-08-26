@@ -12,6 +12,21 @@ const profieltraineeKCPtelnr = document.getElementById("profieltrainee-kcptelnr"
 var urlId;
 
 
+//haalt id uit huidige url
+var url_string = window.location.href;
+var url = new URL(url_string);
+var idpf = url.searchParams.get("id");
+
+//voegt ID toe aan profielpaginaurl
+function aanpassenurl() {
+    let pfurl = document.getElementById('profielpaginaurl').href;
+    pfurl = pfurl + "?id=" + idpf;
+    var a = document.querySelector('a[href="/profielpagina"]');
+    if (a) {
+        a.setAttribute('href', pfurl)
+    }
+}
+
 function gegevensPersoonAanpassen() {
 
     var xhr = new XMLHttpRequest();
@@ -42,15 +57,15 @@ function gegevensPersoonAanpassen() {
 
     xhr.send(JSON.stringify(persoonJSON));
 
-} 
+}
 
+window.onload = () => {
+    aanpassenurl();
+    console.log("onload");
 
-
-
-// window.onload = () => {
-//     traineeNaamFunction();
-//     console.log("onload");
-// };
+    // traineeNaamFunction();
+    // console.log("onload");
+};
 const traineeNaamFunction = () => {
     var urlString = window.location.href;
     var url = new URL(urlString);
