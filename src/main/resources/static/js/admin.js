@@ -1,6 +1,7 @@
 const formulierenLijst = document.getElementById("form-list");
 const medewerkerLijst = document.getElementById("medewerker-list");
 const bedrijvenLijst = document.getElementById("bedrijven-list");
+const takenLijst = document.getElementById("taken-list");
 const formulierItem = document.querySelector(".list-group-item");
 const formBody = document.getElementById("form-body");
 const modalHeader = document.querySelector(".modal-title");
@@ -10,12 +11,39 @@ const goedkeurKnopje = document.getElementById("goedkeuren");
 const afkeurKnopje = document.getElementById("afkeuren");
 const relatieAanmakenKnop = document.getElementById("knop-relatie-aanmaken");
 const toevoegenGebruikerContainer = document.getElementById("toevoegen-gebruiker-container");
+const takenTraineeNaam = document.getElementById("takenTrainee-naam");
+const takenTraineeEmail = document.getElementById("takenTrainee-email");
+const takenTraineeTelnr = document.getElementById("takenTrainee-telnr");
+const takenTraineeAdres = document.getElementById("takenTrainee-adres");
+const takenTraineePostcode = document.getElementById("takenTrainee-postcode");
+const takenTraineeWoonplaats = document.getElementById("takenTrainee-woonplaats");
+
+
+
 var selectTrainee = document.getElementById("trainee_select");
 var selectContactPersoon = document.getElementById("contactpersoon_select");
 var selectBedrijf = document.getElementById("bedrijf_select");
 const relatieContainer = document.getElementById("relatiekoppel-container");
 var selectTraineeId;
 let deMedewerkers;
+let alleTrainees;
+
+
+/*
+AANROEPEN VAN METHODES BIJ OPENEN PAGINA
+*/
+
+
+
+window.onload = function() {
+    laatFormulierenZien();
+    laatMedewerkersZien();
+    // laatBedrijvenZien();
+    updateTraineeSelector();
+    updateContactPersoonSelector();
+    laadAlleTrainees();
+  };
+
 
 const maandNummerNaarString = (maandNummer) => {
     switch (maandNummer) {
@@ -51,6 +79,74 @@ const medewerkers = () => {
 
 
 }
+
+/*
+TAKENLIJST
+*/
+
+const laatTakenZien = () => {
+ 
+
+    let xhr = new XMLHttpRequest();
+
+    xhr.onreadystatechange = function () {
+        if (xhr.readyState == 4) {
+
+            deTijdelijkeTrainees = JSON.parse(this.responseText);
+
+            let inTeVoegenHTML = ``;
+
+            if (deTijdelijkeTrainees.length > 0) {
+
+                deTijdelijkeTrainees.forEach((tt) => {
+                    console.log(deTijdelijkeTrainees);
+        
+                    deTrainees.forEach((elkeTrainee) => { 
+                        if(tt.oorspronkelijkeId == elkeTrainee.id) {
+                            console.log(elkeTrainee.id);
+                            console.log(elkeTrainee.naam);
+
+                            voegGegevensTraineeInTaken(elkeTrainee.id);
+
+                            inTeVoegenHTML = `<li data-toggle="modal" data-target="#takenModal" 
+                            class="list-group-item list-group-item-action d-flex justify-content-between" id="${elkeTrainee.id}"><span id="${elkeTrainee.id}">${elkeTrainee.naam}</span><i id="${elkeTrainee.id}" class="far fa-eye"></i></li>`;
+                            takenLijst.insertAdjacentHTML('beforeend', inTeVoegenHTML);
+                    } })
+
+
+                }
+                )
+            } } }
+
+    xhr.open("GET", "http://localhost:8082/api/admin/tijdelijkeTrainee/all", true);
+    xhr.send();
+} 
+
+
+function voegGegevensTraineeInTaken (id) {
+
+    let xhr = new XMLHttpRequest();
+
+    var test = id;
+
+    xhr.onreadystatechange = function() {
+        if (xhr.readyState == 4) {
+
+            let welkomHtml = ``;
+
+            takenTraineeNaam.innerHTML = `${test.naam}`;
+            takenTraineeEmail.innerHTML = `${test.email}`;
+            //takenTraineeTelnr.innerHTML = `${test.telefoonnr}`;
+            takenTraineeAdres.innerHTML = `${test.straatNaamNr}`;
+            takenTraineePostcode.innerHTML = `${test.postcode}`;
+            takenTraineeWoonplaats.innerHTML = `${test.woonplaats}`;
+        }
+    }
+    xhr.open("GET", `http://localhost:8082/api/trainee/${test}` , true);
+    xhr.send();
+}
+
+
 
 
 /*
@@ -646,6 +742,26 @@ for (var i = 0; i < radios.length; i++) {
         }
     });
 }
+/*
+Alle Trainees ophalen uit de database en in 'alleTrainees' stoppen
+*/
+
+function laadAlleTrainees() {
+
+    let xhr = new XMLHttpRequest();
+
+    xhr.onreadystatechange = function () {
+        if (xhr.readyState == 4) {
+            alleTrainees = JSON.parse(this.responseText);
+            console.log(alleTrainees);
+            laatTakenZien();
+        }
+    }
+    xhr.open("GET", "http://localhost:8082/api/admin/trainee/all", true);
+    xhr.send();
+}
+
+
 
 /*
 trainees laden selectorknop relatie koppelen
@@ -729,6 +845,7 @@ const updateBedrijfSelector = () => {
     xhr.open("GET", "http://localhost:8082/api/admin/bedrijf/all", true);
     xhr.send();
 }
+
 
 /*
 Trainee aan Contactpersoon koppelen
@@ -838,12 +955,3 @@ for (var i = 0; i < radiosKoppelen.length; i++) {
     });
 }
 
-/*
-AANROEPEN VAN METHODES BIJ OPENEN PAGINA
-*/
-
-laatFormulierenZien();
-laatMedewerkersZien();
-// laatBedrijvenZien();
-updateTraineeSelector();
-updateContactPersoonSelector();
