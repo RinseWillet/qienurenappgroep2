@@ -300,7 +300,13 @@ const traineeRadio = document.getElementById("radio-trainee");
 // const bedrijfRadio = document.getElementById("radio-bedrijf");
 const contactPersoonRadio = document.getElementById("radio-contactpersoon");
 
-const test = () => {   
+const test = () => {
+
+    document.getElementById("account-aanmaken").addEventListener("click", function(event){
+        event.preventDefault()
+    });
+
+
     console.log("hieroo in de test");
     var xhr = new XMLHttpRequest();
     let dezeIdEmail;
@@ -357,9 +363,30 @@ const test = () => {
         traineeJSON.startDatum = traineeStartDatum;
         traineeJSON.eindDatum = traineeEindDatum;
 
+        //check of email al bestaat
+
+
+
         xhr.open("POST", "http://localhost:8082/api/admin/trainee/nieuw", true);
         xhr.setRequestHeader("Content-Type", "application/json");
         xhr.send(JSON.stringify(traineeJSON));
+        alert(this.responseText); //geeft een lege melding terug, zonder deze alert werkte de andere ook ineens niet meer.
+
+        xhr.onreadystatechange = function (){
+            if(xhr.readyState == 4){
+                alert(this.responseText); //doet het nu niet meer
+
+                // let emailCheck = this.responseText;
+                // if (emailCheck.email === null){
+                //     alert("emailadres bestaat al, voer een ander emailadres in")
+                // } else{
+                //     alert("trainee aangemaakt")
+                }
+
+                //  console.log(this.responseText);
+            }
+
+
     }
 
     if (contactPersoonRadio.checked) {
