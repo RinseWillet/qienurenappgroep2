@@ -2,6 +2,8 @@ package app.qienuren.controller;
 
 import app.qienuren.model.*;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.context.annotation.Configuration;
+import org.springframework.scheduling.annotation.EnableScheduling;
 import org.springframework.scheduling.annotation.Scheduled;
 import org.springframework.stereotype.Service;
 
@@ -10,6 +12,8 @@ import java.time.LocalDate;
 import java.util.ArrayList;
 import java.util.List;
 
+@Configuration
+@EnableScheduling
 @Service
 @Transactional
 public class MedewerkerService {
@@ -55,18 +59,24 @@ public class MedewerkerService {
         }
     }
 
-
-
-
-
-
-
-    @Scheduled(cron = "0 0 0 1 1/1 ? *")
+  /*  @Scheduled(cron = "0 0/1 * 1/1 * ?")
     public void maakMaandelijksFormulier() {
+        genereerLeegFormulier();
 
-        long now = System.currentTimeMillis() / 1000;
-        System.out.println(
-                "schedule tasks using cron jobs - " + now);
+    }*/
+
+    // Methode om op eerste van elke maand om 00:00u een formulier te genereren van de huidige maand
+    @Scheduled(cron = "0 0 0 1 1/1 ?")
+    public void maakMaandelijksFormulier() {
+        genereerLeegFormulier();
     }
+
+    // NA FEEDBACK PAUL(MAIL RINSE 26-08):
+    // Methode om formulier van afgelopen maand niet langer invulbaar te maken na 1e week van nieuwe maand
+/*    @Scheduled(cron = "0 0 0 8 1/1 ?")
+    public void formulierVorigeMaandNietLangerInTeVullen() {
+
+    }*/
+
 
 }

@@ -84,7 +84,7 @@ const laatFormulierenZien = () => {
                             }
 
                             inTeVoegenHTML = `<li data-toggle="modal" data-target="#staticBackdrop" 
-                            class="list-group-item list-group-item-action d-flex justify-content-between" id="${tf.id}"><span id="${tf.id}">${mw.naam}</span><span id="${tf.id}">${tf.maand}</span><span id="${tf.id}">${tf.jaar}</span><span id="${tf.id}">${tf.adminStatus}</span><i id="${tf.id}" class="far fa-eye"></i></li>`;
+                            class="list-group-item list-group-item-action d-flex justify-content-between" id="${tf.id}"><span id="verborgen-medewerker-id">${mw.id}</span><span class="medewerker-naam" id="${tf.id}">${mw.naam}</span><span id="${tf.id}">${tf.maand}</span><span id="${tf.id}">${tf.jaar}</span><span id="${tf.id}">${tf.adminStatus}</span><i id="${tf.id}" class="far fa-eye"></i></li>`;
                             formulierenLijst.insertAdjacentHTML('beforeend', inTeVoegenHTML);
                         }
                     })
@@ -120,7 +120,7 @@ const genereerFormulier = (formulier) => {
     }
 
     formulier.maand = maandNummerNaarString(formulier.maand);
-    modalHeader.innerHTML = `<span class="pt-0">Jan Doedel | ${formulier.maand}/${formulier.jaar}</span><span class="pt-0">Status opdrachtgever: ${formulier.opdrachtgeverStatus}</span>`
+    modalHeader.innerHTML = `<span class="pt-0">... | ${formulier.maand}/${formulier.jaar}</span><span class="pt-0">Status opdrachtgever: ${formulier.opdrachtgeverStatus}</span>`
     for (let i = 0; i < formulier.werkDagen.length; i++) {
         formBody.insertAdjacentHTML("beforeend",
             `<tr id="dag-${i + 1}" class="formulier-rij">
@@ -137,6 +137,7 @@ const genereerFormulier = (formulier) => {
 }
 
 const verwijderFormulier = () => {
+    modalHeader.innerHTML = "";
     formBody.innerHTML = "";
 }
 
@@ -163,7 +164,7 @@ formulierenLijst.onclick = function (event) {
 
     goedkeurKnopje.addEventListener('click', () => {
 
-        xhr.open("PUT", `http://localhost:8082/api/admin/update/statusgoed/${id}`, true);
+        xhr.open("PUT", `http://localhost:8082/api/admin/update/statusgoed/${id}/${medewerkerId}`, true);
         xhr.send();
 
         xhr.onreadystatechange = function () {
