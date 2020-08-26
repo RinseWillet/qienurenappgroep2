@@ -5,6 +5,8 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import javax.transaction.Transactional;
+import java.util.ArrayList;
+
 
 @Service
 @Transactional
@@ -21,15 +23,26 @@ public class TraineeService {
     @Autowired
     TijdelijkeTraineeRepository tijdelijkeTraineeRepository;
 
-    public Trainee addTrainee(Trainee trainee) {
-        System.out.println("trainee aangemaakt");
+    //kijkt eerst of het emailadres al in de database staat.
+    public Trainee addTrainee(Trainee trainee){
+
+        for (Trainee traineedb: traineeRepository.findAll()) {
+            if (trainee.getEmail().equals(traineedb.getEmail())) {
+                System.out.println("email bestaat al");
+                return null;
+            }
+        }
+        System.out.println("emailadres bestaat nog niet");
         return traineeRepository.save(trainee);
     }
+
 
     public Iterable<Trainee> getAllTrainees() {
         System.out.println("Alle trainees opgevraagd");
         return traineeRepository.findAll();
     }
+
+
 
    /* public Trainee bedrijfToevoegenTrainee(long traineeID, long bedrijfID) {
         Trainee tijdelijkTrainee = traineeRepository.findById(traineeID).get();
@@ -82,6 +95,19 @@ public class TraineeService {
         if( tijdtrainee.getWoonplaats() != null){trainee.setWoonplaats(tijdtrainee.getWoonplaats());}
         //aangepaste gegevens worden opgeslagen in de database
         return traineeRepository.save(trainee);
+    }
+
+    public Iterable<Trainee> getTraineesByKCPId(long kcpId) {
+        Iterable<Trainee> trainees = traineeRepository.findAll();
+        ArrayList<Trainee> traineesBehorendAanKCP = new ArrayList<>();
+        for (Trainee t : trainees) {
+            if (t.getLeidingGevende() != null) {
+                if (t.getLeidingGevende().getId() == kcpId) {
+                    traineesBehorendAanKCP.add(t);
+                }
+            }
+        }
+        return traineesBehorendAanKCP;
     }
 
 

@@ -62,7 +62,7 @@ public class MyAuthenticationSuccessHandler implements AuthenticationSuccessHand
     //    roleTargetUrlMap.put("ROLE_TRAINEE", "/profielpagina?id=" + id); //staat niet goed, nu na inloggen na profielpagina
 
         roleTargetUrlMap.put("ROLE_ADMIN", "/admin");
-        roleTargetUrlMap.put("ROLE_KCP", "/opdrachtgever");
+        roleTargetUrlMap.put("ROLE_KCP", "/opdrachtgever?id=" + id);
 
         final Collection<? extends GrantedAuthority> authorities = authentication.getAuthorities();
         for (final GrantedAuthority grantedAuthority : authorities) {

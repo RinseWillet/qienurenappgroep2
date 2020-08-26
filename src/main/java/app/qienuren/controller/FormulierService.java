@@ -19,6 +19,9 @@ public class FormulierService {
     @Autowired
     WerkDagRepository werkDagRepository;
 
+    @Autowired
+    MedewerkerRepository medewerkerRepository;
+
     public Formulier updateFormulier(Formulier nieuwF) {
         // oude formulier ophalen
         Formulier oudF = formulierRepository.findById(nieuwF.getId()).get();
@@ -51,6 +54,8 @@ public class FormulierService {
         }
 
         oudF.setIngezondenFormulier(nieuwF.isIngezondenFormulier());
+        oudF.setOpdrachtgeverStatus(nieuwF.getOpdrachtgeverStatus());
+        oudF.setAdminStatus(nieuwF.getAdminStatus());
 
         System.out.println("Oud TF: " + oudF.getWerkDagen().get(0).getOpdrachtUren());
         System.out.println("nieuw TF: " + nieuwF.getWerkDagen().get(0).getOpdrachtUren());
@@ -88,14 +93,17 @@ public class FormulierService {
     public Formulier AdminStatusGoed(long formulierid, long medewerkerid) {
         System.out.println("hij doet updaten");
         Formulier formuliertijdelijk = formulierRepository.findById(formulierid).get();
-//        Medewerker
         formuliertijdelijk.setAdminStatus(AdminStatus.GOEDGEKEURD);
 
-        //Wanneer adminstatus goedgekeurd wordt
-        //verwijder formulier uit tijdelijkelijst
-        //voeg formulier toe aan archief
-        //bijhorende booleans aanpassen
+        // Zet tijdelijkformulier naar false
+        formuliertijdelijk.setTijdelijkFormulier(false);
 
+        // Voeg toe aan archief en verwijder uit lijst tijdelijkeformulieren
+        Medewerker m = medewerkerRepository.findById(medewerkerid).get();
+        m.voegFormulierToeAanArchief(formuliertijdelijk);
+        m.verwijderFormulierUitTijdelijkeLijst(formuliertijdelijk);
+
+        medewerkerRepository.save(m);
 
         return formulierRepository.save(formuliertijdelijk);
     }
@@ -104,6 +112,7 @@ public class FormulierService {
         System.out.println("hij doet fout updaten");
         Formulier formuliertijdelijk = formulierRepository.findById(id).get();
         formuliertijdelijk.setAdminStatus(AdminStatus.AFGEKEURD);
+        formuliertijdelijk.setIngezondenFormulier(false);
         return formulierRepository.save(formuliertijdelijk);
     }
 
@@ -118,6 +127,7 @@ public class FormulierService {
         System.out.println("hij doet fout updaten");
         Formulier formuliertijdelijk = formulierRepository.findById(id).get();
         formuliertijdelijk.setOpdrachtgeverStatus(OpdrachtgeverStatus.AFGEKEURD);
+        formuliertijdelijk.setIngezondenFormulier(false);
         return formulierRepository.save(formuliertijdelijk);
     }
 

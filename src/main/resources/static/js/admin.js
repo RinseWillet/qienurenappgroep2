@@ -174,7 +174,7 @@ const laatFormulierenZien = () => {
                             }
 
                             inTeVoegenHTML = `<li data-toggle="modal" data-target="#staticBackdrop" 
-                            class="list-group-item list-group-item-action d-flex justify-content-between" id="${tf.id}"><span id="${tf.id}">${mw.naam}</span><span id="${tf.id}">${tf.maand}</span><span id="${tf.id}">${tf.jaar}</span><span id="${tf.id}">${tf.adminStatus}</span><i id="${tf.id}" class="far fa-eye"></i></li>`;
+                            class="list-group-item list-group-item-action d-flex justify-content-between" id="${tf.id}"><span id="verborgen-medewerker-id">${mw.id}</span><span class="medewerker-naam" id="${tf.id}">${mw.naam}</span><span id="${tf.id}">${tf.maand}</span><span id="${tf.id}">${tf.jaar}</span><span id="${tf.id}">${tf.adminStatus}</span><i id="${tf.id}" class="far fa-eye"></i></li>`;
                             formulierenLijst.insertAdjacentHTML('beforeend', inTeVoegenHTML);
                         }
                     })
@@ -210,7 +210,7 @@ const genereerFormulier = (formulier) => {
     }
 
     formulier.maand = maandNummerNaarString(formulier.maand);
-    modalHeader.innerHTML = `<span class="pt-0">Jan Doedel | ${formulier.maand}/${formulier.jaar}</span><span class="pt-0">Status opdrachtgever: ${formulier.opdrachtgeverStatus}</span>`
+    modalHeader.innerHTML = `<span class="pt-0">... | ${formulier.maand}/${formulier.jaar}</span><span class="pt-0">Status opdrachtgever: ${formulier.opdrachtgeverStatus}</span>`
     for (let i = 0; i < formulier.werkDagen.length; i++) {
         formBody.insertAdjacentHTML("beforeend",
             `<tr id="dag-${i + 1}" class="formulier-rij">
@@ -227,6 +227,7 @@ const genereerFormulier = (formulier) => {
 }
 
 const verwijderFormulier = () => {
+    modalHeader.innerHTML = "";
     formBody.innerHTML = "";
 }
 
@@ -253,7 +254,7 @@ formulierenLijst.onclick = function (event) {
 
     goedkeurKnopje.addEventListener('click', () => {
 
-        xhr.open("PUT", `http://localhost:8082/api/admin/update/statusgoed/${id}`, true);
+        xhr.open("PUT", `http://localhost:8082/api/admin/update/statusgoed/${id}/${medewerkerId}`, true);
         xhr.send();
 
         xhr.onreadystatechange = function () {
@@ -389,7 +390,13 @@ const traineeRadio = document.getElementById("radio-trainee");
 // const bedrijfRadio = document.getElementById("radio-bedrijf");
 const contactPersoonRadio = document.getElementById("radio-contactpersoon");
 
-const test = () => {   
+const test = () => {
+
+    document.getElementById("account-aanmaken").addEventListener("click", function(event){
+        event.preventDefault()
+    });
+
+
     console.log("hieroo in de test");
     var xhr = new XMLHttpRequest();
     let dezeIdEmail;
@@ -446,9 +453,30 @@ const test = () => {
         traineeJSON.startDatum = traineeStartDatum;
         traineeJSON.eindDatum = traineeEindDatum;
 
+        //check of email al bestaat
+
+
+
         xhr.open("POST", "http://localhost:8082/api/admin/trainee/nieuw", true);
         xhr.setRequestHeader("Content-Type", "application/json");
         xhr.send(JSON.stringify(traineeJSON));
+        alert(this.responseText); //geeft een lege melding terug, zonder deze alert werkte de andere ook ineens niet meer.
+
+        xhr.onreadystatechange = function (){
+            if(xhr.readyState == 4){
+                alert(this.responseText); //doet het nu niet meer
+
+                // let emailCheck = this.responseText;
+                // if (emailCheck.email === null){
+                //     alert("emailadres bestaat al, voer een ander emailadres in")
+                // } else{
+                //     alert("trainee aangemaakt")
+                }
+
+                //  console.log(this.responseText);
+            }
+
+
     }
 
     if (contactPersoonRadio.checked) {

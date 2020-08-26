@@ -7,12 +7,15 @@ import lombok.Setter;
 import javax.persistence.*;
 
 @Entity
+@Table(uniqueConstraints={@UniqueConstraint(columnNames={"email"})})
 public class Persoon {
 
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)
     private long id;
     private String naam;
+
+    @Column(name = "email")
     private String email;
     private String telefoonnr;
 
