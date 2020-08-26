@@ -31,6 +31,7 @@ public class AdminEndpoint {
 
     @PostMapping("/trainee/nieuw")
     public Trainee newTrainee(@RequestBody Trainee trainee) {
+
         return traineeService.addTrainee(trainee);
     }
 
