@@ -49,5 +49,17 @@ public class TraineeEndpoint {
         return t.getTijdelijkeFormulieren();
     }
 
+    @GetMapping("/formulier/{traineeId}/{formulierId}")
+    public Formulier getFormulier(@PathVariable(value = "traineeId") long traineeId, @PathVariable(value = "formulierId") long formulierId) {
+        Trainee t = traineeService.getTraineeById(traineeId);
+        Iterable<Formulier> formulieren = t.getTijdelijkeFormulieren();
+        for (Formulier f : formulieren) {
+            if (f.getId() == formulierId) {
+                return f;
+            }
+        }
+        return null;
+    }
+
 
 }
