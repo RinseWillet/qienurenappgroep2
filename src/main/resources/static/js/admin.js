@@ -19,7 +19,6 @@ const takenTraineePostcode = document.getElementById("takenTrainee-postcode");
 const takenTraineeWoonplaats = document.getElementById("takenTrainee-woonplaats");
 
 
-
 var selectTrainee = document.getElementById("trainee_select");
 var selectContactPersoon = document.getElementById("contactpersoon_select");
 var selectBedrijf = document.getElementById("bedrijf_select");
@@ -34,15 +33,14 @@ AANROEPEN VAN METHODES BIJ OPENEN PAGINA
 */
 
 
-
-window.onload = function() {
+window.onload = function () {
     laatFormulierenZien();
     laatMedewerkersZien();
     // laatBedrijvenZien();
     updateTraineeSelector();
     updateContactPersoonSelector();
     laadAlleTrainees();
-  };
+};
 
 
 const maandNummerNaarString = (maandNummer) => {
@@ -98,34 +96,37 @@ const laatTakenZien = () => {
             if (deTijdelijkeTrainees.length > 0) {
 
                 deTijdelijkeTrainees.forEach((tt) => {
-                    console.log(deTijdelijkeTrainees);
-        
-                    deTrainees.forEach((elkeTrainee) => { 
-                        if(tt.oorspronkelijkeId === elkeTrainee.id) {
-                            console.log(elkeTrainee.id);
-                            console.log(elkeTrainee.naam);
+                        console.log(deTijdelijkeTrainees);
 
-                            // voegGegevensTraineeInTaken(elkeTrainee.id, elkeTrainee.naam, elkeTrainee.email, elkeTrainee.telefoonnr
-                            //     ,elkeTrainee.straatNaamNr, elkeTrainee.postcode, elkeTrainee.woonplaats);
+                        deTrainees.forEach((elkeTrainee) => {
+                            if (tt.oorspronkelijkeId === elkeTrainee.id) {
+                                console.log(elkeTrainee.id);
+                                console.log(elkeTrainee.naam);
 
-                            inTeVoegenHTML = `<li data-toggle="modal" data-target="#takenModal" 
+                                // voegGegevensTraineeInTaken(elkeTrainee.id, elkeTrainee.naam, elkeTrainee.email, elkeTrainee.telefoonnr
+                                //     ,elkeTrainee.straatNaamNr, elkeTrainee.postcode, elkeTrainee.woonplaats);
+
+                                inTeVoegenHTML = `<li data-toggle="modal" data-target="#takenModal" 
                             class="list-group-item list-group-item-action d-flex justify-content-between" onclick="voegGegevensTraineeInTaken()" id="${elkeTrainee.id}"><span id="${elkeTrainee.id}">${elkeTrainee.naam}</span><i id="${elkeTrainee.id}" class="far fa-eye"></i></li>`;
-                            takenLijst.insertAdjacentHTML('beforeend', inTeVoegenHTML);
-                    } })
+                                takenLijst.insertAdjacentHTML('beforeend', inTeVoegenHTML);
+                            }
+                        })
 
-                }
+                    }
                 )
-            } } }
+            }
+        }
+    }
 
     xhr.open("GET", "http://localhost:8082/api/admin/tijdelijkeTrainee/all", true);
     xhr.send();
-} 
+}
 
 
-function voegGegevensTraineeInTaken (id) {
+function voegGegevensTraineeInTaken(id) {
     let xhr = new XMLHttpRequest();
 
-    xhr.onreadystatechange = function() {
+    xhr.onreadystatechange = function () {
         if (xhr.readyState === 4) {
             let welkomHtml = ``;
             takenTraineeNaam.innerHTML = `${id.naam}`;
@@ -136,11 +137,9 @@ function voegGegevensTraineeInTaken (id) {
             takenTraineeWoonplaats.innerHTML = `${id.woonplaats}`;
         }
     }
-    xhr.open("GET", `http://localhost:8082/api/trainee/${id}` , true);
+    xhr.open("GET", `http://localhost:8082/api/trainee/${id}`, true);
     xhr.send();
 }
-
-
 
 
 /*
@@ -392,7 +391,7 @@ const contactPersoonRadio = document.getElementById("radio-contactpersoon");
 
 const test = () => {
 
-    document.getElementById("account-aanmaken").addEventListener("click", function(event){
+    document.getElementById("account-aanmaken").addEventListener("click", function (event) {
         event.preventDefault()
     });
 
@@ -400,7 +399,7 @@ const test = () => {
     console.log("hieroo in de test");
     var xhr = new XMLHttpRequest();
     let dezeIdEmail;
-    if (interneMedewerkerRadio.checked) {        
+    if (interneMedewerkerRadio.checked) {
         const interneMedewerkerType = interneMedewerkerRadio.value;
         const interneMedewerkerNaam = document.getElementById("interne-mw-naam").value;
         const interneMedewerkerEmail = document.getElementById("interne-mw-email").value;
@@ -453,28 +452,26 @@ const test = () => {
         traineeJSON.startDatum = traineeStartDatum;
         traineeJSON.eindDatum = traineeEindDatum;
 
-        //check of email al bestaat
 
+        xhr.onreadystatechange = function () {
 
+            if (xhr.readyState == 4) {
+                console.log("regel 459");
+                if (xhr.status === 200) {
+                    alert("Trainee is aangemaakt :D");
+                } else if (xhr.status === 409) {
+                    alert("Dit is wat je volgens mij van de backend krijgt :) :" + xhr.responseText);
+                    alert("emailadres bestaat al, voer een ander emailadres in");
+                } else {
+                   alert("Ik weet niet wat er mis ging, maar de http-status code is ......" + xhr.status + " oftewel "+ xhr.statusText);
+                }
+            }
+        }
 
         xhr.open("POST", "http://localhost:8082/api/admin/trainee/nieuw", true);
         xhr.setRequestHeader("Content-Type", "application/json");
         xhr.send(JSON.stringify(traineeJSON));
-        alert(this.responseText); //geeft een lege melding terug, zonder deze alert werkte de andere ook ineens niet meer.
-
-        xhr.onreadystatechange = function (){
-            if(xhr.readyState == 4){
-                alert(this.responseText); //doet het nu niet meer
-
-                // let emailCheck = this.responseText;
-                // if (emailCheck.email === null){
-                //     alert("emailadres bestaat al, voer een ander emailadres in")
-                // } else{
-                //     alert("trainee aangemaakt")
-                }
-
-                //  console.log(this.responseText);
-            }
+        //alert(this.responseText); //geeft een lege melding terug, zonder deze alert werkte de andere ook ineens niet meer.
 
 
     }
@@ -496,7 +493,7 @@ const test = () => {
 methode om ContactPersoon aan te maken
 */
 
-const ContactPersoonAanmaken =(bedrijfsID) => {
+const ContactPersoonAanmaken = (bedrijfsID) => {
 
     var xhr = new XMLHttpRequest();
     const contactPersoonType = contactPersoonRadio.value;
@@ -764,6 +761,7 @@ for (var i = 0; i < radios.length; i++) {
         }
     });
 }
+
 /*
 Alle Trainees ophalen uit de database en in 'alleTrainees' stoppen
 */
@@ -784,7 +782,6 @@ function laadAlleTrainees() {
 }
 
 
-
 /*
 trainees laden selectorknop relatie koppelen
 */
@@ -797,7 +794,7 @@ const updateTraineeSelector = () => {
             deTrainees = JSON.parse(this.responseText);
             let inTeVoegenHTML = ``;
             if (deTrainees.length > 0) {
-                deTrainees.forEach((e) => {                    
+                deTrainees.forEach((e) => {
                     inTeVoegenHTML = `<option id=${e.id}>${e.naam}</option>`;
                     selectTrainee = document.getElementById("trainee_select");
                     selectTrainee.insertAdjacentHTML('beforeend', inTeVoegenHTML);
@@ -823,7 +820,7 @@ const updateContactPersoonSelector = () => {
             let inTeVoegenHTML = ``;
 
 
-            if (deContactPersonen.length > 0) {                
+            if (deContactPersonen.length > 0) {
                 deContactPersonen.forEach((e) => {
 
                     inTeVoegenHTML = `<option id=${e.id}>${e.naam}</option>`;
@@ -882,14 +879,14 @@ function koppelTraineeContactpersoon(s, d) {
     //     console.log("hierrrro");
     //     alert("Graag een trainee en een contactpersoon selecteren");
     // } else {
-        xhr.onreadystatechange = function () {
-            console.log("nieuwe koppeling gemaakt")
-            if (xhr.readyState == 4) {
-                location.reload();
-            }
+    xhr.onreadystatechange = function () {
+        console.log("nieuwe koppeling gemaakt")
+        if (xhr.readyState == 4) {
+            location.reload();
         }
-        xhr.open("PUT", `http://localhost:8082/api/admin/trainee/koppelContactPersoon/${traineeId}/${ContactPersoonId}`, true);
-        xhr.send();
+    }
+    xhr.open("PUT", `http://localhost:8082/api/admin/trainee/koppelContactPersoon/${traineeId}/${ContactPersoonId}`, true);
+    xhr.send();
     //}
 }
 
@@ -976,4 +973,5 @@ for (var i = 0; i < radiosKoppelen.length; i++) {
         }
     });
 }
+
 
