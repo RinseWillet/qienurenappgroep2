@@ -28,14 +28,9 @@ public class TraineeService {
 
     //kijkt eerst of het emailadres al in de database staat.
     public Trainee addTrainee(Trainee trainee){
-
-        for (Trainee traineedb: traineeRepository.findAll()) {
-            if (trainee.getEmail().equals(traineedb.getEmail())) {
-                System.out.println("email bestaat al");
-                throw new ResponseStatusException(HttpStatus.CONFLICT, "email bestaat al");
-            }
+        if(traineeRepository.findByEmail(trainee.getEmail()).isPresent()) {
+            throw new ResponseStatusException(HttpStatus.CONFLICT, "email bestaat al");
         }
-        System.out.println("emailadres bestaat nog niet");
         return traineeRepository.save(trainee);
     }
 

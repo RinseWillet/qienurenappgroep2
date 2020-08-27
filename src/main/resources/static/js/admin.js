@@ -453,6 +453,10 @@ const test = () => {
         traineeJSON.eindDatum = traineeEindDatum;
 
 
+
+
+        xhr.open("POST", "http://localhost:8082/api/admin/trainee/nieuw", false);
+        xhr.setRequestHeader("Content-Type", "application/json");
         xhr.onreadystatechange = function () {
 
             if (xhr.readyState == 4) {
@@ -463,17 +467,12 @@ const test = () => {
                     alert("Dit is wat je volgens mij van de backend krijgt :) :" + xhr.responseText);
                     alert("emailadres bestaat al, voer een ander emailadres in");
                 } else {
-                   alert("Ik weet niet wat er mis ging, maar de http-status code is ......" + xhr.status + " oftewel "+ xhr.statusText);
+                    alert("Ik weet niet wat er mis ging, maar de http-status code is ......" + xhr.status + " oftewel "+ xhr.statusText);
                 }
             }
         }
-
-        xhr.open("POST", "http://localhost:8082/api/admin/trainee/nieuw", true);
-        xhr.setRequestHeader("Content-Type", "application/json");
         xhr.send(JSON.stringify(traineeJSON));
         //alert(this.responseText); //geeft een lege melding terug, zonder deze alert werkte de andere ook ineens niet meer.
-
-
     }
 
     if (contactPersoonRadio.checked) {
