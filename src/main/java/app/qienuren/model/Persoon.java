@@ -1,6 +1,7 @@
 package app.qienuren.model;
 
 
+import app.qienuren.controller.PersoonService;
 import lombok.Getter;
 import lombok.Setter;
 
