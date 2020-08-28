@@ -17,8 +17,6 @@ const takenTraineeTelnr = document.getElementById("takenTrainee-telnr");
 const takenTraineeAdres = document.getElementById("takenTrainee-adres");
 const takenTraineePostcode = document.getElementById("takenTrainee-postcode");
 const takenTraineeWoonplaats = document.getElementById("takenTrainee-woonplaats");
-
-
 var selectTrainee = document.getElementById("trainee_select");
 var selectContactPersoon = document.getElementById("contactpersoon_select");
 var selectBedrijf = document.getElementById("bedrijf_select");
@@ -26,7 +24,7 @@ const relatieContainer = document.getElementById("relatiekoppel-container");
 var selectTraineeId;
 let deMedewerkers;
 let alleTrainees;
-
+let tijdelijkeTrainees
 
 /*
 AANROEPEN VAN METHODES BIJ OPENEN PAGINA
@@ -83,64 +81,61 @@ TAKENLIJST
 */
 
 const laatTakenZien = () => {
-
     let xhr = new XMLHttpRequest();
-
     xhr.onreadystatechange = function () {
         if (xhr.readyState == 4) {
-
-            deTijdelijkeTrainees = JSON.parse(this.responseText);
-
+            tijdelijkeTrainees = JSON.parse(this.responseText);
             let inTeVoegenHTML = ``;
-
-            if (deTijdelijkeTrainees.length > 0) {
-
-                deTijdelijkeTrainees.forEach((tt) => {
-                        console.log(deTijdelijkeTrainees);
-
-                        deTrainees.forEach((elkeTrainee) => {
-                            if (tt.oorspronkelijkeId === elkeTrainee.id) {
-                                console.log(elkeTrainee.id);
-                                console.log(elkeTrainee.naam);
-
-                                // voegGegevensTraineeInTaken(elkeTrainee.id, elkeTrainee.naam, elkeTrainee.email, elkeTrainee.telefoonnr
-                                //     ,elkeTrainee.straatNaamNr, elkeTrainee.postcode, elkeTrainee.woonplaats);
-
+            if (tijdelijkeTrainees.length > 0) {
+                tijdelijkeTrainees.forEach((tt) => {
+                        alleTrainees.forEach((t) => {
+                            if(tt.oorspronkelijkeId === t.id) {
+                                console.log(t)
                                 inTeVoegenHTML = `<li data-toggle="modal" data-target="#takenModal" 
-                            class="list-group-item list-group-item-action d-flex justify-content-between" onclick="voegGegevensTraineeInTaken()" id="${elkeTrainee.id}"><span id="${elkeTrainee.id}">${elkeTrainee.naam}</span><i id="${elkeTrainee.id}" class="far fa-eye"></i></li>`;
+                                class="list-group-item list-group-item-action d-flex justify-content-between" id="${t.id}"><span id="${t.id}">${t.naam}</span>
+                                <i id="${t.id}" class="far fa-eye"></i></li>`;
                                 takenLijst.insertAdjacentHTML('beforeend', inTeVoegenHTML);
                             }
                         })
-
-                    }
-                )
+                    })
+                }
             }
         }
-    }
-
     xhr.open("GET", "http://localhost:8082/api/admin/tijdelijkeTrainee/all", true);
     xhr.send();
 }
 
 
-function voegGegevensTraineeInTaken(id) {
-    let xhr = new XMLHttpRequest();
 
-    xhr.onreadystatechange = function () {
-        if (xhr.readyState === 4) {
-            let welkomHtml = ``;
-            takenTraineeNaam.innerHTML = `${id.naam}`;
-            takenTraineeEmail.innerHTML = `${id.email}`;
-            takenTraineeTelnr.innerHTML = `${id.telefoonnr}`;
-            takenTraineeAdres.innerHTML = `${id.straatNaamNr}`;
-            takenTraineePostcode.innerHTML = `${id.postcode}`;
-            takenTraineeWoonplaats.innerHTML = `${id.woonplaats}`;
-        }
+takenLijst.onclick = function(event ){
+    console.log("in takenlijst onclick");
+    if (tijdelijkeTrainees.length > 0) {
+        tijdelijkeTrainees.forEach((tt) => {
+            alleTrainees.forEach((t) => {
+                if(tt.oorspronkelijkeId === t.id) {
+                    console.log(">>>>>>>>>" + t.id)
+                    console.log(">>>>>>>>>" + tt.oorspronkelijkeId)
+                    let xhr = new XMLHttpRequest();
+                    xhr.onreadystatechange = function() {
+                        if (xhr.readyState === 4) {
+
+                            t = JSON.parse(this.responseText);
+                            takenTraineeNaam.innerHTML = `${t.naam}`;
+                            takenTraineeEmail.innerHTML = `${t.email}`;
+                            takenTraineeTelnr.innerHTML = `${t.telefoonnr}`;
+                            takenTraineeAdres.innerHTML = `${t.straatNaamNr}`;
+                            takenTraineePostcode.innerHTML = `${t.postcode}`;
+                            takenTraineeWoonplaats.innerHTML = `${t.woonplaats}`;
+                        }
+                    }
+                    console.log('>>>>>>>>>' + t.id)
+                    xhr.open("GET", `http://localhost:8082/api/trainee/${t.id}` , true);
+                    xhr.send();
+                }
+            })
+        })
     }
-    xhr.open("GET", `http://localhost:8082/api/trainee/${id}`, true);
-    xhr.send();
 }
-
 
 /*
 FORMULIEREN
@@ -180,7 +175,7 @@ const laatFormulierenZien = () => {
 
                     // inTeVoegenHTML = `<li data-toggle="modal" data-target="#staticBackdrop" href="./formulier.html?id=${e.id}"
                     // class="list-group-item list-group-item-action" id="${e.id}">${e.naam} | ${e.maand} | ${e.jaar} | ${e.formulierstatus}</li>`;
-                    // inTeVoegenHTML = `<li data-toggle="modal" data-target="#staticBackdrop" 
+                    // inTeVoegenHTML = `<li data-toggle="modal" data-target="#staticBackdrop"
                     // class="list-group-item list-group-item-action d-flex justify-content-between" id="${e.id}"><span id="${e.id}">Rinse Willet</span><span id="${e.id}">${e.maand}</span><span id="${e.id}">${e.jaar}</span><span id="${e.id}">${e.adminStatus}</span><i id="${e.id}" class="far fa-eye"></i></li>`;
                     // formulierenLijst.insertAdjacentHTML('beforeend', inTeVoegenHTML);
                 })
@@ -972,5 +967,4 @@ for (var i = 0; i < radiosKoppelen.length; i++) {
         }
     });
 }
-
 
