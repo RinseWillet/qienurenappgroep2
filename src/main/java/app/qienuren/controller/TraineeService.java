@@ -2,7 +2,10 @@ package app.qienuren.controller;
 
 import app.qienuren.model.*;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
+import org.springframework.web.server.ResponseStatusException;
 
 import javax.transaction.Transactional;
 import java.util.ArrayList;
@@ -25,14 +28,9 @@ public class TraineeService {
 
     //kijkt eerst of het emailadres al in de database staat.
     public Trainee addTrainee(Trainee trainee){
-
-        for (Trainee traineedb: traineeRepository.findAll()) {
-            if (trainee.getEmail().equals(traineedb.getEmail())) {
-                System.out.println("email bestaat al");
-                return null;
-            }
+        if(traineeRepository.findByEmail(trainee.getEmail()).isPresent()) {
+            throw new ResponseStatusException(HttpStatus.CONFLICT, "email bestaat al");
         }
-        System.out.println("emailadres bestaat nog niet");
         return traineeRepository.save(trainee);
     }
 

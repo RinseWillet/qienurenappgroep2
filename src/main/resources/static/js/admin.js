@@ -31,8 +31,7 @@ AANROEPEN VAN METHODES BIJ OPENEN PAGINA
 */
 
 
-
-window.onload = function() {
+window.onload = function () {
     laatFormulierenZien();
     laatMedewerkersZien();
     // laatBedrijvenZien();
@@ -102,14 +101,13 @@ const laatTakenZien = () => {
                 }
             }
         }
-
     xhr.open("GET", "http://localhost:8082/api/admin/tijdelijkeTrainee/all", true);
     xhr.send();
 }
 
 
-takenLijst.onclick = function(event ){
 
+takenLijst.onclick = function(event ){
     console.log("in takenlijst onclick");
     if (tijdelijkeTrainees.length > 0) {
         tijdelijkeTrainees.forEach((tt) => {
@@ -119,7 +117,6 @@ takenLijst.onclick = function(event ){
                     console.log(">>>>>>>>>" + tt.oorspronkelijkeId)
                     let xhr = new XMLHttpRequest();
                     xhr.onreadystatechange = function() {
-
                         if (xhr.readyState === 4) {
 
                             t = JSON.parse(this.responseText);
@@ -389,7 +386,7 @@ const contactPersoonRadio = document.getElementById("radio-contactpersoon");
 
 const test = () => {
 
-    document.getElementById("account-aanmaken").addEventListener("click", function(event){
+    document.getElementById("account-aanmaken").addEventListener("click", function (event) {
         event.preventDefault()
     });
 
@@ -450,30 +447,27 @@ const test = () => {
         traineeJSON.startDatum = traineeStartDatum;
         traineeJSON.eindDatum = traineeEindDatum;
 
-        //check of email al bestaat
 
 
 
-        xhr.open("POST", "http://localhost:8082/api/admin/trainee/nieuw", true);
+        xhr.open("POST", "http://localhost:8082/api/admin/trainee/nieuw", false);
         xhr.setRequestHeader("Content-Type", "application/json");
-        xhr.send(JSON.stringify(traineeJSON));
-        alert(this.responseText); //geeft een lege melding terug, zonder deze alert werkte de andere ook ineens niet meer.
+        xhr.onreadystatechange = function () {
 
-        xhr.onreadystatechange = function (){
-            if(xhr.readyState == 4){
-                alert(this.responseText); //doet het nu niet meer
-
-                // let emailCheck = this.responseText;
-                // if (emailCheck.email === null){
-                //     alert("emailadres bestaat al, voer een ander emailadres in")
-                // } else{
-                //     alert("trainee aangemaakt")
+            if (xhr.readyState == 4) {
+                console.log("regel 459");
+                if (xhr.status === 200) {
+                    alert("Trainee is aangemaakt :D");
+                } else if (xhr.status === 409) {
+                    alert("Dit is wat je volgens mij van de backend krijgt :) :" + xhr.responseText);
+                    alert("emailadres bestaat al, voer een ander emailadres in");
+                } else {
+                    alert("Ik weet niet wat er mis ging, maar de http-status code is ......" + xhr.status + " oftewel "+ xhr.statusText);
+                }
             }
-
-            //  console.log(this.responseText);
         }
-
-
+        xhr.send(JSON.stringify(traineeJSON));
+        //alert(this.responseText); //geeft een lege melding terug, zonder deze alert werkte de andere ook ineens niet meer.
     }
 
     if (contactPersoonRadio.checked) {
@@ -493,7 +487,7 @@ const test = () => {
 methode om ContactPersoon aan te maken
 */
 
-const ContactPersoonAanmaken =(bedrijfsID) => {
+const ContactPersoonAanmaken = (bedrijfsID) => {
 
     var xhr = new XMLHttpRequest();
     const contactPersoonType = contactPersoonRadio.value;
@@ -761,6 +755,7 @@ for (var i = 0; i < radios.length; i++) {
         }
     });
 }
+
 /*
 Alle Trainees ophalen uit de database en in 'alleTrainees' stoppen
 */
@@ -779,7 +774,6 @@ function laadAlleTrainees() {
     xhr.open("GET", "http://localhost:8082/api/admin/trainee/all", true);
     xhr.send();
 }
-
 
 
 /*
@@ -973,3 +967,4 @@ for (var i = 0; i < radiosKoppelen.length; i++) {
         }
     });
 }
+
