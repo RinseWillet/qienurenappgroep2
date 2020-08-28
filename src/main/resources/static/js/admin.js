@@ -8,8 +8,13 @@ const modalHeader = document.querySelector(".modal-title");
 const modalFooter = document.querySelector(".modal-footer");
 const klikbaarOogje = document.querySelector(".fa-eye");
 const goedkeurKnopje = document.getElementById("goedkeuren");
+
 const afkeurKnopje = document.getElementById("afkeuren");
 const relatieAanmakenKnop = document.getElementById("knop-relatie-aanmaken");
+
+const gegevensGoedkeurKnopje = document.getElementById("goedkeurknop-gegevens");
+const gegevensAfkeurKnopje = document.getElementById("afkeurknop-gegevens");
+
 const toevoegenGebruikerContainer = document.getElementById("toevoegen-gebruiker-container");
 const takenTraineeNaam = document.getElementById("takenTrainee-naam");
 const takenTraineeEmail = document.getElementById("takenTrainee-email");
@@ -17,6 +22,14 @@ const takenTraineeTelnr = document.getElementById("takenTrainee-telnr");
 const takenTraineeAdres = document.getElementById("takenTrainee-adres");
 const takenTraineePostcode = document.getElementById("takenTrainee-postcode");
 const takenTraineeWoonplaats = document.getElementById("takenTrainee-woonplaats");
+
+const takenTijdelijkeTraineeNaam = document.getElementById("takenTijdelijkeTrainee-naam");
+const takenTijdelijkeTraineeEmail = document.getElementById("takenTijdelijkeTrainee-email");
+const takenTijdelijkeTraineeTelnr = document.getElementById("takenTijdelijkeTrainee-telnr");
+const takenTijdelijkeTraineeAdres = document.getElementById("takenTijdelijkeTrainee-adres");
+const takenTijdelijkeTraineePostcode = document.getElementById("takenTijdelijkeTrainee-postcode");
+const takenTijdelijkeTraineeWoonplaats = document.getElementById("takenTijdelijkeTrainee-woonplaats");
+
 var selectTrainee = document.getElementById("trainee_select");
 var selectContactPersoon = document.getElementById("contactpersoon_select");
 var selectBedrijf = document.getElementById("bedrijf_select");
@@ -88,19 +101,21 @@ const laatTakenZien = () => {
             let inTeVoegenHTML = ``;
             if (tijdelijkeTrainees.length > 0) {
                 tijdelijkeTrainees.forEach((tt) => {
-                        alleTrainees.forEach((t) => {
-                            if(tt.oorspronkelijkeId === t.id) {
-                                console.log(t)
-                                inTeVoegenHTML = `<li data-toggle="modal" data-target="#takenModal" 
-                                class="list-group-item list-group-item-action d-flex justify-content-between" id="${t.id}"><span id="${t.id}">${t.naam}</span>
+
+                    alleTrainees.forEach((t) => {
+                        if(tt.oorspronkelijkeId === t.id) {
+                            console.log(t)
+                            inTeVoegenHTML = `<li data-toggle="modal" data-target="#takenModal" 
+                                class="list-group-item list-group-item-action d-flex justify-content-between" id="${t.id}"><span id="${t.id}">${t.naam}</span><span id="${t.id}">Gegevenswijziging</span>
                                 <i id="${t.id}" class="far fa-eye"></i></li>`;
-                                takenLijst.insertAdjacentHTML('beforeend', inTeVoegenHTML);
-                            }
-                        })
+                            takenLijst.insertAdjacentHTML('beforeend', inTeVoegenHTML);
+                        }
                     })
-                }
+                })
             }
         }
+    }
+
     xhr.open("GET", "http://localhost:8082/api/admin/tijdelijkeTrainee/all", true);
     xhr.send();
 }
@@ -108,33 +123,86 @@ const laatTakenZien = () => {
 
 
 takenLijst.onclick = function(event ){
-    console.log("in takenlijst onclick");
-    if (tijdelijkeTrainees.length > 0) {
-        tijdelijkeTrainees.forEach((tt) => {
-            alleTrainees.forEach((t) => {
-                if(tt.oorspronkelijkeId === t.id) {
-                    console.log(">>>>>>>>>" + t.id)
-                    console.log(">>>>>>>>>" + tt.oorspronkelijkeId)
-                    let xhr = new XMLHttpRequest();
-                    xhr.onreadystatechange = function() {
-                        if (xhr.readyState === 4) {
 
-                            t = JSON.parse(this.responseText);
-                            takenTraineeNaam.innerHTML = `${t.naam}`;
-                            takenTraineeEmail.innerHTML = `${t.email}`;
-                            takenTraineeTelnr.innerHTML = `${t.telefoonnr}`;
-                            takenTraineeAdres.innerHTML = `${t.straatNaamNr}`;
-                            takenTraineePostcode.innerHTML = `${t.postcode}`;
-                            takenTraineeWoonplaats.innerHTML = `${t.woonplaats}`;
-                        }
-                    }
-                    console.log('>>>>>>>>>' + t.id)
-                    xhr.open("GET", `http://localhost:8082/api/trainee/${t.id}` , true);
-                    xhr.send();
-                }
-            })
-        })
+    var target = getEventTarget(event);
+    let id = target.id;
+    let trainee;
+    var xhr = new XMLHttpRequest();
+    xhr.onreadystatechange = function () {
+        if (xhr.readyState == 4) {
+            trainee = JSON.parse(this.responseText);
+
+            // takenTraineeNaam.innerHTML = "";
+            // takenTraineeEmail.innerHTML = "";
+            // takenTraineeTelnr.innerHTML = "";
+            // takenTraineeAdres.innerHTML = "";
+            // takenTraineePostcode.innerHTML = "";
+            // takenTraineeWoonplaats.innerHTML = "";
+
+            takenTraineeNaam.innerHTML = `${trainee.naam}`;
+            takenTraineeEmail.innerHTML = `${trainee.email}`;
+            takenTraineeTelnr.innerHTML = `${trainee.telefoonnr}`;
+            takenTraineeAdres.innerHTML = `${trainee.straatNaamNr}`;
+            takenTraineePostcode.innerHTML = `${trainee.postcode}`;
+            takenTraineeWoonplaats.innerHTML = `${trainee.woonplaats}`;
+        }
     }
+
+    xhr.open("GET", `http://localhost:8082/api/trainee/${id}`, true);
+    xhr.send();
+
+    let tijdelijkeTrainee;
+
+    var xhr2 = new XMLHttpRequest();
+    xhr2.onreadystatechange = function () {
+        if (xhr2.readyState == 4) {
+            tijdelijkeTrainee = JSON.parse(this.responseText);
+            
+            // takenTijdelijkeTraineeNaam.innerHTML = "";
+            // takenTijdelijkeTraineeEmail.innerHTML = "";
+            // takenTijdelijkeTraineeTelnr.innerHTML = "";
+            // takenTijdelijkeTraineeAdres.innerHTML = "";
+            // takenTijdelijkeTraineePostcode.innerHTML = "";
+            // takenTijdelijkeTraineeWoonplaats.innerHTML = "";
+
+            takenTijdelijkeTraineeNaam.innerHTML = (tijdelijkeTrainee.naam == "" || tijdelijkeTrainee == null) ? `<i>Geen Wijziging</i>` : `<b>${tijdelijkeTrainee.naam}</b>`;
+            takenTijdelijkeTraineeEmail.innerHTML = (tijdelijkeTrainee.email == "" || tijdelijkeTrainee == null) ? `<i>Geen Wijziging</i>` : `<b>${tijdelijkeTrainee.email}</b>`;
+            takenTijdelijkeTraineeTelnr.innerHTML = (tijdelijkeTrainee.telefoonnr == "" || tijdelijkeTrainee == null) ? `<i>Geen Wijziging</i>` : `<b>${tijdelijkeTrainee.telefoonnr}</b>`;
+            takenTijdelijkeTraineeAdres.innerHTML = (tijdelijkeTrainee.straatNaamNr == "" || tijdelijkeTrainee == null) ? `<i>Geen Wijziging</i>` : `<b>${tijdelijkeTrainee.straatNaamNr}</b>`;
+            takenTijdelijkeTraineePostcode.innerHTML = (tijdelijkeTrainee.postcode == "" || tijdelijkeTrainee == null) ? `<i>Geen Wijziging</i>` : `<b>${tijdelijkeTrainee.postcode}</b>`;
+            takenTijdelijkeTraineeWoonplaats.innerHTML = (tijdelijkeTrainee.woonplaats == "" || tijdelijkeTrainee == null) ? `<i>Geen Wijziging</i>` : `<b>${tijdelijkeTrainee.woonplaats}</b>`;
+
+        }
+    }
+
+    xhr2.open("GET", `http://localhost:8082/api/trainee/tijdelijketrainee/oorspronkelijketraineeid/${id}`, true);
+    xhr2.send();
+
+    gegevensGoedkeurKnopje.addEventListener('click', () => {
+        alert("trainee id>> " + trainee.woonplaats + "\ntijdelijkeTrainee id>> " + tijdelijkeTrainee.woonplaats);
+
+        var xhr3 = new XMLHttpRequest();
+
+        xhr3.open("PUT", `http://localhost:8082/api/admin/goedkeurengegevens/${trainee.id}/${tijdelijkeTrainee.id}`, true);
+        xhr3.send();
+
+        xhr3.onreadystatechange = function () {
+            if (xhr3.readyState == 4) {
+                location.reload();
+            }
+        }
+    })
+    // gegevensAfkeurKnopje.addEventListener('click', () => {
+
+    //     xhr.open("PUT", `http://localhost:8082/api/admin/update/statusfout/${id}`, true);
+    //     xhr.send();
+
+    //     xhr.onreadystatechange = function () {
+    //         if (xhr.readyState == 4) {
+    //             location.reload();
+    //         }
+    //     }
+    // })
 }
 
 /*
@@ -966,4 +1034,3 @@ for (var i = 0; i < radiosKoppelen.length; i++) {
         }
     });
 }
-
