@@ -59,16 +59,14 @@
                         <ul class="nav nav-tabs mt-2" id="myTab" role="tablist">
 
                             <li class="nav-item">
-                                <a class="nav-link" id="taken-tab-tab" data-toggle="tab"
-                                    href="#taken-tab" role="tab" aria-controls="taken-tab"
-                                    aria-selected="true">Openstaande taken</a>
+                                <a class="nav-link" id="taken-tab-tab" data-toggle="tab" href="#taken-tab" role="tab"
+                                    aria-controls="taken-tab" aria-selected="true">Openstaande taken</a>
 
                             </li>
 
                             <li class="nav-item">
-                                <a class="nav-link" id="medewerkers-tab-tab" data-toggle="tab"
-                                    href="#medewerkers-tab" role="tab" aria-controls="medewerkers-tab"
-                                    aria-selected="false">Medewerkers</a>
+                                <a class="nav-link" id="medewerkers-tab-tab" data-toggle="tab" href="#medewerkers-tab"
+                                    role="tab" aria-controls="medewerkers-tab" aria-selected="false">Medewerkers</a>
 
                             </li>
                             <!--                        <li class="nav-item">
@@ -87,8 +85,7 @@
 
                             <!-- TAKEN TABBLAD -->
 
-                            <div class="tab-pane" id="taken-tab" role="tabpanel"
-                                aria-labelledby="taken-tab-tab">
+                            <div class="tab-pane" id="taken-tab" role="tabpanel" aria-labelledby="taken-tab-tab">
                                 <form class="form-inline my-2 my-lg-0">
                                     <input class="zoeken-input form-control mt-3 mb-3 mr-sm-2" type="search"
                                         placeholder="Zoeken..." aria-label="Search">
@@ -96,10 +93,11 @@
                                             class="fas fa-search"></i></button>
                                 </form>
                                 <div class="list-group mb-5" id="taken-list">
+
                                     <li data-toggle="modal" data-target="#takenModal"
                                         class="list-group-item list-group-header list-group-item-action d-flex justify-content-between"
                                         id="${tt.id}">
-                                        <span>Naam</span><span>Type</span><span>Bedrijf</span><span>ContactPersoon</span><i
+                                        <span>Naam</span><span>Type Wijziging</span><i
                                             class="far fa-eye transparant"></i>
                                     </li>
 
@@ -540,31 +538,88 @@
 
 
                         <!-- Modal Taken Lijst -->
-                                   
-                                    <div class="modal fade" id="takenModal" data-backdrop="static" data-keyboard="false" tabindex="-1" aria-labelledby="staticBackdropLabel" aria-hidden="true">
-                                        <div class="modal-dialog">
-                                        <div class="modal-content">
-                                            <div class="modal-header">
-                                            <h5 class="modal-title" id="staticBackdropLabel">Modal title</h5>
+
+                        <div class="modal fade" id="takenModal" data-backdrop="static" data-keyboard="false"
+                            tabindex="-1" aria-labelledby="staticBackdropLabel" aria-hidden="true">
+                            <div class="modal-dialog">
+                                <div class="container">
+                                    <div class="modal-content">
+                                        <div class="modal-header">
+                                            <h5 class="modal-title" id="staticBackdropLabel">Gegevenswijziging</h5>
                                             <button type="button" class="close" data-dismiss="modal" aria-label="Close">
                                                 <span aria-hidden="true">&times;</span>
                                             </button>
-                                            </div>
-                                                <div class="modal-body">
-                                                    <div class="d-flex align-items-baseline"><i class="far fa-user fa-sm float-left"></i><p id="takenTrainee-naam"></p></div>
-                                                    <div class="d-flex align-items-baseline"><i class="fas fa-at fa-sm float-left"></i><p id="takenTrainee-email"></p></div>
-                                                    <div class="d-flex align-items-baseline"><i class="fas fa-phone fa-sm float-left"></i><p id="takenTrainee-telnr"></p></div>
-                                                    <div class="d-flex align-items-baseline"><i class="fas fa-map-marker-alt fa-sm float-left"></i><p id="takenTrainee-adres"></p></div>
-                                                    <div class="d-flex align-items-baseline"><i class="fas fa-map-marker-alt fa-sm float-left"></i><p id="takenTrainee-postcode"></p></div>
-                                                    <div class="d-flex align-items-baseline"><i class="fas fa-map-marker-alt fa-sm float-left"></p><p id="takenTrainee-woonplaats"></i></div>
-                                                </div>
-                                            <div class="modal-footer">
-                                            <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
-                                            <button type="button" class="btn btn-primary">Understood</button>
-                                            </div>
                                         </div>
+                                        <div class="modal-body">
+                                            <div class="row">
+                                                <div class="col-6">
+                                                    <h4 class="mb-2 gegevens-header">Oude Gegevens</h2>
+                                                    <div class="d-flex align-items-baseline"><i
+                                                            class="far fa-user fa-sm float-left mr-2"></i>
+                                                        <p id="takenTrainee-naam"></p>
+                                                    </div>
+                                                    <div class="d-flex align-items-baseline"><i
+                                                            class="fas fa-at fa-sm float-left mr-2"></i>
+                                                        <p id="takenTrainee-email"></p>
+                                                    </div>
+                                                    <div class="d-flex align-items-baseline"><i
+                                                            class="fas fa-phone fa-sm float-left mr-2"></i>
+                                                        <p id="takenTrainee-telnr"></p>
+                                                    </div>
+                                                    <div class="d-flex align-items-baseline"><i
+                                                            class="fas fa-map-marker-alt fa-sm float-left mr-2"></i>
+                                                        <p id="takenTrainee-adres"></p>
+                                                    </div>
+                                                    <div class="d-flex align-items-baseline"><i
+                                                            class="fas fa-map-marker-alt fa-sm float-left mr-2"></i>
+                                                        <p id="takenTrainee-postcode"></p>
+                                                    </div>
+                                                    <div class="d-flex align-items-baseline"><i
+                                                            class="fas fa-map-marker-alt fa-sm float-left mr-2"></p>
+                                                            <p id="takenTrainee-woonplaats">
+                                                        </i></div>
+                                                </div>
+                                                <div class="col-6">
+                                                    <h4 class="mb-2 gegevens-header">Nieuwe Gegevens</h2>
+                                                    <div class="d-flex align-items-baseline"><i
+                                                            class="far fa-user fa-sm float-left mr-2"></i>
+                                                        <p id="takenTijdelijkeTrainee-naam"></p>
+                                                    </div>
+                                                    <div class="d-flex align-items-baseline"><i
+                                                            class="fas fa-at fa-sm float-left mr-2"></i>
+                                                        <p id="takenTijdelijkeTrainee-email"></p>
+                                                    </div>
+                                                    <div class="d-flex align-items-baseline"><i
+                                                            class="fas fa-phone fa-sm float-left mr-2"></i>
+                                                        <p id="takenTijdelijkeTrainee-telnr"></p>
+                                                    </div>
+                                                    <div class="d-flex align-items-baseline"><i
+                                                            class="fas fa-map-marker-alt fa-sm float-left mr-2"></i>
+                                                        <p id="takenTijdelijkeTrainee-adres"></p>
+                                                    </div>
+                                                    <div class="d-flex align-items-baseline"><i
+                                                            class="fas fa-map-marker-alt fa-sm float-left mr-2"></i>
+                                                        <p id="takenTijdelijkeTrainee-postcode"></p>
+                                                    </div>
+                                                    <div class="d-flex align-items-baseline"><i
+                                                            class="fas fa-map-marker-alt fa-sm float-left mr-2"></p>
+                                                            <p id="takenTijdelijkeTrainee-woonplaats">
+                                                        </i></div>
+                                                </div>
+                                            </div>
+
+                                        </div>
+                                        <div class="modal-footer">
+                                            <button type="button" class="btn btn-secondary"
+                                                data-dismiss="modal">Afsluiten</button>
+                                            <button type="button" class="btn btn-success" id="goedkeurknop-gegevens">Goedkeuren</button>
+                                            <button type="button" class="btn btn-danger" id="afkeurknop-gegevens">Afkeuren</button>
                                         </div>
                                     </div>
+                                </div>
+                            </div>
+
+                        </div>
 
 
 

@@ -5,6 +5,8 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import javax.transaction.Transactional;
+import java.util.ArrayList;
+import java.util.Optional;
 
 @Service
 @Transactional
@@ -25,5 +27,20 @@ public class TijdelijkeTraineeService {
     public Iterable<TijdelijkeTrainee> getAllTijdelijkeTrainee() {
         System.out.println("alle tijdelijke trainees opgevraags");
         return tijdelijketraineeRepository.findAll();
+    }
+
+    public TijdelijkeTrainee getTijdelijkeTraineeById(long tijdelijkeTraineeId) {
+        return tijdelijketraineeRepository.findById(tijdelijkeTraineeId).get();
+    }
+
+    public TijdelijkeTrainee getTijdelijkeTraineByOorspronkelijkeId(long oorspronkelijkeId) {
+        ArrayList<TijdelijkeTrainee> alleTijdelijkeTrainees = (ArrayList<TijdelijkeTrainee>)tijdelijketraineeRepository.findAll();
+        TijdelijkeTrainee terugTeSturenTijdelijkeTrainee = null;
+        for (TijdelijkeTrainee tt : alleTijdelijkeTrainees) {
+            if (tt.getOorspronkelijkeId() == oorspronkelijkeId) {
+                terugTeSturenTijdelijkeTrainee = tt;
+            }
+        }
+        return terugTeSturenTijdelijkeTrainee;
     }
 }

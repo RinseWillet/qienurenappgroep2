@@ -84,13 +84,39 @@ public class TraineeService {
         TijdelijkeTrainee tijdtrainee = tijdelijkeTraineeRepository.findById(id).get();
         //echte trainee wordt opgehaald
         Trainee trainee = traineeRepository.findById(oorspronkelijkeId).get();
+
+        System.out.println("voor: tijdTrainee>>> " + tijdtrainee.getNaam());
+        System.out.println("voor: tijdTrainee>>> " + tijdtrainee.getTelefoonnr());
+
+        System.out.println("voor: trainee>>> " + trainee.getNaam());
+        System.out.println("voor: trainee>>> " + trainee.getTelefoonnr());
+
         //echte trainee krijgt waardes van de tijdelijke trainee, tenzij niets is ingevuld
-        if( tijdtrainee.getNaam() != null){trainee.setNaam(tijdtrainee.getNaam());}
-        if( tijdtrainee.getEmail() != null){ trainee.setEmail(tijdtrainee.getEmail());}
-        if( tijdtrainee.getTelefoonnr() != null){trainee.setTelefoonnr(tijdtrainee.getTelefoonnr());}
-        if( tijdtrainee.getPostcode() != null){trainee.setPostcode(tijdtrainee.getPostcode());}
-        if( tijdtrainee.getStraatNaamNr() != null){trainee.setStraatNaamNr(tijdtrainee.getStraatNaamNr());}
-        if( tijdtrainee.getWoonplaats() != null){trainee.setWoonplaats(tijdtrainee.getWoonplaats());}
+        if (tijdtrainee.getNaam().isEmpty()) {
+            trainee.setNaam(trainee.getNaam());
+        }
+        if (tijdtrainee.getEmail().isEmpty()) {
+            trainee.setEmail(trainee.getEmail());
+        }
+        if (tijdtrainee.getTelefoonnr().isEmpty()) {
+            trainee.setTelefoonnr(trainee.getTelefoonnr());
+        }
+        if (tijdtrainee.getPostcode().isEmpty()) {
+            trainee.setPostcode(trainee.getPostcode());
+        }
+        if (tijdtrainee.getStraatNaamNr().isEmpty()) {
+            trainee.setStraatNaamNr(trainee.getStraatNaamNr());
+        }
+        if (tijdtrainee.getWoonplaats().isEmpty()) {
+            trainee.setWoonplaats(trainee.getWoonplaats());
+        }
+
+        System.out.println("na: tijdTrainee>>> " + tijdtrainee.getNaam());
+        System.out.println("na: tijdTrainee>>> " + tijdtrainee.getTelefoonnr());
+
+        System.out.println("na: trainee>>> " + trainee.getNaam());
+        System.out.println("na: trainee>>> " + trainee.getTelefoonnr());
+
         //aangepaste gegevens worden opgeslagen in de database
         return traineeRepository.save(trainee);
     }
