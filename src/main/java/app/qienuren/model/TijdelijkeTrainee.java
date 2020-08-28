@@ -1,9 +1,7 @@
 package app.qienuren.model;
 
-import javax.persistence.Entity;
-import javax.persistence.GeneratedValue;
-import javax.persistence.GenerationType;
-import javax.persistence.Id;
+import javax.persistence.*;
+import java.util.List;
 
 //aparte klasse voor tijdelijke trainee, extend klasse persoon niet. Dit is omdat anders de tijdelijke trainee
 // aan de database als persoon wordt toegevoegd en dit is niet wat we willen.
@@ -26,6 +24,9 @@ public class TijdelijkeTrainee{
 
     private String postcode;
     private String woonplaats;
+
+    @OneToMany
+    private List<TijdelijkeTrainee> tijdelijkeTrainees;
 
     public long getId() {
         return id;
@@ -109,5 +110,12 @@ public class TijdelijkeTrainee{
         this.woonplaats = woonplaats;
     }
 
+    public List<TijdelijkeTrainee> getAllTijdelijkeTrainee() {
+        return tijdelijkeTrainees;
+    }
+
+    public void setTijdelijkeTrainees(List<TijdelijkeTrainee> tijdelijkeTrainees) {
+        this.tijdelijkeTrainees = tijdelijkeTrainees;
+    }
 
 }

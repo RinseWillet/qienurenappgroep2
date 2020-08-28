@@ -1,5 +1,6 @@
 const traineeNaam = document.getElementById("trainee-naam");
 const afgelopenFormulieren = document.getElementById("afgelopen-formulieren");
+const tijdelijkeFormulieren = document.getElementById("tijdelijke-formulieren");
 const formBody = document.getElementById("form-body");
 const modalHeader = document.querySelector(".modal-title");
 const klikbaarOogje = document.querySelector(".fa-eye");
@@ -10,48 +11,44 @@ const profielpagina = document.getElementById("profielpagina");
 
 
 //haalt id uit huidige url
-var url_string = window.location.href; 
-var url = new URL(url_string); 
-var idpf = url.searchParams.get("id"); 
+var url_string = window.location.href;
+var url = new URL(url_string);
+var idpf = url.searchParams.get("id");
 
-//voegt ID toe aan profielpaginaurl
-function aanpassenurl(){
+//voegt ID toe aan formulierpaginaurl
+function aanpassenurl() {
     let pfurl = document.getElementById('profielpaginaurl').href;
     pfurl = pfurl + "?id=" + idpf;
-    var a = document.querySelector('a[href="/profielpagina"]'); if (a) {   a.setAttribute('href', pfurl) }
-
-    let urenURL = document.getElementById('urenformurl').href;
-    urenURL = urenURL + "?id=" + idpf;
-    var b = document.querySelector('a[href="/traineeformulier"]'); if (b) {   b.setAttribute('href', urenURL) }
+    var a = document.querySelector('a[href="/profielpagina"]'); if (a) { a.setAttribute('href', pfurl) }
 }
 
 
 
 const maandNummerNaarString = (maandNummer) => {
     switch (maandNummer) {
-        case 0:
-            return "Januari";
         case 1:
-            return "Februari";
+            return "Januari";
         case 2:
-            return "Maart";
+            return "Februari";
         case 3:
-            return "April";
+            return "Maart";
         case 4:
-            return "Mei";
+            return "April";
         case 5:
-            return "Juni";
+            return "Mei";
         case 6:
-            return "Juli";
+            return "Juni";
         case 7:
-            return "Augustus";
+            return "Juli";
         case 8:
-            return "September";
+            return "Augustus";
         case 9:
-            return "Oktober";
+            return "September";
         case 10:
-            return "November";
+            return "Oktober";
         case 11:
+            return "November";
+        case 12:
             return "December";
     }
 }
@@ -75,55 +72,77 @@ const traineeNaamFunction = () => {
             let archiefFormulierHTML = ``;
             let huidigMaandFormulier = ``;
 
-            console.log(traineeNaam)
-
             traineeNaam.innerHTML = `${trainee.naam}`;
             // traineeOpdrachtgever.innerHTML = `Opdrachtgever : ${trainee.leidingGevende}`;
 
             var formulieren = trainee.archief;
             var huidigFormulier = trainee.tijdelijkeFormulieren;
 
-            formulieren.sort(function (a, b) {
-                return a.id - b.id
-            });
-            formulieren.reverse();
+            console.log(trainee.archief);
 
-            for (let i = 0; i < formulieren.length; i++) {
-                maand = maandNummerNaarString(formulieren[i].maand);
-                var e = formulieren[i];
+            if (formulieren.length > 0) {
+                // for loop voor archief
 
-                for (let i = 0; i < 3; i++) {
+                for (let i = 0; i < formulieren.length; i++) {
                     maand = maandNummerNaarString(formulieren[i].maand);
                     var e = formulieren[i];
 
+                        archiefFormulierHTML = `<li data-toggle="modal" data-target="#staticBackdrop" 
+                         class="list-group-item list-group-item-action d-flex justify-content-between" id="${e.id}"><span id="${e.id}">${maand}</span><span id="${e.id}">${e.jaar}</span><span id="${e.id}">${e.adminStatus}</span><i id="${e.id}" class="far fa-eye"></i></li>`;
 
-                    // inTeVoegenHTML = `<li data-toggle="modal" data-target="#staticBackdrop" href="./formulier.html?id=${e.id}" 
-                    // class="list-group-item list-group-item-action" id="${e.id}">${e.naam} | ${e.maand} | ${e.jaar} | ${e.formulierstatus}</li>`;
+                        afgelopenFormulieren.insertAdjacentHTML('beforeend', archiefFormulierHTML);
 
-                    formulierHTML = `<li data-toggle="modal" data-target="#staticBackdrop" 
-                     class="list-group-item list-group-item-action d-flex justify-content-between" id="${e.id}"><span id="${e.id}">${maand}</span><span id="${e.id}">${e.jaar}</span><span id="${e.id}">${e.adminStatus}</span><i id="${e.id}" class="far fa-eye"></i></li>`;
-
-                    afgelopenFormulieren.insertAdjacentHTML('beforeend', archiefFormulierHTML);
+                    
 
                 }
+            }
 
-
+            // For loop voor huidig formulier
+            if (huidigFormulier.length > 0) {
                 for (let x = 0; x < huidigFormulier.length; x++) {
+
                     maand = maandNummerNaarString(huidigFormulier[x].maand);
                     var e = huidigFormulier[x];
 
-                    huidigMaandFormulier = `<li data-toggle="modal" data-target="#staticBackdrop" 
-                class="list-group-item list-group-item-action d-flex justify-content-between" id="${e.id}"><span id="${e.id}">${maand}</span><span id="${e.id}">${e.jaar}</span><span id="${e.id}">${e.adminStatus}</span><i id="${e.id}" class="far fa-eye"></i></li>`;
-                    tijdelijkeFormulieren.insertAdjacentHTML('beforeend', huidigMaandFormulier);
-                }
+                    let formulierLocatie;
+                    let formulierBeoordeling;
 
+                    if ((e.adminStatus === 'OPEN' && e.opdrachtgeverStatus === 'OPEN') && e.ingezondenFormulier == true) {
+                        formulierLocatie = "Bij opdrachtgever";
+                        formulierBeoordeling = "Nog niet beoordeeld";
+                    } else if (e.adminStatus === "OPEN" && e.opdrachtgeverStatus === "GOEDGEKEURD") {
+                        formulierLocatie = "Bij Qien HR";
+                        formulierBeoordeling = "Goedgekeurd door opdrachtgever";
+                    } else if (e.opdrachtgeverStatus === "AFGEKEURD") {
+                        formulierLocatie = "Opnieuw invullen";
+                        formulierBeoordeling = "Afgekeurd door opdrachtgever";
+                    } else if (e.adminStatus === "AFGEKEURD") {
+                        formulierLocatie = "Opnieuw invullen";
+                        formulierBeoordeling = "Afgekeurd door Qien HR";
+                    } else {
+                        formulierLocatie = "Nog verzenden";
+                        formulierBeoordeling = "Niet van toepassing";
+                    }
+
+                    huidigMaandFormulier = `<a href="./traineeformulier?id=${urlId}&formulierid=${e.id}" class="list-group-item list-group-item-action d-flex justify-content-between" id="${e.id}"><span id="${e.id}">${maand}</span><span id="${e.id}">${e.jaar}</span><span id="${e.id}">${formulierLocatie}</span><span id="${e.id}">${formulierBeoordeling}</span><i id="${e.id}" class="far fa-eye"></i></a>`;
+                    tijdelijkeFormulieren.insertAdjacentHTML('beforeend', huidigMaandFormulier);
+
+                }
+            } else {
+                inTeVoegenHTML = `<div class="alert alert-danger" role="alert"><h4 class="alert-heading">Sapristi, geen formulieren!</h4>
+            <p>tekst - veel plezier</p>
+            <hr>
+            <p class="mb-0">text - nog meer plezier.</p>
+            </div>`;
+
+                tijdelijkeFormulieren.insertAdjacentHTML('beforeend', inTeVoegenHTML);
             }
 
         }
-        
+
     }
     xhr.open("GET", `http://localhost:8082/api/trainee/${urlId}`, true);
-        xhr.send();
+    xhr.send();
 
 }
 
@@ -141,7 +160,7 @@ const genereerFormulier = (formulier) => {
             <td class="admin-opmaak" id="ziekte-uren-${i + 1}">${formulier.werkDagen[i].ziekteUren}</td>
             <td class="admin-opmaak"id="training-uren-${i + 1}">${formulier.werkDagen[i].trainingsUren}</td>
             <td class="admin-opmaak"id="overig-uren-${i + 1}">${formulier.werkDagen[i].overigeUren}</td>
-            <td class="admin-opmaak form-verklaring"><class="form-input" id="verklaring-overig-${i + 1}">${formulier.werkDagen[i].overigeUrenUitleg}</td>
+            <td class="admin-opmaak form-verklaring"><class="form-input" id="verklaring-overig-${i + 1}">${(formulier.werkDagen[i].overigeUrenUitleg === null) ? "" : formulier.werkDagen[i].overigeUrenUitleg}</td>
         </tr>`)
     }
 }
@@ -153,6 +172,24 @@ const verwijderFormulier = () => {
 function getEventTarget(e) {
     e = e || window.event;
     return e.target || e.srcElement;
+}
+
+tijdelijkeFormulieren.onclick = function (event) {
+    var target = getEventTarget(event);
+    let id = target.id;
+    let hetFormulier;
+    var xhr = new XMLHttpRequest();
+    xhr.onreadystatechange = function () {
+        if (xhr.readyState == 4) {
+            hetFormulier = JSON.parse(this.responseText);
+            verwijderFormulier();
+            //genereerFormulier(hetFormulier);
+        }
+    }
+
+    xhr.open("GET", `http://localhost:8082/api/formulier/${id}`, true);
+    xhr.send();
+
 }
 
 afgelopenFormulieren.onclick = function (event) {
@@ -172,7 +209,4 @@ afgelopenFormulieren.onclick = function (event) {
     xhr.send();
 
 };
-
-// Methode voor naam in welkomstbericht
-
 

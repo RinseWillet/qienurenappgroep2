@@ -35,6 +35,10 @@ public class Medewerker extends Persoon {
         this.tijdelijkeFormulieren.add(tf);
     }
 
+    public void verwijderFormulierUitTijdelijkeLijst(Formulier tf) {
+        this.tijdelijkeFormulieren.remove(tf);
+    }
+
     public void setStraatNaamNr(String straatNaamNr) {
         this.straatNaamNr = straatNaamNr;
     }
@@ -77,6 +81,10 @@ public class Medewerker extends Persoon {
 
     public void setArchief(List<Formulier> archief) {
         this.archief = archief;
+    }
+
+    public void voegFormulierToeAanArchief(Formulier f) {
+        this.archief.add(f);
     }
 
     public void koppelFormulier(Formulier formulierTijdelijk) {

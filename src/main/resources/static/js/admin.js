@@ -1,6 +1,7 @@
 const formulierenLijst = document.getElementById("form-list");
 const medewerkerLijst = document.getElementById("medewerker-list");
 const bedrijvenLijst = document.getElementById("bedrijven-list");
+const takenLijst = document.getElementById("taken-list");
 const formulierItem = document.querySelector(".list-group-item");
 const formBody = document.getElementById("form-body");
 const modalHeader = document.querySelector(".modal-title");
@@ -10,12 +11,35 @@ const goedkeurKnopje = document.getElementById("goedkeuren");
 const afkeurKnopje = document.getElementById("afkeuren");
 const relatieAanmakenKnop = document.getElementById("knop-relatie-aanmaken");
 const toevoegenGebruikerContainer = document.getElementById("toevoegen-gebruiker-container");
+const takenTraineeNaam = document.getElementById("takenTrainee-naam");
+const takenTraineeEmail = document.getElementById("takenTrainee-email");
+const takenTraineeTelnr = document.getElementById("takenTrainee-telnr");
+const takenTraineeAdres = document.getElementById("takenTrainee-adres");
+const takenTraineePostcode = document.getElementById("takenTrainee-postcode");
+const takenTraineeWoonplaats = document.getElementById("takenTrainee-woonplaats");
 var selectTrainee = document.getElementById("trainee_select");
 var selectContactPersoon = document.getElementById("contactpersoon_select");
 var selectBedrijf = document.getElementById("bedrijf_select");
 const relatieContainer = document.getElementById("relatiekoppel-container");
 var selectTraineeId;
 let deMedewerkers;
+let alleTrainees;
+let tijdelijkeTrainees
+
+/*
+AANROEPEN VAN METHODES BIJ OPENEN PAGINA
+*/
+
+
+window.onload = function () {
+    laatFormulierenZien();
+    laatMedewerkersZien();
+    // laatBedrijvenZien();
+    updateTraineeSelector();
+    updateContactPersoonSelector();
+    laadAlleTrainees();
+};
+
 
 const maandNummerNaarString = (maandNummer) => {
     switch (maandNummer) {
@@ -52,6 +76,66 @@ const medewerkers = () => {
 
 }
 
+/*
+TAKENLIJST
+*/
+
+const laatTakenZien = () => {
+    let xhr = new XMLHttpRequest();
+    xhr.onreadystatechange = function () {
+        if (xhr.readyState == 4) {
+            tijdelijkeTrainees = JSON.parse(this.responseText);
+            let inTeVoegenHTML = ``;
+            if (tijdelijkeTrainees.length > 0) {
+                tijdelijkeTrainees.forEach((tt) => {
+                        alleTrainees.forEach((t) => {
+                            if(tt.oorspronkelijkeId === t.id) {
+                                console.log(t)
+                                inTeVoegenHTML = `<li data-toggle="modal" data-target="#takenModal" 
+                                class="list-group-item list-group-item-action d-flex justify-content-between" id="${t.id}"><span id="${t.id}">${t.naam}</span>
+                                <i id="${t.id}" class="far fa-eye"></i></li>`;
+                                takenLijst.insertAdjacentHTML('beforeend', inTeVoegenHTML);
+                            }
+                        })
+                    })
+                }
+            }
+        }
+    xhr.open("GET", "http://localhost:8082/api/admin/tijdelijkeTrainee/all", true);
+    xhr.send();
+}
+
+
+
+takenLijst.onclick = function(event ){
+    console.log("in takenlijst onclick");
+    if (tijdelijkeTrainees.length > 0) {
+        tijdelijkeTrainees.forEach((tt) => {
+            alleTrainees.forEach((t) => {
+                if(tt.oorspronkelijkeId === t.id) {
+                    console.log(">>>>>>>>>" + t.id)
+                    console.log(">>>>>>>>>" + tt.oorspronkelijkeId)
+                    let xhr = new XMLHttpRequest();
+                    xhr.onreadystatechange = function() {
+                        if (xhr.readyState === 4) {
+
+                            t = JSON.parse(this.responseText);
+                            takenTraineeNaam.innerHTML = `${t.naam}`;
+                            takenTraineeEmail.innerHTML = `${t.email}`;
+                            takenTraineeTelnr.innerHTML = `${t.telefoonnr}`;
+                            takenTraineeAdres.innerHTML = `${t.straatNaamNr}`;
+                            takenTraineePostcode.innerHTML = `${t.postcode}`;
+                            takenTraineeWoonplaats.innerHTML = `${t.woonplaats}`;
+                        }
+                    }
+                    console.log('>>>>>>>>>' + t.id)
+                    xhr.open("GET", `http://localhost:8082/api/trainee/${t.id}` , true);
+                    xhr.send();
+                }
+            })
+        })
+    }
+}
 
 /*
 FORMULIEREN
@@ -84,14 +168,14 @@ const laatFormulierenZien = () => {
                             }
 
                             inTeVoegenHTML = `<li data-toggle="modal" data-target="#staticBackdrop" 
-                            class="list-group-item list-group-item-action d-flex justify-content-between" id="${tf.id}"><span id="${tf.id}">${mw.naam}</span><span id="${tf.id}">${tf.maand}</span><span id="${tf.id}">${tf.jaar}</span><span id="${tf.id}">${tf.adminStatus}</span><i id="${tf.id}" class="far fa-eye"></i></li>`;
+                            class="list-group-item list-group-item-action d-flex justify-content-between" id="${tf.id}"><span id="verborgen-medewerker-id">${mw.id}</span><span class="medewerker-naam" id="${tf.id}">${mw.naam}</span><span id="${tf.id}">${tf.maand}</span><span id="${tf.id}">${tf.jaar}</span><span id="${tf.id}">${tf.adminStatus}</span><i id="${tf.id}" class="far fa-eye"></i></li>`;
                             formulierenLijst.insertAdjacentHTML('beforeend', inTeVoegenHTML);
                         }
                     })
 
                     // inTeVoegenHTML = `<li data-toggle="modal" data-target="#staticBackdrop" href="./formulier.html?id=${e.id}"
                     // class="list-group-item list-group-item-action" id="${e.id}">${e.naam} | ${e.maand} | ${e.jaar} | ${e.formulierstatus}</li>`;
-                    // inTeVoegenHTML = `<li data-toggle="modal" data-target="#staticBackdrop" 
+                    // inTeVoegenHTML = `<li data-toggle="modal" data-target="#staticBackdrop"
                     // class="list-group-item list-group-item-action d-flex justify-content-between" id="${e.id}"><span id="${e.id}">Rinse Willet</span><span id="${e.id}">${e.maand}</span><span id="${e.id}">${e.jaar}</span><span id="${e.id}">${e.adminStatus}</span><i id="${e.id}" class="far fa-eye"></i></li>`;
                     // formulierenLijst.insertAdjacentHTML('beforeend', inTeVoegenHTML);
                 })
@@ -119,7 +203,7 @@ const genereerFormulier = (formulier) => {
     }
 
     formulier.maand = maandNummerNaarString(formulier.maand);
-    modalHeader.innerHTML = `<span class="pt-0">Jan Doedel | ${formulier.maand}/${formulier.jaar}</span><span class="pt-0">Status opdrachtgever: ${formulier.opdrachtgeverStatus}</span>`
+    modalHeader.innerHTML = `<span class="pt-0">... | ${formulier.maand}/${formulier.jaar}</span><span class="pt-0">Status opdrachtgever: ${formulier.opdrachtgeverStatus}</span>`
     for (let i = 0; i < formulier.werkDagen.length; i++) {
         formBody.insertAdjacentHTML("beforeend",
             `<tr id="dag-${i + 1}" class="formulier-rij">
@@ -136,6 +220,7 @@ const genereerFormulier = (formulier) => {
 }
 
 const verwijderFormulier = () => {
+    modalHeader.innerHTML = "";
     formBody.innerHTML = "";
 }
 
@@ -162,7 +247,7 @@ formulierenLijst.onclick = function (event) {
 
     goedkeurKnopje.addEventListener('click', () => {
 
-        xhr.open("PUT", `http://localhost:8082/api/admin/update/statusgoed/${id}`, true);
+        xhr.open("PUT", `http://localhost:8082/api/admin/update/statusgoed/${id}/${medewerkerId}`, true);
         xhr.send();
 
         xhr.onreadystatechange = function () {
@@ -298,11 +383,17 @@ const traineeRadio = document.getElementById("radio-trainee");
 // const bedrijfRadio = document.getElementById("radio-bedrijf");
 const contactPersoonRadio = document.getElementById("radio-contactpersoon");
 
-const test = () => {   
+const test = () => {
+
+    document.getElementById("account-aanmaken").addEventListener("click", function (event) {
+        event.preventDefault()
+    });
+
+
     console.log("hieroo in de test");
     var xhr = new XMLHttpRequest();
     let dezeIdEmail;
-    if (interneMedewerkerRadio.checked) {        
+    if (interneMedewerkerRadio.checked) {
         const interneMedewerkerType = interneMedewerkerRadio.value;
         const interneMedewerkerNaam = document.getElementById("interne-mw-naam").value;
         const interneMedewerkerEmail = document.getElementById("interne-mw-email").value;
@@ -355,9 +446,27 @@ const test = () => {
         traineeJSON.startDatum = traineeStartDatum;
         traineeJSON.eindDatum = traineeEindDatum;
 
-        xhr.open("POST", "http://localhost:8082/api/admin/trainee/nieuw", true);
+
+
+
+        xhr.open("POST", "http://localhost:8082/api/admin/trainee/nieuw", false);
         xhr.setRequestHeader("Content-Type", "application/json");
+        xhr.onreadystatechange = function () {
+
+            if (xhr.readyState == 4) {
+                console.log("regel 459");
+                if (xhr.status === 200) {
+                    alert("Trainee is aangemaakt :D");
+                } else if (xhr.status === 409) {
+                    alert("Dit is wat je volgens mij van de backend krijgt :) :" + xhr.responseText);
+                    alert("emailadres bestaat al, voer een ander emailadres in");
+                } else {
+                    alert("Ik weet niet wat er mis ging, maar de http-status code is ......" + xhr.status + " oftewel "+ xhr.statusText);
+                }
+            }
+        }
         xhr.send(JSON.stringify(traineeJSON));
+        //alert(this.responseText); //geeft een lege melding terug, zonder deze alert werkte de andere ook ineens niet meer.
     }
 
     if (contactPersoonRadio.checked) {
@@ -377,7 +486,7 @@ const test = () => {
 methode om ContactPersoon aan te maken
 */
 
-const ContactPersoonAanmaken =(bedrijfsID) => {
+const ContactPersoonAanmaken = (bedrijfsID) => {
 
     var xhr = new XMLHttpRequest();
     const contactPersoonType = contactPersoonRadio.value;
@@ -647,6 +756,26 @@ for (var i = 0; i < radios.length; i++) {
 }
 
 /*
+Alle Trainees ophalen uit de database en in 'alleTrainees' stoppen
+*/
+
+function laadAlleTrainees() {
+
+    let xhr = new XMLHttpRequest();
+
+    xhr.onreadystatechange = function () {
+        if (xhr.readyState == 4) {
+            alleTrainees = JSON.parse(this.responseText);
+            console.log(alleTrainees);
+            laatTakenZien();
+        }
+    }
+    xhr.open("GET", "http://localhost:8082/api/admin/trainee/all", true);
+    xhr.send();
+}
+
+
+/*
 trainees laden selectorknop relatie koppelen
 */
 
@@ -658,7 +787,7 @@ const updateTraineeSelector = () => {
             deTrainees = JSON.parse(this.responseText);
             let inTeVoegenHTML = ``;
             if (deTrainees.length > 0) {
-                deTrainees.forEach((e) => {                    
+                deTrainees.forEach((e) => {
                     inTeVoegenHTML = `<option id=${e.id}>${e.naam}</option>`;
                     selectTrainee = document.getElementById("trainee_select");
                     selectTrainee.insertAdjacentHTML('beforeend', inTeVoegenHTML);
@@ -684,7 +813,7 @@ const updateContactPersoonSelector = () => {
             let inTeVoegenHTML = ``;
 
 
-            if (deContactPersonen.length > 0) {                
+            if (deContactPersonen.length > 0) {
                 deContactPersonen.forEach((e) => {
 
                     inTeVoegenHTML = `<option id=${e.id}>${e.naam}</option>`;
@@ -729,6 +858,7 @@ const updateBedrijfSelector = () => {
     xhr.send();
 }
 
+
 /*
 Trainee aan Contactpersoon koppelen
  */
@@ -742,14 +872,14 @@ function koppelTraineeContactpersoon(s, d) {
     //     console.log("hierrrro");
     //     alert("Graag een trainee en een contactpersoon selecteren");
     // } else {
-        xhr.onreadystatechange = function () {
-            console.log("nieuwe koppeling gemaakt")
-            if (xhr.readyState == 4) {
-                location.reload();
-            }
+    xhr.onreadystatechange = function () {
+        console.log("nieuwe koppeling gemaakt")
+        if (xhr.readyState == 4) {
+            location.reload();
         }
-        xhr.open("PUT", `http://localhost:8082/api/admin/trainee/koppelContactPersoon/${traineeId}/${ContactPersoonId}`, true);
-        xhr.send();
+    }
+    xhr.open("PUT", `http://localhost:8082/api/admin/trainee/koppelContactPersoon/${traineeId}/${ContactPersoonId}`, true);
+    xhr.send();
     //}
 }
 
@@ -837,12 +967,3 @@ for (var i = 0; i < radiosKoppelen.length; i++) {
     });
 }
 
-/*
-AANROEPEN VAN METHODES BIJ OPENEN PAGINA
-*/
-
-laatFormulierenZien();
-laatMedewerkersZien();
-// laatBedrijvenZien();
-updateTraineeSelector();
-updateContactPersoonSelector();

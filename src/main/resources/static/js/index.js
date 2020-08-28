@@ -10,6 +10,20 @@ const huidigeMaand = document.getElementById("huidige-maand");
 const huidigJaar = document.getElementById("huidig-jaar");
 const alertIngezonden = document.getElementById("alert-warning");
 
+//haalt id uit huidige url
+var url_string = window.location.href; 
+var url = new URL(url_string); 
+var medewerkerId = url.searchParams.get("id"); 
+var formulierId = url.searchParams.get("formulierid");
+console.log("medewerkerId: " + medewerkerId + ", formulierId: " + formulierId)
+
+function aanpassenurl() {
+    let dashboardURL = document.getElementById("alert-link").href;
+    dashboardURL = dashboardURL + "?id=" + medewerkerId;
+    console.log(dashboardURL)
+    var b = document.querySelector('a[href="/trainee"]'); if (b) { b.setAttribute('href', dashboardURL) }
+}
+
 const maandNummerNaarString = (maandNummer) => {
     switch (maandNummer) {
         case 1:
@@ -106,17 +120,15 @@ const haalFormulierOp = () => {
 
     xhr.onreadystatechange = function () {
         if (xhr.readyState == 4) {
-            const formulieren = JSON.parse(this.responseText);
+            const formulier = JSON.parse(this.responseText);
 
-            formulieren.forEach(e => {
-                genereerFormulier(e);
-                vulMaandEnJaar(e);
-            })
+                genereerFormulier(formulier);
+                vulMaandEnJaar(formulier);
         }
     }
 
 
-    xhr.open("GET", `http://localhost:8082/api/trainee/tijdelijkeformulieren/1`, true);
+    xhr.open("GET", `http://localhost:8082/api/trainee/formulier/${medewerkerId}/${formulierId}`, true);
     xhr.send();
 }
 
@@ -128,16 +140,24 @@ const verzendFormulier = (formulierId) => {
         if (xhr.readyState == 4) {
             const formulier = JSON.parse(this.responseText);
 
-            console.log(formulier.id);
-            console.log(formulier);
+            console.log("FORULIER: " + formulier);
 
             var nieuwFormulier = formulier;
             nieuwFormulier.ingezondenFormulier = true;
+            nieuwFormulier.opdrachtgeverStatus = "OPEN";
+            nieuwFormulier.adminStatus = "OPEN";
+            console.log("nieuwformulier.id: " + nieuwFormulier.id);
             // formulieren.forEach(e => {
             //     genereerFormulier(e);
             //     vulMaandEnJaar(e);
             // })
+            
             xhr2 = new XMLHttpRequest();
+            xhr2.onreadystatechange = function () {
+                if (xhr2.readyState == 4) {
+                    location.reload();
+                }
+            }
             xhr2.open("PUT", `http://localhost:8082/api/trainee/formulier/update/${nieuwFormulier.id}`, true);
             xhr2.setRequestHeader("Content-Type", "application/json");
             xhr2.send(JSON.stringify(nieuwFormulier));
@@ -181,7 +201,6 @@ const genereerFormulier = (formulier) => {
 
             alertIngezonden.style.display = "block";
             buttonSubmit.style.display = "none";
-
         }
 
     }
@@ -228,14 +247,13 @@ const genereerFormulier = (formulier) => {
     })
 
     buttonSubmit.addEventListener("click", () => {
-        verzendFormulier(formulier.id);
-        //formulierObjectMaken();
-        location.reload();
+        verzendFormulier(formulier.id);      
     });
 
 }
 
 haalFormulierOp();
+aanpassenurl();
 
 // afgelopenFormulieren.onclick = function (event) {
 //     var target = getEventTarget(event);
