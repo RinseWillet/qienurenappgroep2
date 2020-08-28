@@ -101,6 +101,7 @@ const laatTakenZien = () => {
             let inTeVoegenHTML = ``;
             if (tijdelijkeTrainees.length > 0) {
                 tijdelijkeTrainees.forEach((tt) => {
+
                     alleTrainees.forEach((t) => {
                         if(tt.oorspronkelijkeId === t.id) {
                             console.log(t)
@@ -114,6 +115,7 @@ const laatTakenZien = () => {
             }
         }
     }
+
     xhr.open("GET", "http://localhost:8082/api/admin/tijdelijkeTrainee/all", true);
     xhr.send();
 }
@@ -261,7 +263,6 @@ const laatFormulierenZien = () => {
     xhr.send();
 }
 
-
 const genereerFormulier = (formulier) => {
     if (formulier.opdrachtgeverStatus === "OPEN" || formulier.opdrachtgeverStatus === "AFGEKEURD") {
         modalFooter.style.display = "none";
@@ -355,7 +356,6 @@ const laatMedewerkersZien = () => {
                     // Als trainee geen opdrachtgever heeft dan veranderen naar "Niet geplaatst"
 
                     if (e.type === "Trainee" && e.leidingGevende === null) {
-
                         e.leidingGevende = {
                             "naam": "Niet gekoppeld"
                         }
@@ -513,9 +513,6 @@ const test = () => {
         traineeJSON.startDatum = traineeStartDatum;
         traineeJSON.eindDatum = traineeEindDatum;
 
-
-
-
         xhr.open("POST", "http://localhost:8082/api/admin/trainee/nieuw", false);
         xhr.setRequestHeader("Content-Type", "application/json");
         xhr.onreadystatechange = function () {
@@ -605,7 +602,8 @@ for (var i = 0; i < radios.length; i++) {
                             for="trainee-telefoon">Telefoonnummer</label>
                         <input type="telnum" class="form-control"
                             id="trainee-telefoon"
-                            placeholder="+31 6 00000000" required="true">
+                            placeholder="+31 6 00000000" pattern="^((\\+)31(\\(0\\)[\\-\\s]?)?)[1-9]((-)?[0-9])((-)?[0-9])((-)?[0-9])[0-9][0-9][0-9][0-9][0-9]$"
+                            required="true">
                     </div>
                 </div>
             </div>
@@ -617,14 +615,14 @@ for (var i = 0; i < radios.length; i++) {
                             for="trainee-straatnaamennummer">Adres</label>
                         <input type="text" class="form-control"
                             id="trainee-straatnaamennummer"
-                            placeholder="Atoomweg 350B" required="true">
+                            placeholder="Atoomweg 350B" pattern="^([1-9][e][\\s])*([a-zA-Z]+(([\\.][\\s])|([\\s]))?)+[1-9][0-9]*(([-][1-9][0-9]*)|([\\s]?[a-zA-Z]+))?$" required="true">
                     </div>
                 </div>
                 <div class="col-4">
                     <div class="form-group">
                         <label for="trainee-postcode">Postcode</label>
                         <input type="text" class="form-control"
-                            id="trainee-postcode" placeholder="3542AB" required="true">
+                            id="trainee-postcode" placeholder="3542AB" pattern="[1-9][0-9]{3}([A-RT-Z][A-Z]|[S][BCE-RT-Z])" required="true">
                     </div>
                 </div>
                 <div class="col-4">
@@ -633,7 +631,7 @@ for (var i = 0; i < radios.length; i++) {
                             for="trainee-woonplaats">Woonplaats</label>
                         <input type="text" class="form-control"
                             id="trainee-woonplaats"
-                            placeholder="Utrecht" required="true">
+                            placeholder="Utrecht" pattern="^([a-zA-Z\u0080-\u024F]+(?:. |-| |'))*[a-zA-Z\u0080-\u024F]*$" required="true">
                     </div>
                 </div>
             </div>
@@ -677,7 +675,8 @@ for (var i = 0; i < radios.length; i++) {
                     <div class="form-group">
                         <label for="bedrijf-telefoon">Telefoonnummer</label>
                         <input type="telnum" class="form-control"
-                            id="bedrijf-telefoon" placeholder="+31 6 00000000">
+                            id="bedrijf-telefoon" placeholder="+31 6 00000000" pattern="^((\\+)31(\\(0\\)[\\-\\s]?)?)[1-9]((-)?[0-9])((-)?[0-9])((-)?[0-9])[0-9][0-9][0-9][0-9][0-9]$"
+                            required="true">
                     </div>
                 </div>
             </div>
@@ -687,21 +686,21 @@ for (var i = 0; i < radios.length; i++) {
                         <label for="bedrijf-straatnaamennummer">Adres</label>
                         <input type="text" class="form-control"
                             id="bedrijf-straatnaamennummer"
-                            placeholder="Atoomweg 350B">
+                            placeholder="Atoomweg 350B" pattern="^([1-9][e][\\s])*([a-zA-Z]+(([\\.][\\s])|([\\s]))?)+[1-9][0-9]*(([-][1-9][0-9]*)|([\\s]?[a-zA-Z]+))?$" required="true">
                     </div>
                 </div>
                 <div class="col-4">
                     <div class="form-group">
                         <label for="bedrijf-postcode">Postcode</label>
                         <input type="text" class="form-control"
-                            id="bedrijf-postcode" placeholder="3542AB">
+                            id="bedrijf-postcode" placeholder="3542AB" pattern="[1-9][0-9]{3}([A-RT-Z][A-Z]|[S][BCE-RT-Z])" required="true">
                     </div>
                 </div>
                 <div class="col-4">
                     <div class="form-group">
                         <label for="bedrijf-woonplaats">Vestigingsplaats</label>
                         <input type="text" class="form-control"
-                            id="bedrijf-woonplaats" placeholder="Utrecht">
+                            id="bedrijf-woonplaats" placeholder="Utrecht" pattern="^([a-zA-Z\u0080-\u024F]+(?:. |-| |'))*[a-zA-Z\u0080-\u024F]*$" required="true">
                     </div>
                 </div>
             </div>
@@ -730,7 +729,8 @@ for (var i = 0; i < radios.length; i++) {
                         <label for="contactpersoon-telefoon">Telefoonnummer</label>
                         <input type="telnum" class="form-control"
                             id="contactpersoon-telefoon"
-                            placeholder="+31 6 00000000" required="true">
+                            placeholder="+31 6 00000000" pattern="^((\\+)31(\\(0\\)[\\-\\s]?)?)[1-9]((-)?[0-9])((-)?[0-9])((-)?[0-9])[0-9][0-9][0-9][0-9][0-9]$"
+                            required="true">
                     </div>
                 </div>
                 <div class="col-4">
@@ -767,7 +767,8 @@ for (var i = 0; i < radios.length; i++) {
                             for="interne-mw-telefoon">Telefoonnummer</label>
                         <input type="telnum" class="form-control"
                             id="interne-mw-telefoon"
-                            placeholder="+31 6 00000000" required="true">
+                            placeholder="+31 6 00000000" pattern="^((\\+)31(\\(0\\)[\\-\\s]?)?)[1-9]((-)?[0-9])((-)?[0-9])((-)?[0-9])[0-9][0-9][0-9][0-9][0-9]$"
+                            required="true">
                     </div>
                 </div>
             </div>
@@ -779,14 +780,14 @@ for (var i = 0; i < radios.length; i++) {
                             for="interne-mw-straatnaamennummer">Adres</label>
                         <input type="text" class="form-control"
                             id="interne-mw-straatnaamennummer"
-                            placeholder="Atoomweg 350B" required="true">
+                            placeholder="Atoomweg 350B" pattern="^([1-9][e][\\s])*([a-zA-Z]+(([\\.][\\s])|([\\s]))?)+[1-9][0-9]*(([-][1-9][0-9]*)|([\\s]?[a-zA-Z]+))?$" required="true">
                     </div>
                 </div>
                 <div class="col-4">
                     <div class="form-group">
                         <label for="interne-mw-postcode">Postcode</label>
                         <input type="text" class="form-control"
-                            id="interne-mw-postcode" placeholder="3542AB" required="true">
+                            id="interne-mw-postcode" placeholder="3542AB" pattern="[1-9][0-9]{3}([A-RT-Z][A-Z]|[S][BCE-RT-Z])" required="true">
                     </div>
                 </div>
                 <div class="col-4">
@@ -795,7 +796,7 @@ for (var i = 0; i < radios.length; i++) {
                             for="interne-mw-woonplaats">Woonplaats</label>
                         <input type="text" class="form-control"
                             id="interne-mw-woonplaats"
-                            placeholder="Utrecht" required="true">
+                            placeholder="Utrecht" pattern="^([a-zA-Z\u0080-\u024F]+(?:. |-| |'))*[a-zA-Z\u0080-\u024F]*$" required="true">
                     </div>
                 </div>
             </div>
