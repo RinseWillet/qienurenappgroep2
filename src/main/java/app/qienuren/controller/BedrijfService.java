@@ -2,10 +2,10 @@ package app.qienuren.controller;
 
 import app.qienuren.model.Bedrijf;
 import app.qienuren.model.KlantContactPersoon;
-import app.qienuren.model.Trainee;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.data.crossstore.ChangeSetPersister;
+import org.springframework.http.HttpStatus;
 import org.springframework.stereotype.Service;
+import org.springframework.web.server.ResponseStatusException;
 
 import javax.transaction.Transactional;
 
@@ -22,6 +22,9 @@ public class BedrijfService {
     KlantContactPersoonRepository kcpRepository;
 
     public Bedrijf addBedrijf(Bedrijf bedrijf) {
+        if (bedrijfRepository.findByEmail(bedrijf.getEmail()).isPresent()) {
+            throw new ResponseStatusException(HttpStatus.CONFLICT, "email bestaat al");
+        }
         System.out.println("Bedrijf aangemaakt");
         return bedrijfRepository.save(bedrijf);
     }
