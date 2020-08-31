@@ -23,19 +23,29 @@ public class TraineeEndpoint {
     TijdelijkeTraineeService tijdelijkeTraineeService;
 
     @GetMapping("/{id}")
-    public Trainee getTraineeById(@PathVariable(value = "id") long id){
+    public Trainee getTraineeById(@PathVariable(value = "id") long id) {
         return traineeService.getTraineeById(id);
     }
 
     @PutMapping("/trainee/koppelFormulier/{id}/{formulierid}")
-    public void traineeKoppelFormulier(@PathVariable(value = "id") long traineeID, @PathVariable(value = "formulierid") long formulierid){
+    public void traineeKoppelFormulier(@PathVariable(value = "id") long traineeID, @PathVariable(value = "formulierid") long formulierid) {
         traineeService.traineeKoppelformulier(traineeID, formulierid);
     }
 
     @PostMapping("/nieuwegegevens/{id}")
-   public TijdelijkeTrainee addTijdelijkeTrainee(@PathVariable(value = "id") long traineeID, @RequestBody TijdelijkeTrainee tijdtrainee){
-        return tijdelijkeTraineeService.addTijdelijkeTrainee(traineeID, tijdtrainee); }
+    public TijdelijkeTrainee addTijdelijkeTrainee(@PathVariable(value = "id") long traineeID, @RequestBody TijdelijkeTrainee tijdtrainee) {
+        return tijdelijkeTraineeService.addTijdelijkeTrainee(traineeID, tijdtrainee);
+    }
 
+    @GetMapping("/tijdelijketrainee/tijdelijketraineeid/{tijdelijketraineeid}")
+    public TijdelijkeTrainee getTijdelijkeTraineeById(@PathVariable(value = "tijdelijketraineeid") long tijdelijkeTraineeId) {
+        return tijdelijkeTraineeService.getTijdelijkeTraineeById(tijdelijkeTraineeId);
+    }
+
+    @GetMapping("/tijdelijketrainee/oorspronkelijketraineeid/{oorspronkelijketraineeid}")
+    public TijdelijkeTrainee getTijdelijkeTraineeByOorspronkelijkeId(@PathVariable(value = "oorspronkelijketraineeid") long oorspronkelijkeId) {
+        return tijdelijkeTraineeService.getTijdelijkeTraineByOorspronkelijkeId(oorspronkelijkeId);
+    }
 
     @PutMapping("/formulier/update/{formulierid}")
     public Formulier updateFormulier(@RequestBody Formulier tf) {

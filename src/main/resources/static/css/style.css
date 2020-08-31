@@ -331,3 +331,11 @@ h2{
 #verborgen-medewerker-id {
     display: none;
 }
+
+.gegevens-header {
+    border-bottom: 1px solid #9B9B9B;
+}
+
+p i {
+    font-size: 1em;
+}

@@ -27,8 +27,8 @@ public class TraineeService {
     TijdelijkeTraineeRepository tijdelijkeTraineeRepository;
 
     //kijkt eerst of het emailadres al in de database staat.
-    public Trainee addTrainee(Trainee trainee){
-        if(traineeRepository.findByEmail(trainee.getEmail()).isPresent()) {
+    public Trainee addTrainee(Trainee trainee) {
+        if (traineeRepository.findByEmail(trainee.getEmail()).isPresent()) {
             throw new ResponseStatusException(HttpStatus.CONFLICT, "email bestaat al");
         }
         return traineeRepository.save(trainee);
@@ -84,13 +84,54 @@ public class TraineeService {
         TijdelijkeTrainee tijdtrainee = tijdelijkeTraineeRepository.findById(id).get();
         //echte trainee wordt opgehaald
         Trainee trainee = traineeRepository.findById(oorspronkelijkeId).get();
+
+        System.out.println("voor: tijdTrainee>>> " + tijdtrainee.getNaam());
+        System.out.println("voor: tijdTrainee>>> " + tijdtrainee.getTelefoonnr());
+
+        System.out.println("voor: trainee>>> " + trainee.getNaam());
+        System.out.println("voor: trainee>>> " + trainee.getTelefoonnr());
+
         //echte trainee krijgt waardes van de tijdelijke trainee, tenzij niets is ingevuld
-        if( tijdtrainee.getNaam() != null){trainee.setNaam(tijdtrainee.getNaam());}
-        if( tijdtrainee.getEmail() != null){ trainee.setEmail(tijdtrainee.getEmail());}
-        if( tijdtrainee.getTelefoonnr() != null){trainee.setTelefoonnr(tijdtrainee.getTelefoonnr());}
-        if( tijdtrainee.getPostcode() != null){trainee.setPostcode(tijdtrainee.getPostcode());}
-        if( tijdtrainee.getStraatNaamNr() != null){trainee.setStraatNaamNr(tijdtrainee.getStraatNaamNr());}
-        if( tijdtrainee.getWoonplaats() != null){trainee.setWoonplaats(tijdtrainee.getWoonplaats());}
+        if (tijdtrainee.getNaam().isEmpty()) {
+            trainee.setNaam(trainee.getNaam());
+        } else {
+            trainee.setNaam(tijdtrainee.getNaam());
+        }
+        if (tijdtrainee.getEmail().isEmpty()) {
+            trainee.setEmail(trainee.getEmail());
+        } else {
+            trainee.setEmail(tijdtrainee.getEmail());
+
+        }
+        if (tijdtrainee.getTelefoonnr().isEmpty()) {
+            trainee.setTelefoonnr(trainee.getTelefoonnr());
+        } else {
+            trainee.setTelefoonnr(tijdtrainee.getTelefoonnr());
+
+        } if (tijdtrainee.getPostcode().isEmpty()) {
+            trainee.setPostcode(trainee.getPostcode());
+        } else {
+            trainee.setPostcode(tijdtrainee.getPostcode());
+
+        }
+        if (tijdtrainee.getStraatNaamNr().isEmpty()) {
+            trainee.setStraatNaamNr(trainee.getStraatNaamNr());
+        } else {
+            trainee.setStraatNaamNr(tijdtrainee.getStraatNaamNr());
+
+        }
+        if (tijdtrainee.getWoonplaats().isEmpty()) {
+            trainee.setWoonplaats(trainee.getWoonplaats());
+        } else {
+            trainee.setWoonplaats(tijdtrainee.getWoonplaats());
+        }
+
+        System.out.println("na: tijdTrainee>>> " + tijdtrainee.getNaam());
+        System.out.println("na: tijdTrainee>>> " + tijdtrainee.getTelefoonnr());
+
+        System.out.println("na: trainee>>> " + trainee.getNaam());
+        System.out.println("na: trainee>>> " + trainee.getTelefoonnr());
+
         //aangepaste gegevens worden opgeslagen in de database
         return traineeRepository.save(trainee);
     }
@@ -109,12 +150,11 @@ public class TraineeService {
     }
 
 
-
 //    public Trainee updateTrainee(long id) {
 //        System.out.println("trainee updaten");
 //        Trainee traineetijdelijk = traineeRepository.findById(id).get();
 //        traineetijdelijk.setLeidingGevende();
 
 
-    }
+}
 
