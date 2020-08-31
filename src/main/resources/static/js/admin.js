@@ -1008,7 +1008,7 @@ const bedrijfAanmaken = () => {
         }
     }
 
-    xhr.open("POST", "http://localhost:8082/api/admin/bedrijf/nieuw", true);
+    xhr.open("POST", "http://localhost:8082/api/admin/bedrijf/nieuw", false);
     xhr.setRequestHeader("Content-Type", "application/json");
     xhr.onreadystatechange = function () {
 
