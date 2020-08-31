@@ -107,35 +107,34 @@ const laatTakenZien = () => {
 
 
 
-takenLijst.onclick = function(event ){
-    console.log("in takenlijst onclick");
-    if (tijdelijkeTrainees.length > 0) {
-        tijdelijkeTrainees.forEach((tt) => {
-            alleTrainees.forEach((t) => {
-                if(tt.oorspronkelijkeId === t.id) {
-                    console.log(">>>>>>>>>" + t.id)
-                    console.log(">>>>>>>>>" + tt.oorspronkelijkeId)
-                    let xhr = new XMLHttpRequest();
-                    xhr.onreadystatechange = function() {
-                        if (xhr.readyState === 4) {
+takenLijst.onclick = function(event ) {
+    var target = getEventTarget(event);
+    let id = target.id;
+    let t;
+    var xhr = new XMLHttpRequest();
+    xhr.onreadystatechange = function () {
+        if (xhr.readyState == 4) {
+            t = JSON.parse(this.responseText);
+            takenTraineeNaam.innerHTML = "";
+            takenTraineeEmail.innerHTML = "";
+            takenTraineeTelnr.innerHTML = "";
+            takenTraineeAdres.innerHTML = "";
+            takenTraineePostcode.innerHTML = "";
+            takenTraineeWoonplaats.innerHTML = "";
 
-                            t = JSON.parse(this.responseText);
-                            takenTraineeNaam.innerHTML = `${t.naam}`;
-                            takenTraineeEmail.innerHTML = `${t.email}`;
-                            takenTraineeTelnr.innerHTML = `${t.telefoonnr}`;
-                            takenTraineeAdres.innerHTML = `${t.straatNaamNr}`;
-                            takenTraineePostcode.innerHTML = `${t.postcode}`;
-                            takenTraineeWoonplaats.innerHTML = `${t.woonplaats}`;
-                        }
-                    }
-                    console.log('>>>>>>>>>' + t.id)
-                    xhr.open("GET", `http://localhost:8082/api/trainee/${t.id}` , true);
-                    xhr.send();
-                }
-            })
-        })
+            takenTraineeNaam.innerHTML = `${t.naam}`;
+            takenTraineeEmail.innerHTML = `${t.email}`;
+            takenTraineeTelnr.innerHTML = `${t.telefoonnr}`;
+            takenTraineeAdres.innerHTML = `${t.straatNaamNr}`;
+            takenTraineePostcode.innerHTML = `${t.postcode}`;
+            takenTraineeWoonplaats.innerHTML = `${t.woonplaats}`;
+        }
     }
+    xhr.open("GET", `http://localhost:8082/api/trainee/${id}`, true);
+    xhr.send();
 }
+
+
 
 /*
 FORMULIEREN
@@ -148,7 +147,7 @@ const laatFormulierenZien = () => {
         if (xhr.readyState == 4) {
             deMedewerkers = JSON.parse(this.responseText);
 
-
+            console.log(deMedewerkers)
             let inTeVoegenHTML = ``;
 
             if (deMedewerkers.length > 0) {
