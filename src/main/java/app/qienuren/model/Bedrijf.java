@@ -1,7 +1,6 @@
 package app.qienuren.model;
 
 import com.fasterxml.jackson.annotation.JsonBackReference;
-import com.fasterxml.jackson.annotation.JsonIgnore;
 
 import javax.persistence.*;
 import java.util.ArrayList;
@@ -19,7 +18,7 @@ public class Bedrijf {
     private List<KlantContactPersoon> contactPersonen = new ArrayList<>();
 
     private String naam;
-    private String emailadres;
+    private String email;
     private String telefoonnr;
     private String straatNaamNr;
     private String postcode;
@@ -46,12 +45,12 @@ public class Bedrijf {
         this.naam = naam;
     }
 
-    public String getEmailadres() {
-        return emailadres;
+    public String getEmail() {
+        return email;
     }
 
-    public void setEmailadres(String emailadres) {
-        this.emailadres = emailadres;
+    public void setEmail(String emailadres) {
+        this.email = emailadres;
     }
 
     public String getTelefoonnr() {
