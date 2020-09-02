@@ -32,11 +32,18 @@ public class TemplateController {
     public String getTraineeFormulierPage() { return "traineeformulier"; }
 
     @GetMapping("opdrachtgever")
-    public String getOpdrachtgeverPage() { return "opdrachtgever";}
+    public String getOpdrachtgeverPage() { return "opdrachtgever"; }
 
     @GetMapping("profielpagina")
     public String getProfielpagina() { return "profielpagina";}
 
     @GetMapping("profielpaginakcp")
     public String getProfielKCPpagina() { return "profielpaginakcp";}
+
+
+    @GetMapping("medewerker")
+    public String getMedewerkerpagina() {return "medewerker"; }
+
+    @GetMapping("medewerkerformulier")
+    public String getMedewerkerformulierpagina() {return "medewerkerformulier"; }
 }

@@ -75,5 +75,4 @@ public class TraineeEndpoint {
         traineeService.traineeWachtwoordWijzigen(traineeID,trainee);
     }
 
-
 }

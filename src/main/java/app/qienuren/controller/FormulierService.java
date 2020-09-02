@@ -154,4 +154,47 @@ public class FormulierService {
         }
         return teVerzendenFormulieren;
     }
+
+//    public Formulier updateMedewerkerFormulier(Formulier nieuwFormulier) {
+//
+//        // oude formulier ophalen
+//        Formulier oudF = formulierRepository.findById(nieuwFormulier.getId()).get();
+//
+//        List<WerkDag> nieuweWerkDagen = nieuwFormulier.getWerkDagen();
+//        List<WerkDag> oudeWerkDagen = oudF.getWerkDagen();
+//
+//        for (int i = 0; i < nieuweWerkDagen.size(); i++) {
+//            if (nieuweWerkDagen.get(i).getOpdrachtUren() != 0) {
+//                oudeWerkDagen.get(i).setOpdrachtUren(nieuweWerkDagen.get(i).getOpdrachtUren());
+//            }
+//            if (nieuweWerkDagen.get(i).getOverwerkUren() != 0) {
+//                oudeWerkDagen.get(i).setOverwerkUren(nieuweWerkDagen.get(i).getOverwerkUren());
+//            }
+//            if (nieuweWerkDagen.get(i).getVerlofUren() != 0) {
+//                oudeWerkDagen.get(i).setVerlofUren(nieuweWerkDagen.get(i).getVerlofUren());
+//            }
+//            if (nieuweWerkDagen.get(i).getZiekteUren() != 0) {
+//                oudeWerkDagen.get(i).setZiekteUren(nieuweWerkDagen.get(i).getZiekteUren());
+//            }
+//            if (nieuweWerkDagen.get(i).getTrainingsUren() != 0) {
+//                oudeWerkDagen.get(i).setTrainingsUren(nieuweWerkDagen.get(i).getTrainingsUren());
+//            }
+//            if (nieuweWerkDagen.get(i).getOverigeUren() != 0) {
+//                oudeWerkDagen.get(i).setOverigeUren(nieuweWerkDagen.get(i).getOverigeUren());
+//            }
+//            if (nieuweWerkDagen.get(i).getOverigeUrenUitleg() != "" || !(nieuweWerkDagen.get(i).getOverigeUrenUitleg().isEmpty())) {
+//                oudeWerkDagen.get(i).setOverigeUrenUitleg(nieuweWerkDagen.get(i).getOverigeUrenUitleg());
+//            }
+//        }
+//
+//        oudF.setIngezondenFormulier(nieuwFormulier.isIngezondenFormulier());
+//        oudF.setOpdrachtgeverStatus(nieuwFormulier.getOpdrachtgeverStatus());
+//        oudF.setAdminStatus(nieuwFormulier.getAdminStatus());
+//
+//        System.out.println("Oud TF: " + oudF.getWerkDagen().get(0).getOpdrachtUren());
+//        System.out.println("nieuw TF: " + nieuwFormulier.getWerkDagen().get(0).getOpdrachtUren());
+//        System.out.println("Oud F:" + oudF.isIngezondenFormulier());
+//        System.out.println("nieuw F: " + nieuwFormulier.isIngezondenFormulier());
+//        return formulierRepository.save(oudF);
+//    }
 }
