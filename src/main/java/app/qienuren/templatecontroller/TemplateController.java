@@ -35,7 +35,11 @@ public class TemplateController {
     public String getOpdrachtgeverPage() { return "opdrachtgever"; }
 
     @GetMapping("profielpagina")
-    public String getProfielpagina() { return "profielpagina"; }
+    public String getProfielpagina() { return "profielpagina";}
+
+    @GetMapping("profielpaginakcp")
+    public String getProfielKCPpagina() { return "profielpaginakcp";}
+
 
     @GetMapping("medewerker")
     public String getMedewerkerpagina() {return "medewerker"; }

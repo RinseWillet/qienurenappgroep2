@@ -69,4 +69,10 @@ public class TraineeEndpoint {
         }
         return null;
     }
+
+    @PutMapping("/wachtwoordwijzigen/{id}")
+    public void traineeWachtwoordWijzigen(@RequestBody Trainee trainee, @PathVariable(value = "id") long traineeID) {
+        traineeService.traineeWachtwoordWijzigen(traineeID,trainee);
+    }
+
 }
