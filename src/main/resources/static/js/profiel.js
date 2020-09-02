@@ -27,6 +27,26 @@ function aanpassenurl() {
     }
 }
 
+function wachtwoordWijzigen(){
+    var urlString = window.location.href;
+    var url = new URL(urlString);
+    urlId = url.searchParams.get("id");
+    var xhr = new XMLHttpRequest();
+
+    const persoonWachtwoord = document.getElementById("nieuwWachtwoord").value;
+    console.log(persoonWachtwoord)
+    let persoonJSON = {};
+    persoonJSON.password = persoonWachtwoord;
+    xhr.onreadystatechange = function () {
+        if (xhr.readyState === 4) {
+        }
+    }
+
+    xhr.open("PUT", `http://localhost:8082/api/trainee/wachtwoordwijzigen/${urlId}`, true);
+    xhr.setRequestHeader("Content-Type", "application/json");
+    xhr.send(JSON.stringify(persoonJSON));
+}
+
 function gegevensPersoonAanpassen() {
 
     var xhr = new XMLHttpRequest();
@@ -96,3 +116,4 @@ const traineeNaamFunction = () => {
 }
 
 traineeNaamFunction();
+wachtwoordWijzigen();

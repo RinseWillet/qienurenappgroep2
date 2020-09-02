@@ -67,9 +67,19 @@
                             <div class="d-flex align-items-baseline"><i class="fas fa-at fa-sm float-left"></i><p id="profieltrainee-email"></p></div>
                             <div class="d-flex align-items-baseline"><i class="fas fa-calendar-alt fa-sm float-left"></i><p id="profieltrainee-startdatum"></p></div>
                             <div class="d-flex align-items-baseline"><i class="fas fa-briefcase fa-sm float-left"></i><p id="profieltrainee-rol"></p></div>
-                            
+                            <div class="col text-center">
+                                <button type="button" class="btn btn-secondary btn-light" data-toggle="modal" data-target="#wachtwoordwijzigen">
+                                    <i class="fas fa-unlock-alt fa-sm"></i>
+                                    Wachtwoord wijzigen</button>
+                            </div>
                         </div>
                     </div>
+<!--                    <div>-->
+<!--                        <button type="button" class="btn btn-secondary btn-light" data-toggle="modal" data-target="#wachtwoordwijzigen">-->
+<!--                            <i class="fas fa-unlock-alt fa-sm"></i>-->
+<!--                            Wachtwoord wijzigen</button>-->
+<!--                    </div>-->
+
                 </div>
                 <div id="profielblok">
                     <div class="card mb-2">
@@ -80,8 +90,8 @@
                             <div class="d-flex align-items-baseline"><i class="fas fa-map-marker-alt fa-sm float-left"></i><p id="profieltrainee-adres"></p></div>
                             <div class="d-flex align-items-baseline"><i class="fas fa-map-marker-alt fa-sm float-left"></i><p id="profieltrainee-postcode"></p></div>
                             <div class="d-flex align-items-baseline"><i class="fas fa-map-marker-alt fa-sm float-left"></p><p id="profieltrainee-woonplaats"></i></div>
-                              
-                            
+
+
                         </div>
                     </div>
                 </div>
@@ -99,9 +109,6 @@
                 </div>
             </div>
         </div>
-        </div>
-        </div>
-        </div>
 
                     <!-- Modal -->
 
@@ -109,7 +116,7 @@
                         <div class="modal-dialog">
                         <div class="modal-content">
                             <div class="modal-header">
-                                <h5 class="modal-title" id="traineemodalheading">Modal title</h5>
+                                <h5 class="modal-title" id="traineemodalheading">Gegevens aanpassen</h5>
                             <button type="button" class="close" data-dismiss="modal" aria-label="Close">
                                 <span aria-hidden="true">&times;</span>
                             </button>
@@ -128,14 +135,39 @@
                                 </form>
                             </div>
                             <div class="modal-footer">
-                            <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+                            <button type="button" class="btn btn-secondary" data-dismiss="modal">Sluiten</button>
                             <button type="button" class="btn btn-success" onclick="gegevensPersoonAanpassen()">Aanpassen</button>
                             </div>
                         </div>
                         </div>
                     </div>
 
+        <!-- Modal wachtwoord wijzigen -->
 
+        <div class="modal fade profielmodal" id="wachtwoordwijzigen" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+            <div class="modal-dialog">
+                <div class="modal-content">
+                    <div class="modal-header">
+                        <h5 class="modal-title" id="wachtwoordmodalheading">Wachtwoord wijzigen</h5>
+                        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                            <span aria-hidden="true">&times;</span>
+                        </button>
+                    </div>
+                    <div class="modal-body">
+
+                        <form>
+                            <div class="wachtwoordmodal">
+                                <h4>Nieuw wachtwoord</h4><input type="text" placeholder="wachtwoord" id="nieuwWachtwoord">
+                            </div>
+                        </form>
+                    </div>
+                    <div class="modal-footer">
+                        <button type="button" class="btn btn-secondary" data-dismiss="modal">Sluiten</button>
+                        <button type="submit" class="btn btn-success" onclick="wachtwoordWijzigen()" data-dismiss="modal">Wachtwoord wijzigen</button>
+                    </div>
+                </div>
+            </div>
+        </div>
     </section>
 
 

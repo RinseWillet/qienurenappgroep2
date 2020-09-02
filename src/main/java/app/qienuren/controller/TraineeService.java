@@ -154,6 +154,14 @@ public class TraineeService {
         return traineesBehorendAanKCP;
     }
 
+    public Trainee traineeWachtwoordWijzigen(long traineeID, Trainee trainee) {
+        Trainee trainee2 =  traineeRepository.findById(traineeID).get();
+        if(trainee.getPassword() != null && !trainee.getPassword().equals("")) {
+            trainee2.setPassword(trainee.getPassword());
+        }
+       return traineeRepository.save(trainee2);
+    }
+
 
 //    public Trainee updateTrainee(long id) {
 //        System.out.println("trainee updaten");
