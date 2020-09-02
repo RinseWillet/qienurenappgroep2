@@ -21,6 +21,17 @@ public class WerkDag {
     private double overigeUren;
     private String overigeUrenUitleg;
 
+    public WerkDag(){
+
+    }
+
+    public WerkDag(long jaar, long maand, int dag) {
+        int invoerJaar = (int) jaar;
+        int invoerMaand = (int) maand;
+        LocalDate invoer = LocalDate.of(invoerJaar, invoerMaand, dag);
+        setDatum(invoer);
+    }
+
     public long getId() {
         return id;
     }

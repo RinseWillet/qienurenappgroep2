@@ -83,8 +83,6 @@ public class Persoon {
         this.active = active;
     }
 
-
-
     public String getUserName() {
         return userName;
     }

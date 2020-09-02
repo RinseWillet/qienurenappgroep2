@@ -36,10 +36,9 @@ public class Formulier {
         this.setMaand(maand);
         this.setJaar(jaar);
         int aantalDagen = dagenInMaand(jaar, maand);
-        for (int i = 0; i < aantalDagen; i++) {
-            this.werkDagen.add(new WerkDag());
+        for (int dag = 1; dag <= aantalDagen; dag++) {
+            this.werkDagen.add(new WerkDag(jaar, maand, dag));
         }
-
         this.tijdelijkFormulier= true;
     }
 
