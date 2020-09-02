@@ -157,7 +157,7 @@ takenLijst.onclick = function(event ){
     xhr2.onreadystatechange = function () {
         if (xhr2.readyState == 4) {
             tijdelijkeTrainee = JSON.parse(this.responseText);
-            
+
             // takenTijdelijkeTraineeNaam.innerHTML = "";
             // takenTijdelijkeTraineeEmail.innerHTML = "";
             // takenTijdelijkeTraineeTelnr.innerHTML = "";
@@ -314,6 +314,8 @@ formulierenLijst.onclick = function (event) {
     xhr.send();
 
     goedkeurKnopje.addEventListener('click', () => {
+
+        const medewerkerId = document.getElementById("verborgen-medewerker-id").innerHTML;
 
         xhr.open("PUT", `http://localhost:8082/api/admin/update/statusgoed/${id}/${medewerkerId}`, true);
         xhr.send();
