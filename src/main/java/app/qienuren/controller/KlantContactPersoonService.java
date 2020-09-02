@@ -1,6 +1,7 @@
 package app.qienuren.controller;
 
 import app.qienuren.model.KlantContactPersoon;
+import app.qienuren.security.RandomPasswordGenerator;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.stereotype.Service;
@@ -14,11 +15,15 @@ public class KlantContactPersoonService {
 
     @Autowired
     KlantContactPersoonRepository klantContactPersoonRepository;
+    @Autowired
+    RandomPasswordGenerator randomPasswordGenerator;
 
     public KlantContactPersoon addKlantContactPersoon(KlantContactPersoon klantContactPersoon) {
         if (klantContactPersoonRepository.findByEmail(klantContactPersoon.getEmail()).isPresent()) {
             throw new ResponseStatusException(HttpStatus.CONFLICT, "email bestaat al");
         }
+        klantContactPersoon.setPassword(randomPasswordGenerator.generatePassayPassword());
+        System.out.println(klantContactPersoon.getPassword());
         System.out.println("Klant Contact Persoon aangemaakt");
         return klantContactPersoonRepository.save(klantContactPersoon);
     }
