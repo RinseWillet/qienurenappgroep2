@@ -73,6 +73,7 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
                 .antMatchers("/opdrachtgever").hasRole("KCP")
                 .antMatchers("/traineeformulier").hasAnyRole("TRAINEE", "ADMIN")
                 .antMatchers("/profielpagina").hasAnyRole("TRAINEE", "ADMIN")
+                .antMatchers("/profielpaginaKCP").hasAnyRole("KCP", "ADMIN")
                 //.antMatchers("/user**").hasAnyRole("USER", "ADMIN")
                 .antMatchers("/api/**").permitAll()
 

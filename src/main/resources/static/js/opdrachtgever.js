@@ -11,6 +11,16 @@ var url = new URL(url_string);
 var idpf = url.searchParams.get("id"); 
 console.log(idpf)
 
+function aanpassenurl() {
+    let pfurl = document.getElementById('profielpaginaurlkcp').href;
+    pfurl = pfurl + "?id=" + idpf;
+    var a = document.querySelector('a[href="/profielpaginakcp"]'); if (a) { a.setAttribute('href', pfurl) }
+}
+
+window.onload = () => {
+    aanpassenurl();
+};
+
 const maandNummerNaarString = (maandNummer) => {
     switch (maandNummer) {
         case 1:
