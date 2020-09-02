@@ -69,6 +69,4 @@ public class TraineeEndpoint {
         }
         return null;
     }
-
-
 }

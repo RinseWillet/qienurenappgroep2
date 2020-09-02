@@ -76,63 +76,6 @@ const verwijderFormulier = () => {
     formBody.innerHTML = "";
 }
 
-// function formulierObjectMaken() {
-//     var xhr = new XMLHttpRequest();
-//     var x = document.getElementsByClassName("formulier-rij");
-//     var dagen = [];
-
-//     for (var i = 0; i < x.length; i++) {
-//         var dag = {};
-//         dag.opdrachtUren = document.getElementById(`opdracht-uren-${i}`).value;
-//         dag.overwerkUren = document.getElementById(`overwerk-uren-${i}`).value;
-//         dag.verlofUren = document.getElementById(`verlof-uren-${i}`).value;
-//         dag.ziekteUren = document.getElementById(`ziekte-uren-${i}`).value;
-//         dag.trainingUren = document.getElementById(`training-uren-${i}`).value;
-//         dag.overigeUren = document.getElementById(`overig-uren-${i}`).value;
-//         dag.overigeUrenUitleg = document.getElementById(`verklaring-overig-${i}`).value;
-//         dagen.push(dag);
-//     }
-
-//     var nieuwFormulier = {};
-//     nieuwFormulier.jaar = formulier.jaar;
-//     nieuwFormulier.maand = formulier.maand;
-//     nieuwFormulier.id = formulier.id;
-//     nieuwFormulier.werkDagen = dagen;
-
-//     console.log(JSON.stringify(nieuwFormulier));
-
-//     xhr.open("POST", "http://localhost:8082/api/formulier/nieuw", true);
-//     xhr.setRequestHeader("Content-Type", "application/json");
-//     xhr.send(JSON.stringify(nieuwFormulier));
-
-//     tableSelect.style.display = "none";
-//     alertSuccess.style.display = "block";
-//     buttonSubmit.style.display = "none";
-//     buttonDownload.style.display = "none";
-// }
-
-/* SAVE ONCHANGE */
-
-
-
-// get klaargezet tijdelijk formulier VOOR TRAINEE
-
-const haalFormulierOp = () => {
-    var xhr = new XMLHttpRequest();
-
-    xhr.onreadystatechange = function () {
-        if (xhr.readyState == 4) {
-            const formulier = JSON.parse(this.responseText);
-
-                genereerFormulier(formulier);
-                vulMaandEnJaar(formulier);
-        }
-    }
-
-
-    xhr.open("GET", `http://localhost:8082/api/trainee/formulier/${medewerkerId}/${formulierId}`, true);
-    xhr.send();
-}
 
 // get klaargezet tijdelijk formulier voor Interne Medewerker
 
@@ -143,51 +86,12 @@ const haalMedewerkerFormulierOp = () => {
         if (xhr.readyState == 4) {
             const formulier = JSON.parse(this.responseText);
 
-                genereerFormulier(formulier);
+                genereerMedewerkerFormulier(formulier);
                 vulMaandEnJaar(formulier);
         }
     }
 
     xhr.open("GET", `http://localhost:8082/api/internemedewerker/formulier/${medewerkerId}/${formulierId}`, true);
-    xhr.send();
-}
-
-// Verzend formulier voor Trainee 
-
-const verzendFormulier = (formulierId) => {
-    var xhr = new XMLHttpRequest();
-    console.log(formulierId);
-
-    xhr.onreadystatechange = function () {
-        if (xhr.readyState == 4) {
-            const formulier = JSON.parse(this.responseText);
-
-            console.log("FORULIER: " + formulier);
-
-            var nieuwFormulier = formulier;
-            nieuwFormulier.ingezondenFormulier = true;
-            nieuwFormulier.opdrachtgeverStatus = "OPEN";
-            nieuwFormulier.adminStatus = "OPEN";
-            console.log("nieuwformulier.id: " + nieuwFormulier.id);
-            // formulieren.forEach(e => {
-            //     genereerFormulier(e);
-            //     vulMaandEnJaar(e);
-            // })
-            
-            xhr2 = new XMLHttpRequest();
-            xhr2.onreadystatechange = function () {
-                if (xhr2.readyState == 4) {
-                    location.reload();
-                }
-            }
-            xhr2.open("PUT", `http://localhost:8082/api/trainee/formulier/update/${nieuwFormulier.id}`, true);
-            xhr2.setRequestHeader("Content-Type", "application/json");
-            xhr2.send(JSON.stringify(nieuwFormulier));
-        }
-    }
-
-
-    xhr.open("GET", `http://localhost:8082/api/formulier/${formulierId}`, true);
     xhr.send();
 }
 
@@ -228,91 +132,6 @@ const verzendMedewerkerFormulier = (formulierId) => {
 
     xhr.open("GET", `http://localhost:8082/api/formulier/${formulierId}`, true);
     xhr.send();
-}
-
-// Genereer formulier voor TRAINEE
-
-const genereerFormulier = (formulier) => {
-    console.log(formulier.id);
-    for (let i = 0; i < formulier.werkDagen.length; i++) {
-        if(formulier.ingezondenFormulier === false){
-            formBody.insertAdjacentHTML("beforeend",
-                `<tr id="dag-${i}" class="formulier-rij">
-                <th scope="row">${i + 1}</th>
-                <td><input type="number" class="form-input" id="opdracht-uren-${i}" value="${formulier.werkDagen[i].opdrachtUren}"></td>
-                <td><input type="number" class="form-input" id="overwerk-uren-${i}" value="${formulier.werkDagen[i].overwerkUren}"></td>
-                <td><input type="number" class="form-input" id="verlof-uren-${i}" value="${formulier.werkDagen[i].verlofUren}"></td>
-                <td><input type="number" class="form-input" id="ziekte-uren-${i}" value="${formulier.werkDagen[i].ziekteUren}"></td>
-                <td><input type="number" class="form-input" id="training-uren-${i}" value="${formulier.werkDagen[i].trainingsUren}"></td>
-                <td><input type="number" class="form-input" id="overig-uren-${i}" value="${formulier.werkDagen[i].overigeUren}"></td>
-                <td class="form-verklaring"><input type="text" class="form-input" id="verklaring-overig-${i}" value="${(formulier.werkDagen[i].overigeUrenUitleg === null) ? "" : formulier.werkDagen[i].overigeUrenUitleg}"></td>
-            </tr>`)
-
-
-        }else{
-            formBody.insertAdjacentHTML("beforeend",
-                `<tr id="dag-${i}" class="formulier-rij">
-                <th scope="row">${i + 1}</th>
-                <td class="admin-opmaak" id="opdracht-uren-${i}" value="">${formulier.werkDagen[i].opdrachtUren}</td>
-                <td class="admin-opmaak" id="overwerk-uren-${i}" value="">${formulier.werkDagen[i].overwerkUren}</td>
-                <td class="admin-opmaak" id="verlof-uren-${i}" value="">${formulier.werkDagen[i].verlofUren}</td>
-                <td class="admin-opmaak" id="ziekte-uren-${i}" value="">${formulier.werkDagen[i].ziekteUren}</td>
-                <td class="admin-opmaak" id="training-uren-${i}" value="">${formulier.werkDagen[i].trainingsUren}</td>
-                <td class="admin-opmaak" id="overig-uren-${i}" value="">${formulier.werkDagen[i].overigeUren}</td>
-                <td class="form-verklaring" id="verklaring-overig-${i}" value="">${(formulier.werkDagen[i].overigeUrenUitleg === null) ? "" : formulier.werkDagen[i].overigeUrenUitleg}</td>
-            </tr>`)
-
-            alertIngezonden.style.display = "block";
-            buttonSubmit.style.display = "none";
-        }
-
-    }
-
-    const formInputs = document.querySelectorAll(".form-input");
-
-    // Functionaliteit voor het opslaan van formulier
-    formInputs.forEach(e => {
-        e.addEventListener("change", () => {
-            console.log("something changed")
-            var xhr = new XMLHttpRequest();
-
-            var x = document.getElementsByClassName("formulier-rij");
-            var dagen = [];
-
-            for (var i = 0; i < x.length; i++) {
-                var dag = {};
-                // let j = i + 2;
-                // let datum = new Date(selectJaar.value, selectMaand.value, j);
-                dag.datum = i + 1;
-                dag.opdrachtUren = document.getElementById(`opdracht-uren-${i}`).value;
-                dag.overwerkUren = document.getElementById(`overwerk-uren-${i}`).value;
-                dag.verlofUren = document.getElementById(`verlof-uren-${i}`).value;
-                dag.ziekteUren = document.getElementById(`ziekte-uren-${i}`).value;
-                dag.trainingsUren = document.getElementById(`training-uren-${i}`).value;
-                dag.overigeUren = document.getElementById(`overig-uren-${i}`).value;
-                dag.overigeUrenUitleg = document.getElementById(`verklaring-overig-${i}`).value;
-                dagen.push(dag);
-            }
-
-            var nieuwFormulier = {};
-            nieuwFormulier.jaar = formulier.jaar;
-            nieuwFormulier.maand = formulier.maand;
-            nieuwFormulier.id = formulier.id;
-            nieuwFormulier.werkDagen = dagen;
-
-            console.log(JSON.stringify(nieuwFormulier));
-
-            xhr.open("PUT", `http://localhost:8082/api/trainee/formulier/update/${nieuwFormulier.id}`, true);
-            xhr.setRequestHeader("Content-Type", "application/json");
-            xhr.send(JSON.stringify(nieuwFormulier));
-
-        })
-    })
-
-    buttonSubmit.addEventListener("click", () => {
-        verzendFormulier(formulier.id);      
-    });
-
 }
 
 // Genereer Formulier voor Interne Medewerker
@@ -400,24 +219,5 @@ const genereerMedewerkerFormulier = (formulier) => {
 
 }
 
-haalFormulierOp();
 aanpassenurl();
 haalMedewerkerFormulierOp();
-
-// afgelopenFormulieren.onclick = function (event) {
-//     var target = getEventTarget(event);
-//     let id = target.id;
-//     let hetFormulier;
-//     var xhr = new XMLHttpRequest();
-//     xhr.onreadystatechange = function () {
-//         if (xhr.readyState == 4) {
-//             hetFormulier = JSON.parse(this.responseText);
-//             verwijderFormulier();
-//             genereerFormulier(hetFormulier);
-//         }
-//     }
-
-//     xhr.open("GET", `http://localhost:8082/api/formulier/${id}`, true);
-//     xhr.send();
-
-// };

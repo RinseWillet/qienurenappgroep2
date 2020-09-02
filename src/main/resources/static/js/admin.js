@@ -326,6 +326,7 @@ formulierenLijst.onclick = function (event) {
             }
         }
     })
+    
     afkeurKnopje.addEventListener('click', () => {
 
         xhr.open("PUT", `http://localhost:8082/api/admin/update/statusfout/${id}`, true);

@@ -1,5 +1,6 @@
 package app.qienuren.controller;
 
+import app.qienuren.model.Formulier;
 import app.qienuren.model.InterneMedewerker;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
@@ -27,4 +28,10 @@ public class InterneMedewerkerService {
         System.out.println("Alle interne medewerkers opgevraagd");
         return interneMedewerkerRepository.findAll();
     }
+
+    public InterneMedewerker getInterneMedewerkerById(long id) {
+        System.out.println("Interne medewerker opgehaald");
+        return interneMedewerkerRepository.findById(id).get();
+    }
+
 }
