@@ -30,6 +30,9 @@ public class MedewerkerService {
     @Autowired
     TraineeRepository traineeRepository;
 
+    @Autowired
+    MedewerkerRepository medewerkerRepository;
+
     private List<Medewerker> medewerkers;
     private List<Trainee> trainees;
     private List<InterneMedewerker> interneMedewerkers;
@@ -69,6 +72,11 @@ public class MedewerkerService {
     @Scheduled(cron = "0 0 0 1 1/1 ?")
     public void maakMaandelijksFormulier() {
         genereerLeegFormulier();
+    }
+
+    public Medewerker getMedewerkerById(long id) {
+        System.out.println("Medewerker opgehaald");
+        return medewerkerRepository.findById(id).get();
     }
 
     // NA FEEDBACK PAUL(MAIL RINSE 26-08):

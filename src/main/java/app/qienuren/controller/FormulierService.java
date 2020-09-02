@@ -166,6 +166,7 @@ public class FormulierService {
         List<String[]> rijenCSV = new ArrayList<>();
 
         //checken of de persoon een Trainee of Interne Medewerker is
+
         String bedrijf = "";
         if ((persoonExport.getRoles()).equals("ROLE_INTERNEMEDEWERKER")){
             bedrijf = "Qien B.V.";
@@ -216,8 +217,5 @@ public class FormulierService {
         rijenCSV.add(rij3);
         writer.writeAll(rijenCSV);
         writer.close();
-
-
-
     }
 }
