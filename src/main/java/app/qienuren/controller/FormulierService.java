@@ -3,8 +3,13 @@ package app.qienuren.controller;
 import app.qienuren.model.*;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+import com.opencsv.CSVWriter;
 
 import javax.transaction.Transactional;
+import java.io.FileWriter;
+import java.io.IOException;
+import java.time.format.DateTimeFormatter;
+import java.time.LocalDate;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -155,46 +160,62 @@ public class FormulierService {
         return teVerzendenFormulieren;
     }
 
-//    public Formulier updateMedewerkerFormulier(Formulier nieuwFormulier) {
-//
-//        // oude formulier ophalen
-//        Formulier oudF = formulierRepository.findById(nieuwFormulier.getId()).get();
-//
-//        List<WerkDag> nieuweWerkDagen = nieuwFormulier.getWerkDagen();
-//        List<WerkDag> oudeWerkDagen = oudF.getWerkDagen();
-//
-//        for (int i = 0; i < nieuweWerkDagen.size(); i++) {
-//            if (nieuweWerkDagen.get(i).getOpdrachtUren() != 0) {
-//                oudeWerkDagen.get(i).setOpdrachtUren(nieuweWerkDagen.get(i).getOpdrachtUren());
-//            }
-//            if (nieuweWerkDagen.get(i).getOverwerkUren() != 0) {
-//                oudeWerkDagen.get(i).setOverwerkUren(nieuweWerkDagen.get(i).getOverwerkUren());
-//            }
-//            if (nieuweWerkDagen.get(i).getVerlofUren() != 0) {
-//                oudeWerkDagen.get(i).setVerlofUren(nieuweWerkDagen.get(i).getVerlofUren());
-//            }
-//            if (nieuweWerkDagen.get(i).getZiekteUren() != 0) {
-//                oudeWerkDagen.get(i).setZiekteUren(nieuweWerkDagen.get(i).getZiekteUren());
-//            }
-//            if (nieuweWerkDagen.get(i).getTrainingsUren() != 0) {
-//                oudeWerkDagen.get(i).setTrainingsUren(nieuweWerkDagen.get(i).getTrainingsUren());
-//            }
-//            if (nieuweWerkDagen.get(i).getOverigeUren() != 0) {
-//                oudeWerkDagen.get(i).setOverigeUren(nieuweWerkDagen.get(i).getOverigeUren());
-//            }
-//            if (nieuweWerkDagen.get(i).getOverigeUrenUitleg() != "" || !(nieuweWerkDagen.get(i).getOverigeUrenUitleg().isEmpty())) {
-//                oudeWerkDagen.get(i).setOverigeUrenUitleg(nieuweWerkDagen.get(i).getOverigeUrenUitleg());
-//            }
-//        }
-//
-//        oudF.setIngezondenFormulier(nieuwFormulier.isIngezondenFormulier());
-//        oudF.setOpdrachtgeverStatus(nieuwFormulier.getOpdrachtgeverStatus());
-//        oudF.setAdminStatus(nieuwFormulier.getAdminStatus());
-//
-//        System.out.println("Oud TF: " + oudF.getWerkDagen().get(0).getOpdrachtUren());
-//        System.out.println("nieuw TF: " + nieuwFormulier.getWerkDagen().get(0).getOpdrachtUren());
-//        System.out.println("Oud F:" + oudF.isIngezondenFormulier());
-//        System.out.println("nieuw F: " + nieuwFormulier.isIngezondenFormulier());
-//        return formulierRepository.save(oudF);
-//    }
+    public void exportCSV(Formulier formulierExport, Persoon persoonExport) throws IOException {
+
+        CSVWriter writer = new CSVWriter(new FileWriter("test1.csv"), ';', '"', '\\', CSVWriter.DEFAULT_LINE_END);
+        List<String[]> rijenCSV = new ArrayList<>();
+
+        //checken of de persoon een Trainee of Interne Medewerker is
+
+        String bedrijf = "";
+        if ((persoonExport.getRoles()).equals("ROLE_INTERNEMEDEWERKER")){
+            bedrijf = "Qien B.V.";
+        } else if ((persoonExport.getRoles()).equals("ROLE_TRAINEE")){
+            Trainee exportTrainee = (Trainee)persoonExport;
+            bedrijf = exportTrainee.getLeidingGevende().getBedrijf().getNaam();
+        } else {
+                bedrijf = "Dit is niet helemaal goed gegaan";
+        }
+
+        //basisgegevens formulier, medewerker en opdrachtgever ophalen en in array laden
+
+        String[] FormulierID = new String[]{"id : ", String.valueOf(formulierExport.getId()) };
+        String[] MedewerkerNaam = new String[]{"naam : ", persoonExport.getNaam()};
+        String[] OpdrachtGever = new String[]{"opdrachtgever : ", bedrijf};
+        String[] FormulierMaand = new String[]{"maand : ", String.valueOf(formulierExport.getMaand())};
+        String[] FormulierJaar = new String[]{"jaar : ", String.valueOf(formulierExport.getJaar())};
+
+        rijenCSV.add(FormulierID);
+        rijenCSV.add(MedewerkerNaam);
+        rijenCSV.add(OpdrachtGever);
+        rijenCSV.add(FormulierMaand);
+        rijenCSV.add(FormulierJaar);
+
+        //rest array vullen met de gemaakte uren formulier werkdagen
+
+        //header formuleren
+
+        String[] header = new String[]{"datum", "opdracht", "overwerk", "verlof", "ziek", "training", "overig", "verklaring m.b.t. tot overig"};
+        rijenCSV.add(header);
+
+        //werkdagen uit formulier halen
+
+        List<WerkDag> werkDagenExport = formulierExport.getWerkDagen();
+
+        DateTimeFormatter datumExport = DateTimeFormatter.ofPattern("d");
+
+        for (WerkDag dagExport : werkDagenExport){
+            String[] rijToevoegen = new String []{datumExport.format(dagExport.getDatum()), String.valueOf(dagExport.getOpdrachtUren()),String.valueOf(dagExport.getOverwerkUren()), String.valueOf(dagExport.getVerlofUren()), String.valueOf(dagExport.getZiekteUren()), String.valueOf(dagExport.getTrainingsUren()), String.valueOf(dagExport.getOverigeUren()), dagExport.getOverigeUrenUitleg()};
+            rijenCSV.add(rijToevoegen);
+        }
+
+        String[] rij1 = new String[]{"1", "1", "8", "gewoon 8 uur gewerkt"};
+        String[] rij2 = new String[]{"2", "2", "6", "gewoon 6 uur gewerkt"};
+        String[] rij3 = new String[]{"3", "3", "18", "gewoon 18 uur gewerkt"};
+        rijenCSV.add(rij1);
+        rijenCSV.add(rij2);
+        rijenCSV.add(rij3);
+        writer.writeAll(rijenCSV);
+        writer.close();
+    }
 }
