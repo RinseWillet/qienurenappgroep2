@@ -60,8 +60,8 @@ public class MyAuthenticationSuccessHandler implements AuthenticationSuccessHand
 
         roleTargetUrlMap.put("ROLE_TRAINEE", "/trainee?id=" + id);
     //    roleTargetUrlMap.put("ROLE_TRAINEE", "/profielpagina?id=" + id); //staat niet goed, nu na inloggen na profielpagina
-
         roleTargetUrlMap.put("ROLE_ADMIN", "/admin");
+        roleTargetUrlMap.put("ROLE_INTERNEMEDEWERKER", "/medewerker?id=" + id) ;
         roleTargetUrlMap.put("ROLE_KCP", "/opdrachtgever?id=" + id);
 
         final Collection<? extends GrantedAuthority> authorities = authentication.getAuthorities();
