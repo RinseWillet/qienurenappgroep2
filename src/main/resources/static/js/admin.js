@@ -486,9 +486,24 @@ const test = () => {
         interneMedewerkerJSON.startDatum = interneMedewerkerStartDatum;
         interneMedewerkerJSON.eindDatum = interneMedewerkerEindDatum;
 
-        xhr.open("POST", "http://localhost:8082/api/admin/internemedewerker/nieuw", true);
+        xhr.open("POST", "http://localhost:8082/api/admin/internemedewerker/nieuw", false);
         xhr.setRequestHeader("Content-Type", "application/json");
-        xhr.send(JSON.stringify(interneMedewerkerJSON));
+        xhr.onreadystatechange = function () {
+
+            if (xhr.readyState == 4) {
+                console.log("regel 459");
+                if (xhr.status === 200) {
+                    alert("Interne medewerker is aangemaakt :D");
+                } else if (xhr.status === 409) {
+                    alert("emailadres bestaat al, voer een ander emailadres in");
+                } else {
+                    alert("Ik weet niet wat er mis ging, maar de http-status code is ......" + xhr.status + " oftewel " + xhr.statusText);
+                }
+            }
+        }
+
+            xhr.send(JSON.stringify(interneMedewerkerJSON));
+
     }
 
     if (traineeRadio.checked) {
@@ -566,8 +581,21 @@ const ContactPersoonAanmaken = (bedrijfsID) => {
     contactPersoonJSON.email = contactPersoonEmail;
     contactPersoonJSON.telefoonnr = contactPersoonTelefoon;
 
-    xhr.open("POST", "http://localhost:8082/api/admin/klantcontactpersoon/nieuw?bedrijfsId=" + bedrijfsID, true);
+    xhr.open("POST", "http://localhost:8082/api/admin/klantcontactpersoon/nieuw?bedrijfsId=" + bedrijfsID, false);
     xhr.setRequestHeader("Content-Type", "application/json");
+    xhr.onreadystatechange = function () {
+
+        if (xhr.readyState == 4) {
+            console.log("regel 459");
+            if (xhr.status === 200) {
+                alert("klantcontactpersoon is aangemaakt");
+            } else if (xhr.status === 409) {
+                alert("emailadres bestaat al, voer een ander emailadres in");
+            } else {
+                alert("Ik weet niet wat er mis ging, maar de http-status code is ......" + xhr.status + " oftewel " + xhr.statusText);
+            }
+        }
+    }
     xhr.send(JSON.stringify(contactPersoonJSON));
 }
 
@@ -982,8 +1010,21 @@ const bedrijfAanmaken = () => {
         }
     }
 
-    xhr.open("POST", "http://localhost:8082/api/admin/bedrijf/nieuw", true);
+    xhr.open("POST", "http://localhost:8082/api/admin/bedrijf/nieuw", false);
     xhr.setRequestHeader("Content-Type", "application/json");
+    xhr.onreadystatechange = function () {
+
+        if (xhr.readyState == 4) {
+            console.log("regel 459");
+            if (xhr.status === 200) {
+                alert("bedrijf is aangemaakt :D");
+            } else if (xhr.status === 409) {
+                alert("emailadres bestaat al, voer een ander emailadres in");
+            } else {
+                alert("Ik weet niet wat er mis ging, maar de http-status code is ......" + xhr.status + " oftewel " + xhr.statusText);
+            }
+        }
+    }
 
     xhr.send(JSON.stringify(bedrijfJSON));
 
