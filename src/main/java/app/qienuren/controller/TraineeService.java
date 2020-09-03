@@ -5,6 +5,7 @@ import app.qienuren.security.RandomPasswordGenerator;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 import org.springframework.web.server.ResponseStatusException;
 
@@ -27,7 +28,10 @@ public class TraineeService {
     @Autowired
     TijdelijkeTraineeRepository tijdelijkeTraineeRepository;
     @Autowired
+    private PasswordEncoder passwordEncoder;
+    @Autowired
     RandomPasswordGenerator randomPasswordGenerator;
+
 
     //kijkt eerst of het emailadres al in de database staat.
     public Trainee addTrainee(Trainee trainee) {
@@ -35,6 +39,8 @@ public class TraineeService {
             throw new ResponseStatusException(HttpStatus.CONFLICT, "email bestaat al");
         }
         trainee.setPassword(randomPasswordGenerator.generatePassayPassword());
+        System.out.println(trainee.getPassword());
+        trainee.setPassword(passwordEncoder.encode(trainee.getPassword()));
         System.out.println(trainee.getPassword());
         return traineeRepository.save(trainee);
     }

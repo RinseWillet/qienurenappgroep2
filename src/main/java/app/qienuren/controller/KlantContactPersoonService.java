@@ -5,6 +5,7 @@ import app.qienuren.model.Trainee;
 import app.qienuren.security.RandomPasswordGenerator;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
+import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 import org.springframework.web.server.ResponseStatusException;
 
@@ -17,7 +18,10 @@ public class KlantContactPersoonService {
     @Autowired
     KlantContactPersoonRepository klantContactPersoonRepository;
     @Autowired
+    private PasswordEncoder passwordEncoder;
+    @Autowired
     RandomPasswordGenerator randomPasswordGenerator;
+
 
 
     public KlantContactPersoon addKlantContactPersoon(KlantContactPersoon klantContactPersoon) {
@@ -27,6 +31,9 @@ public class KlantContactPersoonService {
         klantContactPersoon.setPassword(randomPasswordGenerator.generatePassayPassword());
         System.out.println(klantContactPersoon.getPassword());
         System.out.println("Klant Contact Persoon aangemaakt");
+        System.out.println(klantContactPersoon.getPassword());
+        klantContactPersoon.setPassword(passwordEncoder.encode(klantContactPersoon.getPassword()));
+        System.out.println(klantContactPersoon.getPassword());
         return klantContactPersoonRepository.save(klantContactPersoon);
     }
 
