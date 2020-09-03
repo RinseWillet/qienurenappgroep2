@@ -1,6 +1,7 @@
 package app.qienuren.controller;
 
 import app.qienuren.model.*;
+import app.qienuren.security.RandomPasswordGenerator;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -28,12 +29,16 @@ public class TraineeService {
     TijdelijkeTraineeRepository tijdelijkeTraineeRepository;
     @Autowired
     private PasswordEncoder passwordEncoder;
+    @Autowired
+    RandomPasswordGenerator randomPasswordGenerator;
+
 
     //kijkt eerst of het emailadres al in de database staat.
     public Trainee addTrainee(Trainee trainee) {
         if (traineeRepository.findByEmail(trainee.getEmail()).isPresent()) {
             throw new ResponseStatusException(HttpStatus.CONFLICT, "email bestaat al");
         }
+        trainee.setPassword(randomPasswordGenerator.generatePassayPassword());
         System.out.println(trainee.getPassword());
         trainee.setPassword(passwordEncoder.encode(trainee.getPassword()));
         System.out.println(trainee.getPassword());
@@ -153,6 +158,14 @@ public class TraineeService {
             }
         }
         return traineesBehorendAanKCP;
+    }
+
+    public Trainee traineeWachtwoordWijzigen(long traineeID, Trainee trainee) {
+        Trainee trainee2 =  traineeRepository.findById(traineeID).get();
+        if(trainee.getPassword() != null && !trainee.getPassword().equals("")) {
+            trainee2.setPassword(trainee.getPassword());
+        }
+       return traineeRepository.save(trainee2);
     }
 
 

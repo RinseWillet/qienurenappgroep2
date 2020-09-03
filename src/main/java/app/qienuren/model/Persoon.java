@@ -2,14 +2,17 @@ package app.qienuren.model;
 
 
 import app.qienuren.controller.PersoonService;
+import app.qienuren.security.RandomPasswordGenerator;
 import lombok.Getter;
 import lombok.Setter;
+import org.springframework.beans.factory.annotation.Autowired;
 
 import javax.persistence.*;
 
 @Entity
 @Table(uniqueConstraints={@UniqueConstraint(columnNames={"email"})})
 public class Persoon {
+
 
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)
@@ -22,6 +25,7 @@ public class Persoon {
 
     private String userName;// = email;
     private String password;
+
 
     private String roles; //later aanpassen enum(?)
     private boolean active;
@@ -82,8 +86,6 @@ public class Persoon {
     public void setActive(boolean active) {
         this.active = active;
     }
-
-
 
     public String getUserName() {
         return userName;

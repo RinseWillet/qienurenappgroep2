@@ -30,6 +30,9 @@ public class MedewerkerService {
     @Autowired
     TraineeRepository traineeRepository;
 
+    @Autowired
+    MedewerkerRepository medewerkerRepository;
+
     private List<Medewerker> medewerkers;
     private List<Trainee> trainees;
     private List<InterneMedewerker> interneMedewerkers;
@@ -71,12 +74,18 @@ public class MedewerkerService {
         genereerLeegFormulier();
     }
 
+    public Medewerker getMedewerkerById(long id) {
+        System.out.println("Medewerker opgehaald");
+        return medewerkerRepository.findById(id).get();
+    }
+
     // NA FEEDBACK PAUL(MAIL RINSE 26-08):
     // Methode om formulier van afgelopen maand niet langer invulbaar te maken na 1e week van nieuwe maand
 /*    @Scheduled(cron = "0 0 0 8 1/1 ?")
     public void formulierVorigeMaandNietLangerInTeVullen() {
 
     }*/
+
 
 
 }
