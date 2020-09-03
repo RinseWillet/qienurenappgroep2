@@ -2,8 +2,8 @@ package app.qienuren.rest;
 
 import app.qienuren.controller.FormulierService;
 import app.qienuren.controller.InterneMedewerkerService;
-import app.qienuren.model.Formulier;
-import app.qienuren.model.InterneMedewerker;
+import app.qienuren.controller.TijdelijkeMedewerkerService;
+import app.qienuren.model.*;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 
@@ -17,6 +17,9 @@ public class InterneMedewerkerEndpoint {
 
     @Autowired
     FormulierService formulierService;
+
+    @Autowired
+    TijdelijkeMedewerkerService tijdelijkeMedewerkerService;
 
     @GetMapping("/{id}")
     public InterneMedewerker getInterneMedewerkerById(@PathVariable(value = "id") long id) {
@@ -34,9 +37,30 @@ public class InterneMedewerkerEndpoint {
         }
         return null;
     }
+    @PutMapping("/wachtwoordwijzigen/{id}")
+    public void internemedewerkerWachtwoordWijzigen(@RequestBody InterneMedewerker interneMedewerker, @PathVariable(value = "id") long id) {
+        interneMedewerkerService.internemedewerkerWachtwoordWijzigen(id,interneMedewerker);
+    }
 
     @PutMapping("/formulier/update/{formulierid}")
     public Formulier updateFormulier(@RequestBody Formulier tf) {
         return formulierService.updateFormulier(tf);
     }
+
+    @PostMapping("/nieuwegegevens/{id}")
+    public TijdelijkeMedewerker addTijdelijkeMW(@PathVariable(value = "id") long id, @RequestBody TijdelijkeMedewerker medewerker) {
+        return tijdelijkeMedewerkerService.addTijdelijkeMW(id, medewerker);
+    }
+
+    @GetMapping("/tijdelijketrainee/tijdelijketraineeid/{tijdelijketraineeid}")
+    public TijdelijkeMedewerker getTijdelijkeMWById(@PathVariable(value = "tijdelijketraineeid") long tijdelijkeTraineeId) {
+        return tijdelijkeMedewerkerService.getTijdelijkeMWById(tijdelijkeTraineeId);
+    }
+
+    @GetMapping("/tijdelijketrainee/oorspronkelijketraineeid/{oorspronkelijketraineeid}")
+    public TijdelijkeMedewerker getTijdelijkeMWByOorspronkelijkeId(@PathVariable(value = "oorspronkelijketraineeid") long oorspronkelijkeId) {
+        return tijdelijkeMedewerkerService.getTijdelijkeMWByOorspronkelijkeId(oorspronkelijkeId);
+    }
+
+
 }
