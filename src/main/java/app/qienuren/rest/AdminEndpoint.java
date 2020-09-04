@@ -129,5 +129,11 @@ public class AdminEndpoint {
     public Trainee goedkeurenGegevensWijziging(@PathVariable(value = "oorspronkelijkeId")long oorspronkelijkeId, @PathVariable(value = "id") long id){
         return traineeService.wijzigGegevens(oorspronkelijkeId, id);
     }
+
+    @PutMapping("/goedkeurengegevens/internemedewerker/{oorspronkelijkeId}/{id}")
+    public InterneMedewerker goedkeurenGegevensWijzigingMedewerker(@PathVariable(value = "oorspronkelijkeId")long oorspronkelijkeId, @PathVariable(value = "id") long id){
+        return interneMedewerkerService.wijzigGegevens(oorspronkelijkeId, id);
+    }
+
 }
 

@@ -163,7 +163,7 @@ public class TraineeService {
     public Trainee traineeWachtwoordWijzigen(long traineeID, Trainee trainee) {
         Trainee trainee2 =  traineeRepository.findById(traineeID).get();
         if(trainee.getPassword() != null && !trainee.getPassword().equals("")) {
-            trainee2.setPassword(trainee.getPassword());
+            trainee2.setPassword(passwordEncoder.encode(trainee.getPassword()));
         }
        return traineeRepository.save(trainee2);
     }
