@@ -162,7 +162,7 @@ public class FormulierService {
 
     public void exportCSV(Formulier formulierExport, Persoon persoonExport) throws IOException {
 
-        CSVWriter writer = new CSVWriter(new FileWriter("test1.csv"), ';', '"', '\\', CSVWriter.DEFAULT_LINE_END);
+        CSVWriter writer = new CSVWriter(new FileWriter("Urenformulier-" + persoonExport.getNaam() + "-" + formulierExport.getMaand() + "-" + formulierExport.getJaar() +   ".csv"), ';', '"', '\\', CSVWriter.DEFAULT_LINE_END);
         List<String[]> rijenCSV = new ArrayList<>();
 
         //checken of de persoon een Trainee of Interne Medewerker is
@@ -172,7 +172,12 @@ public class FormulierService {
             bedrijf = "Qien B.V.";
         } else if ((persoonExport.getRoles()).equals("ROLE_TRAINEE")){
             Trainee exportTrainee = (Trainee)persoonExport;
-            bedrijf = exportTrainee.getLeidingGevende().getBedrijf().getNaam();
+            try {
+                bedrijf = exportTrainee.getLeidingGevende().getBedrijf().getNaam();
+                System.out.println("CSVExport ging goed in the service");
+            }catch (NullPointerException e) {
+                bedrijf = "Niet gekoppeld";
+            }
         } else {
                 bedrijf = "Dit is niet helemaal goed gegaan";
         }
