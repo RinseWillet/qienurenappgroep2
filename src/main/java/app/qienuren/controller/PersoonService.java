@@ -27,11 +27,12 @@ public class PersoonService {
         return tempList;
     }
 
-
-
     public Persoon addPersoon(Persoon persoon) {
         System.out.println("User aangemaakt");
         return persoonRepository.save(persoon);
+    }
 
+    public Persoon getById(long id){
+        return persoonRepository.findById(id).get();
     }
 }

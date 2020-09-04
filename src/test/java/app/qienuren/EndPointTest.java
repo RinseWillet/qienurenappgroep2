@@ -30,17 +30,17 @@ public class EndPointTest {
 
     @Test
     public void shouldReturnDefaultMessage() throws Exception {
-        //Trainee trainee = new Trainee();
-        //user.setId(100);
-        //trainee.setNaam("mauricePO");
+        Trainee trainee = new Trainee();
+        trainee.setId(100);
+        trainee.setNaam("mauricePO");
 
-        //traineeRepository.save(trainee);
+        traineeRepository.save(trainee);
 
         this.mockMvc.perform(get("/api/admin/trainee/all"))
                 .andDo(print())
                 .andExpect(status().isOk())
                 //.andExpect(jsonPath("$.[0].naam", is("Rinse")))
-                .andExpect(jsonPath("$.[1].naam", is("trainee")));
+                .andExpect(jsonPath("$.[0].naam", is("mauricePO")));
     }
 }
 
