@@ -214,13 +214,19 @@ public class FormulierService {
             rijenCSV.add(rijToevoegen);
         }
 
-        String[] rij1 = new String[]{"1", "1", "8", "gewoon 8 uur gewerkt"};
-        String[] rij2 = new String[]{"2", "2", "6", "gewoon 6 uur gewerkt"};
-        String[] rij3 = new String[]{"3", "3", "18", "gewoon 18 uur gewerkt"};
-        rijenCSV.add(rij1);
-        rijenCSV.add(rij2);
-        rijenCSV.add(rij3);
         writer.writeAll(rijenCSV);
         writer.close();
     }
+
+    public List<String[]> listUsers() {
+        List<String[]> users = new ArrayList<>();
+
+        //create line
+        String[] header = new String[]{"datum", "opdracht", "overwerk", "verlof", "ziek", "training", "overig", "verklaring m.b.t. tot overig"};
+        users.add(header);
+        return users;
+    }
+
+
+
 }

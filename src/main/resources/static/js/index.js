@@ -9,6 +9,7 @@ const medewerkerOpdrachtgever = document.getElementById("medewerker-opdrachtgeve
 const huidigeMaand = document.getElementById("huidige-maand");
 const huidigJaar = document.getElementById("huidig-jaar");
 const alertIngezonden = document.getElementById("alert-warning");
+const downloadFormulier = document.getElementById("download-formulier");
 
 //haalt id uit huidige url
 var url_string = window.location.href; 
@@ -134,23 +135,23 @@ const haalFormulierOp = () => {
     xhr.send();
 }
 
-// get klaargezet tijdelijk formulier voor Interne Medewerker
-
-const haalMedewerkerFormulierOp = () => {
-    var xhr = new XMLHttpRequest();
-
-    xhr.onreadystatechange = function () {
-        if (xhr.readyState == 4) {
-            const formulier = JSON.parse(this.responseText);
-
-                genereerFormulier(formulier);
-                vulMaandEnJaar(formulier);
-        }
-    }
-
-    xhr.open("GET", `http://localhost:8082/api/internemedewerker/formulier/${medewerkerId}/${formulierId}`, true);
-    xhr.send();
-}
+// // get klaargezet tijdelijk formulier voor Interne Medewerker
+//
+// const haalMedewerkerFormulierOp = () => {
+//     var xhr = new XMLHttpRequest();
+//
+//     xhr.onreadystatechange = function () {
+//         if (xhr.readyState == 4) {
+//             const formulier = JSON.parse(this.responseText);
+//
+//                 genereerFormulier(formulier);
+//                 vulMaandEnJaar(formulier);
+//         }
+//     }
+//
+//     xhr.open("GET", `http://localhost:8082/api/internemedewerker/formulier/${medewerkerId}/${formulierId}`, true);
+//     xhr.send();
+// }
 
 // Verzend formulier voor Trainee 
 
@@ -400,24 +401,17 @@ const genereerMedewerkerFormulier = (formulier) => {
 
 }
 
+
+//Exporteer formulier naar CSV
+
+downloadFormulier.onclick = function(event ){
+    console.log("nu in de download functie index.js");
+    console.log(`http://localhost:8082/api/formulier/exportCSV/${formulierId}/${medewerkerId}`)
+    let xhr = new XMLHttpRequest();
+    xhr.open("GET", `http://localhost:8082/api/formulier/exportCSV/${formulierId}/${medewerkerId}`, true);
+    xhr.send();
+
+}
+
 haalFormulierOp();
 aanpassenurl();
-haalMedewerkerFormulierOp();
-
-// afgelopenFormulieren.onclick = function (event) {
-//     var target = getEventTarget(event);
-//     let id = target.id;
-//     let hetFormulier;
-//     var xhr = new XMLHttpRequest();
-//     xhr.onreadystatechange = function () {
-//         if (xhr.readyState == 4) {
-//             hetFormulier = JSON.parse(this.responseText);
-//             verwijderFormulier();
-//             genereerFormulier(hetFormulier);
-//         }
-//     }
-
-//     xhr.open("GET", `http://localhost:8082/api/formulier/${id}`, true);
-//     xhr.send();
-
-// };
