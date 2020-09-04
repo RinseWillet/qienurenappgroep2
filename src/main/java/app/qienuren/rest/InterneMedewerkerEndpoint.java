@@ -48,18 +48,18 @@ public class InterneMedewerkerEndpoint {
     }
 
     @PostMapping("/nieuwegegevens/{id}")
-    public TijdelijkeMedewerker addTijdelijkeMW(@PathVariable(value = "id") long id, @RequestBody TijdelijkeMedewerker medewerker) {
-        return tijdelijkeMedewerkerService.addTijdelijkeMW(id, medewerker);
+    public TijdelijkeMedewerker addTijdelijkeMedewerker(@PathVariable(value = "id") long id, @RequestBody TijdelijkeMedewerker medewerker) {
+        return tijdelijkeMedewerkerService.addTijdelijkeMedewerker(id, medewerker);
     }
 
     @GetMapping("/tijdelijketrainee/tijdelijketraineeid/{tijdelijketraineeid}")
-    public TijdelijkeMedewerker getTijdelijkeMWById(@PathVariable(value = "tijdelijketraineeid") long tijdelijkeTraineeId) {
-        return tijdelijkeMedewerkerService.getTijdelijkeMWById(tijdelijkeTraineeId);
+    public TijdelijkeMedewerker getTijdelijkeMedewerkerById(@PathVariable(value = "tijdelijketraineeid") long tijdelijkeTraineeId) {
+        return tijdelijkeMedewerkerService.getTijdelijkeMedewerkerById(tijdelijkeTraineeId);
     }
 
     @GetMapping("/tijdelijketrainee/oorspronkelijketraineeid/{oorspronkelijketraineeid}")
-    public TijdelijkeMedewerker getTijdelijkeMWByOorspronkelijkeId(@PathVariable(value = "oorspronkelijketraineeid") long oorspronkelijkeId) {
-        return tijdelijkeMedewerkerService.getTijdelijkeMWByOorspronkelijkeId(oorspronkelijkeId);
+    public TijdelijkeMedewerker getTijdelijkeMedewerkerByOorspronkelijkeId(@PathVariable(value = "oorspronkelijketraineeid") long oorspronkelijkeId) {
+        return tijdelijkeMedewerkerService.getTijdelijkeMedewerkerByOorspronkelijkeId(oorspronkelijkeId);
     }
 
 

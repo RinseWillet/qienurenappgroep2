@@ -109,7 +109,7 @@ public class InterneMedewerkerService {
     public InterneMedewerker internemedewerkerWachtwoordWijzigen(long id, InterneMedewerker interneMedewerker) {
         InterneMedewerker interneMedewerker1 = interneMedewerkerRepository.findById(id).get();
         if(interneMedewerker.getPassword() != null && !interneMedewerker.getPassword().equals("")){
-            interneMedewerker1.setPassword(interneMedewerker.getPassword());
+            interneMedewerker1.setPassword(passwordEncoder.encode(interneMedewerker.getPassword()));
         }
         return interneMedewerkerRepository.save(interneMedewerker1);
     }

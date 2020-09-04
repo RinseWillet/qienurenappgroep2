@@ -2,7 +2,6 @@ package app.qienuren.controller;
 
 
 import app.qienuren.model.TijdelijkeMedewerker;
-import app.qienuren.model.TijdelijkeTrainee;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -25,6 +24,10 @@ public class TijdelijkeMedewerkerService {
         return tijdelijkeMedewerkerRepository.save(tijdelijkeMedewerker);
     }
 
+    public TijdelijkeMedewerker getTijdelijkeMedewerkerById(long tijdelijkeId) {
+        return tijdelijkeMedewerkerRepository.findById(tijdelijkeId).get();
+    }
+
     public Iterable<TijdelijkeMedewerker> getallTijdelijkeMedewerkers() {
         System.out.println("alle tijdelijke medewerkers opgevraagd");
         return tijdelijkeMedewerkerRepository.findAll();
@@ -44,6 +47,7 @@ public class TijdelijkeMedewerkerService {
         }
         return terugTeSturenTijdelijkeMedewerker;
     }
+
 
 }
 
