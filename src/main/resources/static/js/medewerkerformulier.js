@@ -9,6 +9,7 @@ const medewerkerOpdrachtgever = document.getElementById("medewerker-opdrachtgeve
 const huidigeMaand = document.getElementById("huidige-maand");
 const huidigJaar = document.getElementById("huidig-jaar");
 const alertIngezonden = document.getElementById("alert-warning");
+const downloadFormulier = document.getElementById("download-formulier");
 
 //haalt id uit huidige url
 var url_string = window.location.href; 
@@ -216,6 +217,13 @@ const genereerMedewerkerFormulier = (formulier) => {
     buttonSubmit.addEventListener("click", () => {
         verzendMedewerkerFormulier(formulier.id);      
     });
+
+    //Exporteer formulier naar CSV
+
+    downloadFormulier.onclick = function(event ){
+        console.log("nu in de download functie index.js");
+        window.location.href = "./api/formulier/export-users/" +  formulierId + "/" + medewerkerId;
+    }
 
 }
 

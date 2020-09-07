@@ -115,6 +115,32 @@ span {
     max-width: 100% !important;
 }
 
+.modal-footer {
+    display: grid !important;
+    grid-template-columns: repeat(8, minmax(0,1fr));
+    justify-content: flex-start;
+}
+
+#goedkeuren {
+    grid-column-start: 8;
+}
+
+#afkeuren{
+    grid-column-start: 7;
+}
+
+#afsluiten{
+    grid-column-start: 6;
+}
+
+#afsluiten-tr{
+    grid-column-start: 8;
+}
+
+#submit-formulier{
+    grid-column-start: 8;
+}
+
 .alert-success {
     display: none;
 }

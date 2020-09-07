@@ -29,7 +29,8 @@ public class AdminEndpoint {
     TijdelijkeTraineeService tijdelijkeTraineeService;
     @Autowired
     TijdelijkeInterneMedewerkerService tijdelijkeInterneMedewerkerService;
-
+    @Autowired
+    MedewerkerService medewerkerService;
 
     // Alle Post Mapping om nieuwe Entiteiten aan te maken
 
@@ -81,6 +82,12 @@ public class AdminEndpoint {
     @GetMapping("/medewerker/all")
     public Iterable<Persoon> getAllMedewerkers() {
         return persoonService.getAllMedewerkers();
+    }
+
+    @GetMapping("/medewerker/{id}")
+    public Medewerker getMedewerkerById(@PathVariable(value = "id") long medewerkerId){
+        System.out.println("ophalen medewerkert in endpoint");
+        return medewerkerService.getMedewerkerById(medewerkerId);
     }
 
     @GetMapping("/formulieren/ingezonden")
