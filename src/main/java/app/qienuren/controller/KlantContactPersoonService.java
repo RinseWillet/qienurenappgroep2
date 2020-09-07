@@ -49,7 +49,7 @@ public class KlantContactPersoonService {
     public KlantContactPersoon kcpWachtwoordWijzigen(long id, KlantContactPersoon kcp) {
         KlantContactPersoon kcp2 = klantContactPersoonRepository.findById(id).get();
         if(kcp.getPassword() != null && !kcp.getPassword().equals("")){
-            kcp2.setPassword(kcp.getPassword());
+            kcp2.setPassword(passwordEncoder.encode(kcp.getPassword()));
         }
         return klantContactPersoonRepository.save(kcp2);
     }

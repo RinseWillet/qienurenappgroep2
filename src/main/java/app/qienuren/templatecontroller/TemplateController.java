@@ -40,6 +40,9 @@ public class TemplateController {
     @GetMapping("profielpaginakcp")
     public String getProfielKCPpagina() { return "profielpaginakcp";}
 
+    @GetMapping("profielpaginainternemw")
+    public String getProfielinternemwpagina() { return "profielpaginainternemw";}
+
     @GetMapping("medewerker")
     public String getMedewerkerpagina() {return "medewerker"; }
 
