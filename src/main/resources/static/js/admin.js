@@ -104,7 +104,6 @@ const laatTakenZien = () => {
 
                     alleTrainees.forEach((t) => {
                         if(tt.oorspronkelijkeId === t.id) {
-                            console.log(t)
                             inTeVoegenHTML = `<li data-toggle="modal" data-target="#takenModal" 
                                 class="list-group-item list-group-item-action d-flex justify-content-between" id="${t.id}"><span id="${t.id}">${t.naam}</span><span id="${t.id}">Gegevenswijziging</span>
                                 <i id="${t.id}" class="far fa-eye"></i></li>`;
@@ -222,8 +221,6 @@ const laatFormulierenZien = () => {
             if (deMedewerkers.length > 0) {
                 deMedewerkers.forEach((mw) => {
                     mw.tijdelijkeFormulieren.forEach((tf) => {
-                        console.log("======> " + mw.naam);
-                        console.log("======> " + tf.id);
 
                         if (tf.ingezondenFormulier === true) {
 
@@ -302,6 +299,9 @@ formulierenLijst.onclick = function (event) {
     let id = target.id;
     let hetFormulier;
     var xhr = new XMLHttpRequest();
+
+    console.log(id);
+
     xhr.onreadystatechange = function () {
         if (xhr.readyState == 4) {
             hetFormulier = JSON.parse(this.responseText);
@@ -327,6 +327,8 @@ formulierenLijst.onclick = function (event) {
         }
     })
     
+    // IF statement om de juiste status te geven bij afkeuren ( verschil trainee / interne medewerker )
+
     afkeurKnopje.addEventListener('click', () => {
 
         xhr.open("PUT", `http://localhost:8082/api/admin/update/statusfout/${id}`, true);
@@ -865,7 +867,6 @@ function laadAlleTrainees() {
     xhr.onreadystatechange = function () {
         if (xhr.readyState == 4) {
             alleTrainees = JSON.parse(this.responseText);
-            console.log(alleTrainees);
             laatTakenZien();
         }
     }
@@ -910,7 +911,6 @@ const updateContactPersoonSelector = () => {
             deContactPersonen = JSON.parse(this.responseText);
 
             let inTeVoegenHTML = ``;
-
 
             if (deContactPersonen.length > 0) {
                 deContactPersonen.forEach((e) => {
@@ -988,7 +988,6 @@ Bedrijf aanmaken
 
 const bedrijfAanmaken = () => {
     var xhr = new XMLHttpRequest();
-    console.log("je bent er jongen");
     const bedrijfNaam = document.getElementById("bedrijf-naam").value;
     const bedrijfEmail = document.getElementById("bedrijf-email").value;
     const bedrijfTelefoon = document.getElementById("bedrijf-telefoon").value;
