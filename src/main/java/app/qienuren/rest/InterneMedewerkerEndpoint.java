@@ -2,7 +2,7 @@ package app.qienuren.rest;
 
 import app.qienuren.controller.FormulierService;
 import app.qienuren.controller.InterneMedewerkerService;
-import app.qienuren.controller.TijdelijkeMedewerkerService;
+import app.qienuren.controller.TijdelijkeInterneMedewerkerService;
 import app.qienuren.model.*;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
@@ -19,7 +19,7 @@ public class InterneMedewerkerEndpoint {
     FormulierService formulierService;
 
     @Autowired
-    TijdelijkeMedewerkerService tijdelijkeMedewerkerService;
+    TijdelijkeInterneMedewerkerService tijdelijkeInterneMedewerkerService;
 
     @GetMapping("/{id}")
     public InterneMedewerker getInterneMedewerkerById(@PathVariable(value = "id") long id) {
@@ -48,18 +48,18 @@ public class InterneMedewerkerEndpoint {
     }
 
     @PostMapping("/nieuwegegevens/{id}")
-    public TijdelijkeMedewerker addTijdelijkeMedewerker(@PathVariable(value = "id") long id, @RequestBody TijdelijkeMedewerker medewerker) {
-        return tijdelijkeMedewerkerService.addTijdelijkeMedewerker(id, medewerker);
+    public TijdelijkeInterneMedewerker addTijdelijkeMedewerker(@PathVariable(value = "id") long id, @RequestBody TijdelijkeInterneMedewerker medewerker) {
+        return tijdelijkeInterneMedewerkerService.addTijdelijkeMedewerker(id, medewerker);
     }
 
-    @GetMapping("/tijdelijketrainee/tijdelijketraineeid/{tijdelijketraineeid}")
-    public TijdelijkeMedewerker getTijdelijkeMedewerkerById(@PathVariable(value = "tijdelijketraineeid") long tijdelijkeTraineeId) {
-        return tijdelijkeMedewerkerService.getTijdelijkeMedewerkerById(tijdelijkeTraineeId);
+    @GetMapping("/tijdelijkemedewerker/tijdelijkemedewerkerid/{tijdelijkemedewerkerid}")
+    public TijdelijkeInterneMedewerker getTijdelijkeMedewerkerById(@PathVariable(value = "tijdelijkemedewerkerid") long id) {
+        return tijdelijkeInterneMedewerkerService.getTijdelijkeMedewerkerById(id);
     }
 
-    @GetMapping("/tijdelijketrainee/oorspronkelijketraineeid/{oorspronkelijketraineeid}")
-    public TijdelijkeMedewerker getTijdelijkeMedewerkerByOorspronkelijkeId(@PathVariable(value = "oorspronkelijketraineeid") long oorspronkelijkeId) {
-        return tijdelijkeMedewerkerService.getTijdelijkeMedewerkerByOorspronkelijkeId(oorspronkelijkeId);
+    @GetMapping("/tijdelijkemedewerker/oorspronkelijkemedewerkerid/{oorspronkelijkemedewerkerid}")
+    public TijdelijkeInterneMedewerker getTijdelijkeMedewerkerByOorspronkelijkeId(@PathVariable(value = "oorspronkelijkemedewerkerid") long id) {
+        return tijdelijkeInterneMedewerkerService.getTijdelijkeMedewerkerByOorspronkelijkeId(id);
     }
 
 
