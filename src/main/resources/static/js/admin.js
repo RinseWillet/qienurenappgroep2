@@ -338,8 +338,6 @@ formulierenLijst.onclick = function (event) {
 
     goedkeurKnopje.addEventListener('click', () => {
 
-        const medewerkerId = document.getElementById("verborgen-medewerker-id").innerHTML;
-
         xhr.open("PUT", `http://localhost:8082/api/admin/update/statusgoed/${id}/${medewerkerId}`, true);
         xhr.send();
 
@@ -352,7 +350,7 @@ formulierenLijst.onclick = function (event) {
 
     afkeurKnopje.addEventListener('click', () => {
 
-        xhr.open("PUT", `http://localhost:8082/api/admin/update/statusfout/${id}`, true);
+        xhr.open("PUT", `http://localhost:8082/api/admin/update/statusfout/${id}/${medewerkerId}`, true);
         xhr.send();
 
         xhr.onreadystatechange = function () {

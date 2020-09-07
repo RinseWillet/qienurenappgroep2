@@ -21,6 +21,8 @@ public class InterneMedewerkerService {
     @Autowired
     RandomPasswordGenerator randomPasswordGenerator;
     @Autowired
+    EmailService emailService;
+    @Autowired
     TijdelijkeInterneMedewerkerRepository tijdelijkeInterneMedewerkerRepository;
 
     public InterneMedewerker wijzigGegevens(long oorspronkelijkeId, long id) {
@@ -88,10 +90,17 @@ public class InterneMedewerkerService {
             throw new ResponseStatusException(HttpStatus.CONFLICT, "email bestaat al");
         }
         interneMedewerker.setPassword(randomPasswordGenerator.generatePassayPassword());
+        String nonEncodedPassword = interneMedewerker.getPassword();
         System.out.println(interneMedewerker.getPassword());
         interneMedewerker.setPassword(passwordEncoder.encode(interneMedewerker.getPassword()));
         System.out.println(interneMedewerker.getPassword());
         System.out.println("Interne medewerker aangemaakt");
+
+        //Send email
+        //Arguments: InterneMedewerker, Subject, Message(templated?)
+        //InterneMedewerker fields nodig: Name, Username, Password
+        emailService.sendWithAccountTemplate(interneMedewerker, nonEncodedPassword);
+
         return interneMedewerkerRepository.save(interneMedewerker);
     }
 

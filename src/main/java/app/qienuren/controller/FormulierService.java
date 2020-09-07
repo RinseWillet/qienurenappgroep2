@@ -27,6 +27,9 @@ public class FormulierService {
     @Autowired
     MedewerkerRepository medewerkerRepository;
 
+    @Autowired
+    EmailService emailService;
+
     public Formulier updateFormulier(Formulier nieuwF) {
         // oude formulier ophalen
         Formulier oudF = formulierRepository.findById(nieuwF.getId()).get();
@@ -108,31 +111,55 @@ public class FormulierService {
         m.voegFormulierToeAanArchief(formuliertijdelijk);
         m.verwijderFormulierUitTijdelijkeLijst(formuliertijdelijk);
 
-        medewerkerRepository.save(m);
+        //Send email
+        emailService.sendWithFormulierBeoordelingTemplate(m, formuliertijdelijk.getAdminStatus());
 
+
+        medewerkerRepository.save(m);
         return formulierRepository.save(formuliertijdelijk);
     }
 
-    public Formulier AdminStatusFout(long id) {
+    public Formulier AdminStatusFout(long id, long medewerkerid) {
         System.out.println("hij doet fout updaten");
         Formulier formuliertijdelijk = formulierRepository.findById(id).get();
+        Medewerker m = medewerkerRepository.findById(medewerkerid).get();
         formuliertijdelijk.setAdminStatus(AdminStatus.AFGEKEURD);
         formuliertijdelijk.setIngezondenFormulier(false);
+
+        //Send email
+        emailService.sendWithFormulierBeoordelingTemplate(m, formuliertijdelijk.getAdminStatus());
+
         return formulierRepository.save(formuliertijdelijk);
     }
 
-    public Formulier OpdrachtgeverStatusGoed(long id) {
+    public Formulier OpdrachtgeverStatusGoed(long id, long medewerkerid) {
         System.out.println("hij doet updaten");
         Formulier formuliertijdelijk = formulierRepository.findById(id).get();
         formuliertijdelijk.setOpdrachtgeverStatus(OpdrachtgeverStatus.GOEDGEKEURD);
+
+        //Send email
+        //Arguments: Medewerker, Formulier, Subject, Message(templated?)
+        //Medewerker fields nodig: Name
+        //Formulier fields nodig: Maand/Jaar?, Beoordeling
+        Medewerker m = medewerkerRepository.findById(medewerkerid).get();
+        emailService.sendWithFormulierBeoordelingTemplate(m, formuliertijdelijk.getOpdrachtgeverStatus());
+
         return formulierRepository.save(formuliertijdelijk);
     }
 
-    public Formulier OpdrachtgeverStatusFout(long id) {
+    public Formulier OpdrachtgeverStatusFout(long id, long medewerkerid) {
         System.out.println("hij doet fout updaten");
         Formulier formuliertijdelijk = formulierRepository.findById(id).get();
         formuliertijdelijk.setOpdrachtgeverStatus(OpdrachtgeverStatus.AFGEKEURD);
         formuliertijdelijk.setIngezondenFormulier(false);
+
+        //Send email
+        //Arguments: Medewerker, Formulier, Subject, Message(templated?)
+        //Medewerker fields nodig: Name
+        //Formulier fields nodig: Maand/Jaar?, Beoordeling
+        Medewerker m = medewerkerRepository.findById(medewerkerid).get();
+        emailService.sendWithFormulierBeoordelingTemplate(m, formuliertijdelijk.getOpdrachtgeverStatus());
+        
         return formulierRepository.save(formuliertijdelijk);
     }
 

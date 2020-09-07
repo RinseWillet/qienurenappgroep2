@@ -133,9 +133,9 @@ public class AdminEndpoint {
     public Formulier updateFormulierStatusGoed(@PathVariable(value = "formulierid")long formulierid, @PathVariable(value = "medewerkerid") long medewerkerid){
         return formulierService.AdminStatusGoed(formulierid, medewerkerid);
     }
-    @PutMapping("/update/statusfout/{id}")
-    public Formulier updateFormulierStatusFout(@PathVariable(value = "id")long id){
-        return formulierService.AdminStatusFout(id);
+    @PutMapping("/update/statusfout/{formulierid}/{medewerkerid}")
+    public Formulier updateFormulierStatusFout(@PathVariable(value = "formulierid")long formulierid, @PathVariable (value = "medewerkerid")  long medewerkerid){
+        return formulierService.AdminStatusFout(formulierid, medewerkerid);
     }
 
     //goedkeuren wijzigen gegevens trainee

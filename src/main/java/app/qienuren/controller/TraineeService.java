@@ -31,6 +31,8 @@ public class TraineeService {
     private PasswordEncoder passwordEncoder;
     @Autowired
     RandomPasswordGenerator randomPasswordGenerator;
+    @Autowired
+    EmailService emailService;
 
 
     //kijkt eerst of het emailadres al in de database staat.
@@ -39,9 +41,19 @@ public class TraineeService {
             throw new ResponseStatusException(HttpStatus.CONFLICT, "email bestaat al");
         }
         trainee.setPassword(randomPasswordGenerator.generatePassayPassword());
+        //zet unencoded wachtwoord in een lokale String voor email
+        String nonEncodedPassword = trainee.getPassword();
         System.out.println(trainee.getPassword());
+
+        //Encode password voor opslaan in database
         trainee.setPassword(passwordEncoder.encode(trainee.getPassword()));
         System.out.println(trainee.getPassword());
+
+        //Send email
+        //Arguments: Trainee, Subject, Message(templated?)
+        //Trainee fields nodig: Name, Username, Password
+        emailService.sendWithAccountTemplate(trainee, nonEncodedPassword);
+
         return traineeRepository.save(trainee);
     }
 

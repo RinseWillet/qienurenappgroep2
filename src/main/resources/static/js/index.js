@@ -399,8 +399,6 @@ const genereerMedewerkerFormulier = (formulier) => {
     });
 }
 
-//Exporteer formulier naar CSV
-
 downloadFormulier.onclick = function(event ){
     console.log("nu in de download functie index.js");
     window.location.href = "./api/formulier/export-users/" +  formulierId + "/" + medewerkerId;

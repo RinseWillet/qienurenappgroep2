@@ -178,7 +178,8 @@ formulierenLijst.onclick = function (event) {
     var target = getEventTarget(event);
     let id = target.id;
     let hetFormulier;
-    const medewerkerId = document.getElementById("verborgen-medewerker-id").innerHTML;
+    const medewerkerid = document.getElementById("verborgen-medewerker-id").innerHTML;
+
     var xhr = new XMLHttpRequest();
     xhr.onreadystatechange = function () {
         if (xhr.readyState === 4) {
@@ -203,7 +204,7 @@ formulierenLijst.onclick = function (event) {
 
     goedkeurKnopje.addEventListener('click', () => {
 
-        xhr.open("PUT", `http://localhost:8082/api/opdrachtgever/update/statusgoed/${id}`, true);
+        xhr.open("PUT", `http://localhost:8082/api/opdrachtgever/update/statusgoed/${id}/${medewerkerid}`, true);
         xhr.send();
 
         xhr.onreadystatechange = function () {
@@ -215,7 +216,7 @@ formulierenLijst.onclick = function (event) {
 
     afkeurKnopje.addEventListener('click', () => {
 
-        xhr.open("PUT", `http://localhost:8082/api/opdrachtgever/update/statusfout/${id}`, true);
+        xhr.open("PUT", `http://localhost:8082/api/opdrachtgever/update/statusfout/${id}/${medewerkerid}`, true);
         xhr.send();
 
         xhr.onreadystatechange = function () {
