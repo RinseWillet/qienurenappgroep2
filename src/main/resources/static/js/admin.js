@@ -1,13 +1,16 @@
 const formulierenLijst = document.getElementById("form-list");
 const medewerkerLijst = document.getElementById("medewerker-list");
 const bedrijvenLijst = document.getElementById("bedrijven-list");
-const takenLijst = document.getElementById("taken-list");
+const takenLijstTrainees = document.getElementById("taken-list");
+const takenLijstMedewerkers = document.getElementById("taken-list");
 const formulierItem = document.querySelector(".list-group-item");
 const formBody = document.getElementById("form-body");
 const modalHeader = document.querySelector(".modal-title");
 const modalFooter = document.querySelector(".modal-footer");
 const klikbaarOogje = document.querySelector(".fa-eye");
 const goedkeurKnopje = document.getElementById("goedkeuren");
+
+const downloadFormulier = document.getElementById("download-formulier");
 
 const afkeurKnopje = document.getElementById("afkeuren");
 const relatieAanmakenKnop = document.getElementById("knop-relatie-aanmaken");
@@ -37,7 +40,8 @@ const relatieContainer = document.getElementById("relatiekoppel-container");
 var selectTraineeId;
 let deMedewerkers;
 let alleTrainees;
-let tijdelijkeTrainees
+let tijdelijkeTrainees;
+let tijdelijkeMedewerkers;
 
 /*
 AANROEPEN VAN METHODES BIJ OPENEN PAGINA
@@ -84,16 +88,12 @@ const maandNummerNaarString = (maandNummer) => {
 }
 
 
-const medewerkers = () => {
-
-
-}
-
 /*
 TAKENLIJST
 */
 
 const laatTakenZien = () => {
+
     let xhr = new XMLHttpRequest();
     xhr.onreadystatechange = function () {
         if (xhr.readyState == 4) {
@@ -104,11 +104,12 @@ const laatTakenZien = () => {
 
                     alleTrainees.forEach((t) => {
                         if(tt.oorspronkelijkeId === t.id) {
-                            console.log(t)
+
                             inTeVoegenHTML = `<li data-toggle="modal" data-target="#takenModal" 
-                                class="list-group-item list-group-item-action d-flex justify-content-between" id="${t.id}"><span id="${t.id}">${t.naam}</span><span id="${t.id}">Gegevenswijziging</span>
-                                <i id="${t.id}" class="far fa-eye"></i></li>`;
-                            takenLijst.insertAdjacentHTML('beforeend', inTeVoegenHTML);
+                                class="list-group-item list-group-item-action d-flex justify-content-between" id="${t.id}"><span id="${t.id}">${t.naam}</span><span id="${t.id}">Gegevenswijziging</span><span id="${t.id}">Trainee</span>
+                                <i id="${t.id}" class="far fa-eye" ></i></li>`;
+                            takenLijstTrainees.insertAdjacentHTML('beforeend', inTeVoegenHTML);
+                            console.log('ik ben in de takenlijst trainees')
                         }
                     })
                 })
@@ -118,72 +119,79 @@ const laatTakenZien = () => {
 
     xhr.open("GET", "http://localhost:8082/api/admin/tijdelijkeTrainee/all", true);
     xhr.send();
+
+    let xhr2 = new XMLHttpRequest();
+    xhr2.onreadystatechange = function () {
+        if (xhr2.readyState == 4) {
+            tijdelijkeMedewerkers = JSON.parse(this.responseText);
+            let inTeVoegenHTML = ``;
+            if (tijdelijkeMedewerkers.length > 0) {
+                tijdelijkeMedewerkers.forEach((tt) => {
+                    deMedewerkers.forEach((t) => {
+                        if(tt.oorspronkelijkeId === t.id) {
+                            console.log(t)
+                            inTeVoegenHTML = `<li data-toggle="modal" data-target="#takenModal" 
+                                class="list-group-item list-group-item-action d-flex justify-content-between" id="${t.id}"><span id="${t.id}">${t.naam}</span><span id="${t.id}">Gegevenswijziging</span><span id="${t.id}">Interne Medewerker</span>
+                                <i id="${t.id}" class="far fa-eye"></i></li>`;
+                            takenLijstMedewerkers.insertAdjacentHTML('beforeend', inTeVoegenHTML);
+                            console.log('ik ben in de takenlijst medewerkers')
+                        }
+                    })
+                })
+            }
+        }
+    }
+
+    xhr2.open("GET", "http://localhost:8082/api/admin/tijdelijkeMedewerker/all", true);
+    xhr2.send();
 }
 
 
 
-takenLijst.onclick = function(event ){
-
+takenLijstTrainees.onclick = function(event ){
     var target = getEventTarget(event);
     let id = target.id;
-    let trainee;
     var xhr = new XMLHttpRequest();
+    let gebruiker;
     xhr.onreadystatechange = function () {
         if (xhr.readyState == 4) {
-            trainee = JSON.parse(this.responseText);
+            gebruiker = JSON.parse(this.responseText);
 
-            // takenTraineeNaam.innerHTML = "";
-            // takenTraineeEmail.innerHTML = "";
-            // takenTraineeTelnr.innerHTML = "";
-            // takenTraineeAdres.innerHTML = "";
-            // takenTraineePostcode.innerHTML = "";
-            // takenTraineeWoonplaats.innerHTML = "";
-
-            takenTraineeNaam.innerHTML = `${trainee.naam}`;
-            takenTraineeEmail.innerHTML = `${trainee.email}`;
-            takenTraineeTelnr.innerHTML = `${trainee.telefoonnr}`;
-            takenTraineeAdres.innerHTML = `${trainee.straatNaamNr}`;
-            takenTraineePostcode.innerHTML = `${trainee.postcode}`;
-            takenTraineeWoonplaats.innerHTML = `${trainee.woonplaats}`;
+            takenTraineeNaam.innerHTML = `${gebruiker.naam}`;
+            takenTraineeEmail.innerHTML = `${gebruiker.email}`;
+            takenTraineeTelnr.innerHTML = `${gebruiker.telefoonnr}`;
+            takenTraineeAdres.innerHTML = `${gebruiker.straatNaamNr}`;
+            takenTraineePostcode.innerHTML = `${gebruiker.postcode}`;
+            takenTraineeWoonplaats.innerHTML = `${gebruiker.woonplaats}`;
         }
     }
 
-    xhr.open("GET", `http://localhost:8082/api/trainee/${id}`, true);
+    xhr.open("GET", `http://localhost:8082/api/user/${id}`, true);
     xhr.send();
 
-    let tijdelijkeTrainee;
-
     var xhr2 = new XMLHttpRequest();
+    let tijdelijkeGebruiker;
     xhr2.onreadystatechange = function () {
         if (xhr2.readyState == 4) {
-            tijdelijkeTrainee = JSON.parse(this.responseText);
+            tijdelijkeGebruiker = JSON.parse(this.responseText);
 
-            // takenTijdelijkeTraineeNaam.innerHTML = "";
-            // takenTijdelijkeTraineeEmail.innerHTML = "";
-            // takenTijdelijkeTraineeTelnr.innerHTML = "";
-            // takenTijdelijkeTraineeAdres.innerHTML = "";
-            // takenTijdelijkeTraineePostcode.innerHTML = "";
-            // takenTijdelijkeTraineeWoonplaats.innerHTML = "";
-
-            takenTijdelijkeTraineeNaam.innerHTML = (tijdelijkeTrainee.naam == "" || tijdelijkeTrainee == null) ? `<i>Geen Wijziging</i>` : `<b>${tijdelijkeTrainee.naam}</b>`;
-            takenTijdelijkeTraineeEmail.innerHTML = (tijdelijkeTrainee.email == "" || tijdelijkeTrainee == null) ? `<i>Geen Wijziging</i>` : `<b>${tijdelijkeTrainee.email}</b>`;
-            takenTijdelijkeTraineeTelnr.innerHTML = (tijdelijkeTrainee.telefoonnr == "" || tijdelijkeTrainee == null) ? `<i>Geen Wijziging</i>` : `<b>${tijdelijkeTrainee.telefoonnr}</b>`;
-            takenTijdelijkeTraineeAdres.innerHTML = (tijdelijkeTrainee.straatNaamNr == "" || tijdelijkeTrainee == null) ? `<i>Geen Wijziging</i>` : `<b>${tijdelijkeTrainee.straatNaamNr}</b>`;
-            takenTijdelijkeTraineePostcode.innerHTML = (tijdelijkeTrainee.postcode == "" || tijdelijkeTrainee == null) ? `<i>Geen Wijziging</i>` : `<b>${tijdelijkeTrainee.postcode}</b>`;
-            takenTijdelijkeTraineeWoonplaats.innerHTML = (tijdelijkeTrainee.woonplaats == "" || tijdelijkeTrainee == null) ? `<i>Geen Wijziging</i>` : `<b>${tijdelijkeTrainee.woonplaats}</b>`;
+            takenTijdelijkeTraineeNaam.innerHTML = (tijdelijkeGebruiker.naam == "" || tijdelijkeGebruiker == null) ? `<i>Geen Wijziging</i>` : `<b>${tijdelijkeGebruiker.naam}</b>`;
+            takenTijdelijkeTraineeEmail.innerHTML = (tijdelijkeGebruiker.email == "" || tijdelijkeGebruiker == null) ? `<i>Geen Wijziging</i>` : `<b>${tijdelijkeGebruiker.email}</b>`;
+            takenTijdelijkeTraineeTelnr.innerHTML = (tijdelijkeGebruiker.telefoonnr == "" || tijdelijkeGebruiker == null) ? `<i>Geen Wijziging</i>` : `<b>${tijdelijkeGebruiker.telefoonnr}</b>`;
+            takenTijdelijkeTraineeAdres.innerHTML = (tijdelijkeGebruiker.straatNaamNr == "" || tijdelijkeGebruiker == null) ? `<i>Geen Wijziging</i>` : `<b>${tijdelijkeGebruiker.straatNaamNr}</b>`;
+            takenTijdelijkeTraineePostcode.innerHTML = (tijdelijkeGebruiker.postcode == "" || tijdelijkeGebruiker == null) ? `<i>Geen Wijziging</i>` : `<b>${tijdelijkeGebruiker.postcode}</b>`;
+            takenTijdelijkeTraineeWoonplaats.innerHTML = (tijdelijkeGebruiker.woonplaats == "" || tijdelijkeGebruiker == null) ? `<i>Geen Wijziging</i>` : `<b>${tijdelijkeGebruiker.woonplaats}</b>`;
 
         }
     }
 
-    xhr2.open("GET", `http://localhost:8082/api/trainee/tijdelijketrainee/oorspronkelijketraineeid/${id}`, true);
+    xhr2.open("GET", `http://localhost:8082/api/user/tijdelijkepersoon/${id}`, true);
     xhr2.send();
 
     gegevensGoedkeurKnopje.addEventListener('click', () => {
-        alert("trainee id>> " + trainee.woonplaats + "\ntijdelijkeTrainee id>> " + tijdelijkeTrainee.woonplaats);
-
         var xhr3 = new XMLHttpRequest();
 
-        xhr3.open("PUT", `http://localhost:8082/api/admin/goedkeurengegevens/${trainee.id}/${tijdelijkeTrainee.id}`, true);
+        xhr3.open("PUT", `http://localhost:8082/api/admin/goedkeurengegevens/persoon/${gebruiker.id}/${tijdelijkeGebruiker.id}`, true);
         xhr3.send();
 
         xhr3.onreadystatechange = function () {
@@ -192,17 +200,17 @@ takenLijst.onclick = function(event ){
             }
         }
     })
-    // gegevensAfkeurKnopje.addEventListener('click', () => {
+    gegevensAfkeurKnopje.addEventListener('click', () => {
 
-    //     xhr.open("PUT", `http://localhost:8082/api/admin/update/statusfout/${id}`, true);
-    //     xhr.send();
+        xhr.open("DELETE", `http://localhost:8082/api/user/tijdelijkepersoon/delete/${tijdelijkeGebruiker.id}`, true);
+        xhr.send();
 
-    //     xhr.onreadystatechange = function () {
-    //         if (xhr.readyState == 4) {
-    //             location.reload();
-    //         }
-    //     }
-    // })
+        xhr.onreadystatechange = function () {
+            if (xhr.readyState == 4) {
+                location.reload();
+            }
+        }
+    })
 }
 
 /*
@@ -222,23 +230,28 @@ const laatFormulierenZien = () => {
             if (deMedewerkers.length > 0) {
                 deMedewerkers.forEach((mw) => {
                     mw.tijdelijkeFormulieren.forEach((tf) => {
-                        console.log("======> " + mw.naam);
-                        console.log("======> " + tf.id);
 
-                        if (tf.ingezondenFormulier === true) {
+                        //if (tf.ingezondenFormulier === true) {
 
                             tf.maand = maandNummerNaarString(tf.maand);
-
-                            if (tf.opdrachtgeverStatus === "OPEN") {
-                                tf.adminStatus = "Bij Klant";
+                            if((tf.adminStatus === 'OPEN' && tf.opdrachtgeverStatus === 'OPEN') && tf.ingezondenFormulier == true) {
+                                tf.adminStatus = "Bij opdrachtgever";
+                            } else if (tf.adminStatus === "OPEN" && tf.opdrachtgeverStatus === "GOEDGEKEURD")  {
+                                tf.adminStatus = "Bij Qien HR";
                             } else if (tf.opdrachtgeverStatus === "AFGEKEURD") {
-                                tf.adminStatus = "Afgekeurd door klant";
+                                tf.adminStatus = "Afgekeurd door opdrachtgever";
+                            } else if (tf.adminStatus === "AFGEKEURD") {
+                                tf.adminStatus = "Afgekeurd door Qien HR";
+                            } else if (tf.adminStatus === "GOEDGEKEURD") {
+                                tf.adminStatus = "Goedgekeurd door Qien HQ";
+                            }else {
+                                tf.adminStatus = "Nog te verzenden";
                             }
 
                             inTeVoegenHTML = `<li data-toggle="modal" data-target="#staticBackdrop" 
                             class="list-group-item list-group-item-action d-flex justify-content-between" id="${tf.id}"><span id="verborgen-medewerker-id">${mw.id}</span><span class="medewerker-naam" id="${tf.id}">${mw.naam}</span><span id="${tf.id}">${tf.maand}</span><span id="${tf.id}">${tf.jaar}</span><span id="${tf.id}">${tf.adminStatus}</span><i id="${tf.id}" class="far fa-eye"></i></li>`;
                             formulierenLijst.insertAdjacentHTML('beforeend', inTeVoegenHTML);
-                        }
+                        //}
                     })
 
                     // inTeVoegenHTML = `<li data-toggle="modal" data-target="#staticBackdrop" href="./formulier.html?id=${e.id}"
@@ -263,7 +276,7 @@ const laatFormulierenZien = () => {
     xhr.send();
 }
 
-const genereerFormulier = (formulier) => {
+const genereerFormulier = (formulier, deMedewerker) => {
     if (formulier.opdrachtgeverStatus === "OPEN" || formulier.opdrachtgeverStatus === "AFGEKEURD") {
         modalFooter.style.display = "none";
     } else {
@@ -271,7 +284,7 @@ const genereerFormulier = (formulier) => {
     }
 
     formulier.maand = maandNummerNaarString(formulier.maand);
-    modalHeader.innerHTML = `<span class="pt-0">... | ${formulier.maand}/${formulier.jaar}</span><span class="pt-0">Status opdrachtgever: ${formulier.opdrachtgeverStatus}</span>`
+    modalHeader.innerHTML = `<span class="pt-0">${deMedewerker.naam} | ${formulier.maand}/${formulier.jaar}</span><span class="pt-0">Status opdrachtgever: ${formulier.opdrachtgeverStatus}</span>`
     for (let i = 0; i < formulier.werkDagen.length; i++) {
         formBody.insertAdjacentHTML("beforeend",
             `<tr id="dag-${i + 1}" class="formulier-rij">
@@ -303,15 +316,24 @@ formulierenLijst.onclick = function (event) {
     let hetFormulier;
     const medewerkerId = document.getElementById("verborgen-medewerker-id").innerHTML;
     var xhr = new XMLHttpRequest();
+
+    console.log(id);
+
     xhr.onreadystatechange = function () {
         if (xhr.readyState == 4) {
-            hetFormulier = JSON.parse(this.responseText);
-            verwijderFormulier();
-            genereerFormulier(hetFormulier);
+            deMedewerker = JSON.parse(this.responseText);
+            deMedewerker.tijdelijkeFormulieren.forEach((tf) => {
+                    if (tf.id == id) {
+                        hetFormulier = tf;
+                        verwijderFormulier();
+                        genereerFormulier(hetFormulier, deMedewerker);
+                    }
+                }
+            );
         }
     }
 
-    xhr.open("GET", `http://localhost:8082/api/formulier/${id}`, true);
+    xhr.open("GET", `http://localhost:8082/api/admin/medewerker/${medewerkerId}`, true);
     xhr.send();
 
     goedkeurKnopje.addEventListener('click', () => {
@@ -325,7 +347,7 @@ formulierenLijst.onclick = function (event) {
             }
         }
     })
-    
+
     afkeurKnopje.addEventListener('click', () => {
 
         xhr.open("PUT", `http://localhost:8082/api/admin/update/statusfout/${id}/${medewerkerId}`, true);
@@ -337,6 +359,15 @@ formulierenLijst.onclick = function (event) {
             }
         }
     })
+
+    //Exporteer formulier naar CSV
+
+    downloadFormulier.onclick = function (event) {
+
+        console.log("nu in de csv download functie");
+        console.log("form id : " + id + " medewerkerid : " + medewerkerId);
+        window.location.href = "./api/formulier/export-users/" + id + "/" + medewerkerId;
+    }
 };
 
 /*
@@ -502,7 +533,7 @@ const test = () => {
             }
         }
 
-            xhr.send(JSON.stringify(interneMedewerkerJSON));
+        xhr.send(JSON.stringify(interneMedewerkerJSON));
 
     }
 
@@ -542,7 +573,7 @@ const test = () => {
                     alert("Dit is wat je volgens mij van de backend krijgt :) :" + xhr.responseText);
                     alert("emailadres bestaat al, voer een ander emailadres in");
                 } else {
-                    alert("Ik weet niet wat er mis ging, maar de http-status code is ......" + xhr.status + " oftewel "+ xhr.statusText);
+                    alert("Ik weet niet wat er mis ging, maar de http-status code is ......" + xhr.status + " oftewel " + xhr.statusText);
                 }
             }
         }
@@ -864,7 +895,6 @@ function laadAlleTrainees() {
     xhr.onreadystatechange = function () {
         if (xhr.readyState == 4) {
             alleTrainees = JSON.parse(this.responseText);
-            console.log(alleTrainees);
             laatTakenZien();
         }
     }
@@ -909,7 +939,6 @@ const updateContactPersoonSelector = () => {
             deContactPersonen = JSON.parse(this.responseText);
 
             let inTeVoegenHTML = ``;
-
 
             if (deContactPersonen.length > 0) {
                 deContactPersonen.forEach((e) => {
@@ -987,7 +1016,6 @@ Bedrijf aanmaken
 
 const bedrijfAanmaken = () => {
     var xhr = new XMLHttpRequest();
-    console.log("je bent er jongen");
     const bedrijfNaam = document.getElementById("bedrijf-naam").value;
     const bedrijfEmail = document.getElementById("bedrijf-email").value;
     const bedrijfTelefoon = document.getElementById("bedrijf-telefoon").value;

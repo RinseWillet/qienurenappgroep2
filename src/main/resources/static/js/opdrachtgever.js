@@ -4,17 +4,21 @@ const modalHeader = document.querySelector(".modal-title");
 const klikbaarOogje = document.querySelector(".fa-eye");
 const goedkeurKnopje = document.getElementById("goedkeuren");
 const afkeurKnopje = document.getElementById("afkeuren");
+const downloadFormulier = document.getElementById("download-formulier");
 
 //haalt id uit huidige url
-var url_string = window.location.href; 
-var url = new URL(url_string); 
-var idpf = url.searchParams.get("id"); 
+var url_string = window.location.href;
+var url = new URL(url_string);
+var idpf = url.searchParams.get("id");
 console.log(idpf)
 
 function aanpassenurl() {
     let pfurl = document.getElementById('profielpaginaurlkcp').href;
     pfurl = pfurl + "?id=" + idpf;
-    var a = document.querySelector('a[href="/profielpaginakcp"]'); if (a) { a.setAttribute('href', pfurl) }
+    var a = document.querySelector('a[href="/profielpaginakcp"]');
+    if (a) {
+        a.setAttribute('href', pfurl)
+    }
 }
 
 window.onload = () => {
@@ -105,7 +109,7 @@ const laatFormulierenZien = () => {
                         console.log("======> " + mw.naam);
                         console.log("======> " + tf.id);
 
-                        if (tf.ingezondenFormulier === true) {
+                        // if (tf.ingezondenFormulier === true) {
 
                             tf.maand = maandNummerNaarString(tf.maand);
 
@@ -118,7 +122,7 @@ const laatFormulierenZien = () => {
                             inTeVoegenHTML = `<li data-toggle="modal" data-target="#staticBackdrop" 
                             class="list-group-item list-group-item-action d-flex justify-content-between" id="${tf.id}"><span id="verborgen-medewerker-id">${mw.id}</span><span id="${tf.id}">${mw.naam}</span><span id="${tf.id}">${tf.maand}</span><span id="${tf.id}">${tf.jaar}</span><span id="${tf.id}">${tf.opdrachtgeverStatus}</span><i id="${tf.id}" class="far fa-eye"></i></li>`;
                             formulierenLijst.insertAdjacentHTML('beforeend', inTeVoegenHTML);
-                        }
+                        // }
                     })
 
                     // inTeVoegenHTML = `<li data-toggle="modal" data-target="#staticBackdrop" href="./formulier.html?id=${e.id}"
@@ -143,9 +147,9 @@ const laatFormulierenZien = () => {
     xhr.send();
 }
 
-const genereerFormulier = (formulier) => {
+const genereerFormulier = (formulier, trainee) => {
     formulier.maand = maandNummerNaarString(formulier.maand);
-    modalHeader.innerHTML = `Jan Doedel | ${formulier.maand}/${formulier.jaar}`
+    modalHeader.innerHTML = `${trainee.naam} | ${formulier.maand}/${formulier.jaar}`
     for (let i = 0; i < formulier.werkDagen.length; i++) {
         formBody.insertAdjacentHTML("beforeend",
             `<tr id="dag-${i + 1}" class="formulier-rij">
@@ -175,16 +179,27 @@ formulierenLijst.onclick = function (event) {
     let id = target.id;
     let hetFormulier;
     const medewerkerid = document.getElementById("verborgen-medewerker-id").innerHTML;
+
     var xhr = new XMLHttpRequest();
     xhr.onreadystatechange = function () {
-        if (xhr.readyState == 4) {
-            hetFormulier = JSON.parse(this.responseText);
-            verwijderFormulier();
-            genereerFormulier(hetFormulier);
+        if (xhr.readyState === 4) {
+            // console.log(" de response " + this.responseText);
+            deTrainee = JSON.parse(this.responseText);
+            console.log("de trainee : " + deTrainee);
+            deTrainee.tijdelijkeFormulieren.forEach((tf) => {
+                    console.log(" per formulier " + id);
+                    if (tf.id == id) {
+                        console.log("in de if " + tf.id + " en de normale id : " + id);
+                        hetFormulier = tf;
+                        verwijderFormulier();
+                        genereerFormulier(hetFormulier, deTrainee);
+                    }
+                }
+            );
         }
     }
 
-    xhr.open("GET", `http://localhost:8082/api/formulier/${id}`, true);
+    xhr.open("GET", `http://localhost:8082/api/trainee/${medewerkerId}`, true);
     xhr.send();
 
     goedkeurKnopje.addEventListener('click', () => {
@@ -198,6 +213,7 @@ formulierenLijst.onclick = function (event) {
             }
         }
     })
+
     afkeurKnopje.addEventListener('click', () => {
 
         xhr.open("PUT", `http://localhost:8082/api/opdrachtgever/update/statusfout/${id}/${medewerkerid}`, true);
@@ -210,8 +226,14 @@ formulierenLijst.onclick = function (event) {
         }
     })
 
+    //Exporteer formulier naar CSV
 
+    downloadFormulier.onclick = function (event) {
 
+        console.log("nu in de csv download functie");
+        console.log("form id : " + id + " medewerkerid : " + medewerkerId);
+        window.location.href = "./api/formulier/export-users/" + id + "/" + medewerkerId;
+    }
 
 };
 

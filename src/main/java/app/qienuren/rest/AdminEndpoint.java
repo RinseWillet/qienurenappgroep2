@@ -27,7 +27,10 @@ public class AdminEndpoint {
     FormulierService formulierService;
     @Autowired
     TijdelijkeTraineeService tijdelijkeTraineeService;
-
+    @Autowired
+    TijdelijkeInterneMedewerkerService tijdelijkeInterneMedewerkerService;
+    @Autowired
+    MedewerkerService medewerkerService;
 
     // Alle Post Mapping om nieuwe Entiteiten aan te maken
 
@@ -81,6 +84,12 @@ public class AdminEndpoint {
         return persoonService.getAllMedewerkers();
     }
 
+    @GetMapping("/medewerker/{id}")
+    public Medewerker getMedewerkerById(@PathVariable(value = "id") long medewerkerId){
+        System.out.println("ophalen medewerkert in endpoint");
+        return medewerkerService.getMedewerkerById(medewerkerId);
+    }
+
     @GetMapping("/formulieren/ingezonden")
     public Iterable<Formulier> alleFormulieren() {
         return formulierService.getAlleFormulierenVoorAdmin();
@@ -89,6 +98,11 @@ public class AdminEndpoint {
     @GetMapping("/tijdelijkeTrainee/all")
     public Iterable<TijdelijkeTrainee> getAlleTijdelijkeTrainee() {
         return tijdelijkeTraineeService.getAllTijdelijkeTrainee();
+    }
+
+    @GetMapping("/tijdelijkeMedewerker/all")
+    public Iterable<TijdelijkeInterneMedewerker> getAlleTijdelijkeMedewerkers() {
+        return tijdelijkeInterneMedewerkerService.getallTijdelijkeMedewerkers();
     }
 
 
@@ -133,6 +147,11 @@ public class AdminEndpoint {
     @PutMapping("/goedkeurengegevens/internemedewerker/{oorspronkelijkeId}/{id}")
     public InterneMedewerker goedkeurenGegevensWijzigingMedewerker(@PathVariable(value = "oorspronkelijkeId")long oorspronkelijkeId, @PathVariable(value = "id") long id){
         return interneMedewerkerService.wijzigGegevens(oorspronkelijkeId, id);
+    }
+
+    @PutMapping("/goedkeurengegevens/persoon/{oorspronkelijkeId}/{id}")
+    public Persoon goedkeurenGegevensWijzigingPersoon(@PathVariable(value = "oorspronkelijkeId")long oorspronkelijkeId, @PathVariable(value = "id") long id){
+        return persoonService.wijzigGegevens(oorspronkelijkeId, id);
     }
 
 }
