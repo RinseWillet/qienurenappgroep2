@@ -187,8 +187,6 @@ takenLijstTrainees.onclick = function(event ){
     xhr2.send();
 
     gegevensGoedkeurKnopje.addEventListener('click', () => {
-       alert("trainee id>> " + gebruiker.id + "\ntijdelijkeTrainee id>> " + tijdelijkeGebruiker.id);
-
         var xhr3 = new XMLHttpRequest();
 
         xhr3.open("PUT", `http://localhost:8082/api/admin/goedkeurengegevens/persoon/${gebruiker.id}/${tijdelijkeGebruiker.id}`, true);
