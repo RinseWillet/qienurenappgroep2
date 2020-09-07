@@ -16,9 +16,9 @@ var idpf = url.searchParams.get("id");
 
 //voegt ID toe aan formulierpaginaurl
 function aanpassenurl() {
-    let pfurl = document.getElementById('profielpaginaurl').href;
+    let pfurl = document.getElementById('profielpaginainternemw').href;
     pfurl = pfurl + "?id=" + idpf;
-    var a = document.querySelector('a[href="/profielpagina"]'); if (a) { a.setAttribute('href', pfurl) }
+    var a = document.querySelector('a[href="/profielpaginainternemw"]'); if (a) { a.setAttribute('href', pfurl) }
 }
 
 const maandNummerNaarString = (maandNummer) => {
