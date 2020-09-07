@@ -75,7 +75,7 @@ public class MedewerkerService {
     }
 
     public Medewerker getMedewerkerById(long id) {
-        System.out.println("Medewerker opgehaald");
+        System.out.println("Medewerker opgehaald - test Maandag");
         return medewerkerRepository.findById(id).get();
     }
 

@@ -116,7 +116,7 @@ span {
 }
 
 .modal-footer {
-    display: grid;
+    display: grid !important;
     grid-template-columns: repeat(8, minmax(0,1fr));
     justify-content: flex-start;
 }
@@ -131,6 +131,14 @@ span {
 
 #afsluiten{
     grid-column-start: 6;
+}
+
+#afsluiten-tr{
+    grid-column-start: 8;
+}
+
+#submit-formulier{
+    grid-column-start: 8;
 }
 
 .alert-success {

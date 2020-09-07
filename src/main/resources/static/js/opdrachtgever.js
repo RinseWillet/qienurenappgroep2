@@ -7,15 +7,18 @@ const afkeurKnopje = document.getElementById("afkeuren");
 const downloadFormulier = document.getElementById("download-formulier");
 
 //haalt id uit huidige url
-var url_string = window.location.href; 
-var url = new URL(url_string); 
-var idpf = url.searchParams.get("id"); 
+var url_string = window.location.href;
+var url = new URL(url_string);
+var idpf = url.searchParams.get("id");
 console.log(idpf)
 
 function aanpassenurl() {
     let pfurl = document.getElementById('profielpaginaurlkcp').href;
     pfurl = pfurl + "?id=" + idpf;
-    var a = document.querySelector('a[href="/profielpaginakcp"]'); if (a) { a.setAttribute('href', pfurl) }
+    var a = document.querySelector('a[href="/profielpaginakcp"]');
+    if (a) {
+        a.setAttribute('href', pfurl)
+    }
 }
 
 window.onload = () => {
@@ -179,20 +182,19 @@ formulierenLijst.onclick = function (event) {
     var xhr = new XMLHttpRequest();
     xhr.onreadystatechange = function () {
         if (xhr.readyState === 4) {
-           // console.log(" de response " + this.responseText);
+            // console.log(" de response " + this.responseText);
             deTrainee = JSON.parse(this.responseText);
             console.log("de trainee : " + deTrainee);
             deTrainee.tijdelijkeFormulieren.forEach((tf) => {
-                console.log(" per formulier " + id);
-              if(tf.id == id){
-                  console.log("in de if " + tf.id + " en de normale id : " + id);
-                  hetFormulier = tf;
-                  verwijderFormulier();
-                  genereerFormulier(hetFormulier, deTrainee);
-              }
-            }
+                    console.log(" per formulier " + id);
+                    if (tf.id == id) {
+                        console.log("in de if " + tf.id + " en de normale id : " + id);
+                        hetFormulier = tf;
+                        verwijderFormulier();
+                        genereerFormulier(hetFormulier, deTrainee);
+                    }
+                }
             );
-
         }
     }
 
@@ -210,6 +212,7 @@ formulierenLijst.onclick = function (event) {
             }
         }
     })
+
     afkeurKnopje.addEventListener('click', () => {
 
         xhr.open("PUT", `http://localhost:8082/api/opdrachtgever/update/statusfout/${id}`, true);
@@ -224,11 +227,11 @@ formulierenLijst.onclick = function (event) {
 
     //Exporteer formulier naar CSV
 
-    downloadFormulier.onclick = function(event ){
+    downloadFormulier.onclick = function (event) {
 
         console.log("nu in de csv download functie");
         console.log("form id : " + id + " medewerkerid : " + medewerkerId);
-        window.location.href = "./api/formulier/export-users/" +  id + "/" + medewerkerId;
+        window.location.href = "./api/formulier/export-users/" + id + "/" + medewerkerId;
     }
 
 };
