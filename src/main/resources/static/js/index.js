@@ -391,28 +391,19 @@ const genereerMedewerkerFormulier = (formulier) => {
             xhr.open("PUT", `http://localhost:8082/api/internemedewerker/formulier/update/${nieuwFormulier.id}`, true);
             xhr.setRequestHeader("Content-Type", "application/json");
             xhr.send(JSON.stringify(nieuwFormulier));
-
         })
     })
 
     buttonSubmit.addEventListener("click", () => {
         verzendMedewerkerFormulier(formulier.id);      
     });
-
 }
-
 
 //Exporteer formulier naar CSV
 
 downloadFormulier.onclick = function(event ){
     console.log("nu in de download functie index.js");
     window.location.href = "./api/formulier/export-users/" +  formulierId + "/" + medewerkerId;
-
-
-    // let xhr = new XMLHttpRequest();
-    // xhr.open("GET", `http://localhost:8082/api/formulier/export-users`, true);
-    // xhr.send();
-
 }
 
 haalFormulierOp();

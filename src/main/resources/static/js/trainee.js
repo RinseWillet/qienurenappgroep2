@@ -7,7 +7,7 @@ const klikbaarOogje = document.querySelector(".fa-eye");
 const formulierItem = document.querySelector(".list-group-item");
 const navlink = document.querySelector(".nav-link");
 const profielpagina = document.getElementById("profielpagina");
-
+const downloadFormulier = document.getElementById("download-formulier");
 
 
 //haalt id uit huidige url
@@ -21,8 +21,6 @@ function aanpassenurl() {
     pfurl = pfurl + "?id=" + idpf;
     var a = document.querySelector('a[href="/profielpagina"]'); if (a) { a.setAttribute('href', pfurl) }
 }
-
-
 
 const maandNummerNaarString = (maandNummer) => {
     switch (maandNummer) {
@@ -207,6 +205,14 @@ afgelopenFormulieren.onclick = function (event) {
 
     xhr.open("GET", `http://localhost:8082/api/formulier/${id}`, true);
     xhr.send();
+
+    //Exporteer formulier naar CSV
+
+    downloadFormulier.onclick = function(event ){
+
+        console.log("nu in de csv download functie");
+        window.location.href = "./api/formulier/export-users/" +  id + "/" + idpf;
+    }
 
 };
 

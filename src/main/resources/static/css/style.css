@@ -115,6 +115,24 @@ span {
     max-width: 100% !important;
 }
 
+.modal-footer {
+    display: grid;
+    grid-template-columns: repeat(8, minmax(0,1fr));
+    justify-content: flex-start;
+}
+
+#goedkeuren {
+    grid-column-start: 8;
+}
+
+#afkeuren{
+    grid-column-start: 7;
+}
+
+#afsluiten{
+    grid-column-start: 6;
+}
+
 .alert-success {
     display: none;
 }
