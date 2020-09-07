@@ -147,22 +147,20 @@ const laatTakenZien = () => {
 }
 
 takenLijstTrainees.onclick = function(event ){
-
     var target = getEventTarget(event);
     let id = target.id;
     var xhr = new XMLHttpRequest();
-
+    let gebruiker;
     xhr.onreadystatechange = function () {
         if (xhr.readyState == 4) {
-            let trainee = JSON.parse(this.responseText);
-            console.log(trainee.roles)
+            gebruiker = JSON.parse(this.responseText);
 
-            takenTraineeNaam.innerHTML = `${trainee.naam}`;
-            takenTraineeEmail.innerHTML = `${trainee.email}`;
-            takenTraineeTelnr.innerHTML = `${trainee.telefoonnr}`;
-            takenTraineeAdres.innerHTML = `${trainee.straatNaamNr}`;
-            takenTraineePostcode.innerHTML = `${trainee.postcode}`;
-            takenTraineeWoonplaats.innerHTML = `${trainee.woonplaats}`;
+            takenTraineeNaam.innerHTML = `${gebruiker.naam}`;
+            takenTraineeEmail.innerHTML = `${gebruiker.email}`;
+            takenTraineeTelnr.innerHTML = `${gebruiker.telefoonnr}`;
+            takenTraineeAdres.innerHTML = `${gebruiker.straatNaamNr}`;
+            takenTraineePostcode.innerHTML = `${gebruiker.postcode}`;
+            takenTraineeWoonplaats.innerHTML = `${gebruiker.woonplaats}`;
         }
     }
 
@@ -170,29 +168,30 @@ takenLijstTrainees.onclick = function(event ){
     xhr.send();
 
     var xhr2 = new XMLHttpRequest();
+    let tijdelijkeGebruiker;
     xhr2.onreadystatechange = function () {
         if (xhr2.readyState == 4) {
-            let tijdelijkeTrainee = JSON.parse(this.responseText);
+            tijdelijkeGebruiker = JSON.parse(this.responseText);
 
-            takenTijdelijkeTraineeNaam.innerHTML = (tijdelijkeTrainee.naam == "" || tijdelijkeTrainee == null) ? `<i>Geen Wijziging</i>` : `<b>${tijdelijkeTrainee.naam}</b>`;
-            takenTijdelijkeTraineeEmail.innerHTML = (tijdelijkeTrainee.email == "" || tijdelijkeTrainee == null) ? `<i>Geen Wijziging</i>` : `<b>${tijdelijkeTrainee.email}</b>`;
-            takenTijdelijkeTraineeTelnr.innerHTML = (tijdelijkeTrainee.telefoonnr == "" || tijdelijkeTrainee == null) ? `<i>Geen Wijziging</i>` : `<b>${tijdelijkeTrainee.telefoonnr}</b>`;
-            takenTijdelijkeTraineeAdres.innerHTML = (tijdelijkeTrainee.straatNaamNr == "" || tijdelijkeTrainee == null) ? `<i>Geen Wijziging</i>` : `<b>${tijdelijkeTrainee.straatNaamNr}</b>`;
-            takenTijdelijkeTraineePostcode.innerHTML = (tijdelijkeTrainee.postcode == "" || tijdelijkeTrainee == null) ? `<i>Geen Wijziging</i>` : `<b>${tijdelijkeTrainee.postcode}</b>`;
-            takenTijdelijkeTraineeWoonplaats.innerHTML = (tijdelijkeTrainee.woonplaats == "" || tijdelijkeTrainee == null) ? `<i>Geen Wijziging</i>` : `<b>${tijdelijkeTrainee.woonplaats}</b>`;
+            takenTijdelijkeTraineeNaam.innerHTML = (tijdelijkeGebruiker.naam == "" || tijdelijkeGebruiker == null) ? `<i>Geen Wijziging</i>` : `<b>${tijdelijkeGebruiker.naam}</b>`;
+            takenTijdelijkeTraineeEmail.innerHTML = (tijdelijkeGebruiker.email == "" || tijdelijkeGebruiker == null) ? `<i>Geen Wijziging</i>` : `<b>${tijdelijkeGebruiker.email}</b>`;
+            takenTijdelijkeTraineeTelnr.innerHTML = (tijdelijkeGebruiker.telefoonnr == "" || tijdelijkeGebruiker == null) ? `<i>Geen Wijziging</i>` : `<b>${tijdelijkeGebruiker.telefoonnr}</b>`;
+            takenTijdelijkeTraineeAdres.innerHTML = (tijdelijkeGebruiker.straatNaamNr == "" || tijdelijkeGebruiker == null) ? `<i>Geen Wijziging</i>` : `<b>${tijdelijkeGebruiker.straatNaamNr}</b>`;
+            takenTijdelijkeTraineePostcode.innerHTML = (tijdelijkeGebruiker.postcode == "" || tijdelijkeGebruiker == null) ? `<i>Geen Wijziging</i>` : `<b>${tijdelijkeGebruiker.postcode}</b>`;
+            takenTijdelijkeTraineeWoonplaats.innerHTML = (tijdelijkeGebruiker.woonplaats == "" || tijdelijkeGebruiker == null) ? `<i>Geen Wijziging</i>` : `<b>${tijdelijkeGebruiker.woonplaats}</b>`;
 
         }
     }
 
-    xhr2.open("GET", `http://localhost:8082/api/trainee/tijdelijketrainee/oorspronkelijketraineeid/${id}`, true);
+    xhr2.open("GET", `http://localhost:8082/api/user/tijdelijkepersoon/${id}`, true);
     xhr2.send();
 
     gegevensGoedkeurKnopje.addEventListener('click', () => {
-        alert("trainee id>> " + trainee.woonplaats + "\ntijdelijkeTrainee id>> " + tijdelijkeTrainee.woonplaats);
+       alert("trainee id>> " + gebruiker.id + "\ntijdelijkeTrainee id>> " + tijdelijkeGebruiker.id);
 
         var xhr3 = new XMLHttpRequest();
 
-        xhr3.open("PUT", `http://localhost:8082/api/admin/goedkeurengegevens/${trainee.id}/${tijdelijkeTrainee.id}`, true);
+        xhr3.open("PUT", `http://localhost:8082/api/admin/goedkeurengegevens/persoon/${gebruiker.id}/${tijdelijkeGebruiker.id}`, true);
         xhr3.send();
 
         xhr3.onreadystatechange = function () {
@@ -201,85 +200,17 @@ takenLijstTrainees.onclick = function(event ){
             }
         }
     })
-    // gegevensAfkeurKnopje.addEventListener('click', () => {
+    gegevensAfkeurKnopje.addEventListener('click', () => {
 
-    //     xhr.open("PUT", `http://localhost:8082/api/admin/update/statusfout/${id}`, true);
-    //     xhr.send();
+        xhr.open("DELETE", `http://localhost:8082/api/user/tijdelijkepersoon/delete/${tijdelijkeGebruiker.id}`, true);
+        xhr.send();
 
-    //     xhr.onreadystatechange = function () {
-    //         if (xhr.readyState == 4) {
-    //             location.reload();
-    //         }
-    //     }
-    // })
-}
-
-takenLijstMedewerkers.onclick = function(event ){
-
-    var target = getEventTarget(event);
-    let id = target.id;
-    var xhr = new XMLHttpRequest();
-
-    xhr.onreadystatechange = function () {
-        if (xhr.readyState == 4) {
-            let internemedewerker = JSON.parse(this.responseText);
-            console.log(internemedewerker.roles)
-
-            takenTraineeNaam.innerHTML = `${internemedewerker.naam}`;
-            takenTraineeEmail.innerHTML = `${internemedewerker.email}`;
-            takenTraineeTelnr.innerHTML = `${internemedewerker.telefoonnr}`;
-            takenTraineeAdres.innerHTML = `${internemedewerker.straatNaamNr}`;
-            takenTraineePostcode.innerHTML = `${internemedewerker.postcode}`;
-            takenTraineeWoonplaats.innerHTML = `${internemedewerker.woonplaats}`;
-        }
-    }
-
-    xhr.open("GET", `http://localhost:8082/api/user/${id}`, true);
-    xhr.send();
-
-    var xhr2 = new XMLHttpRequest();
-    xhr2.onreadystatechange = function () {
-        if (xhr2.readyState == 4) {
-            let tijdelijkeMedewerker = JSON.parse(this.responseText);
-
-            takenTijdelijkeTraineeNaam.innerHTML = (tijdelijkeMedewerker.naam == "" || tijdelijkeMedewerker == null) ? `<i>Geen Wijziging</i>` : `<b>${tijdelijkeMedewerker.naam}</b>`;
-            takenTijdelijkeTraineeEmail.innerHTML = (tijdelijkeMedewerker.email == "" || tijdelijkeMedewerker == null) ? `<i>Geen Wijziging</i>` : `<b>${tijdelijkeMedewerker.email}</b>`;
-            takenTijdelijkeTraineeTelnr.innerHTML = (tijdelijkeMedewerker.telefoonnr == "" || tijdelijkeMedewerker == null) ? `<i>Geen Wijziging</i>` : `<b>${tijdelijkeMedewerker.telefoonnr}</b>`;
-            takenTijdelijkeTraineeAdres.innerHTML = (tijdelijkeMedewerker.straatNaamNr == "" || tijdelijkeMedewerker == null) ? `<i>Geen Wijziging</i>` : `<b>${tijdelijkeMedewerker.straatNaamNr}</b>`;
-            takenTijdelijkeTraineePostcode.innerHTML = (tijdelijkeMedewerker.postcode == "" || tijdelijkeMedewerker == null) ? `<i>Geen Wijziging</i>` : `<b>${tijdelijkeMedewerker.postcode}</b>`;
-            takenTijdelijkeTraineeWoonplaats.innerHTML = (tijdelijkeMedewerker.woonplaats == "" || tijdelijkeMedewerker == null) ? `<i>Geen Wijziging</i>` : `<b>${tijdelijkeMedewerker.woonplaats}</b>`;
-
-        }
-    }
-
-    xhr2.open("GET", `http://localhost:8082/api/internemedewerker/tijdelijkemedewerker/oorspronkelijkemedewerkerid/${id}`, true);
-    xhr2.send();
-
-    gegevensGoedkeurKnopje.addEventListener('click', () => {
-        // alert("trainee id>> " + internemedewerker.woonplaats + "\ntijdelijkeTrainee id>> " + tijdelijkeMedewerker.woonplaats);
-
-        var xhr3 = new XMLHttpRequest();
-
-        xhr3.open("PUT", `http://localhost:8082/api/admin/goedkeurengegevens/internemedewerker/${internemedewerker.id}/${tijdelijkeMedewerker.id}`, true);
-        xhr3.send();
-
-        xhr3.onreadystatechange = function () {
-            if (xhr3.readyState == 4) {
+        xhr.onreadystatechange = function () {
+            if (xhr.readyState == 4) {
                 location.reload();
             }
         }
     })
-    // gegevensAfkeurKnopje.addEventListener('click', () => {
-
-    //     xhr.open("PUT", `http://localhost:8082/api/admin/update/statusfout/${id}`, true);
-    //     xhr.send();
-
-    //     xhr.onreadystatechange = function () {
-    //         if (xhr.readyState == 4) {
-    //             location.reload();
-    //         }
-    //     }
-    // })
 }
 
 /*

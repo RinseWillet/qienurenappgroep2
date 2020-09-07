@@ -8,7 +8,7 @@ import java.util.List;
 
 
 @Entity
-public class TijdelijkeTrainee{
+public class TijdelijkeTrainee extends TijdelijkePersoon{
 
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)

@@ -1,18 +1,9 @@
 package app.qienuren.model;
 
-
-import app.qienuren.controller.PersoonService;
-import app.qienuren.security.RandomPasswordGenerator;
-import lombok.Getter;
-import lombok.Setter;
-import org.springframework.beans.factory.annotation.Autowired;
-
 import javax.persistence.*;
 
 @Entity
-@Table(uniqueConstraints={@UniqueConstraint(columnNames={"email"})})
-public class Persoon {
-
+public class TijdelijkePersoon{
 
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)
@@ -22,17 +13,24 @@ public class Persoon {
     @Column(name = "email")
     private String email;
     private String telefoonnr;
+    private long oorspronkelijkeId;
 
     private String userName;// = email;
     private String password;
     private String straatNaamNr;
-
     private String postcode;
     private String woonplaats;
 
-
     private String roles; //later aanpassen enum(?)
     private boolean active;
+
+    public long getOorspronkelijkeId() {
+        return oorspronkelijkeId;
+    }
+
+    public void setOorspronkelijkeId(long oorspronkelijkeId) {
+        this.oorspronkelijkeId = oorspronkelijkeId;
+    }
 
     public String getPassword() {
         return password;
@@ -122,18 +120,5 @@ public class Persoon {
     public void setWoonplaats(String woonplaats) {
         this.woonplaats = woonplaats;
     }
-
-    //    public void setUserName(String userName) {
-//        this.userName = this.getEmail();
-//          }
-
-
-//    public String getGebruikersNaam() {
-//        return gebruikersNaam;
-//    }
-//
-//    public void setGebruikersNaam(String gebruikersNaam) {
-//        this.gebruikersNaam = gebruikersNaam;
-//    }
-
 }
+

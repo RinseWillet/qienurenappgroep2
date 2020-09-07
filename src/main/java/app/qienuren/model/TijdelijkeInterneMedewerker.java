@@ -4,7 +4,7 @@ import javax.persistence.*;
 import java.util.List;
 
 @Entity
-public class TijdelijkeMedewerker{
+public class TijdelijkeInterneMedewerker extends TijdelijkePersoon {
 
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)
@@ -22,7 +22,7 @@ public class TijdelijkeMedewerker{
     private String woonplaats;
 
     @OneToMany
-    private List<TijdelijkeMedewerker> tijdelijkeMedewerkers;
+    private List<TijdelijkeInterneMedewerker> tijdelijkeInterneMedewerkers;
 
     public long getId() {
         return id;
@@ -106,11 +106,11 @@ public class TijdelijkeMedewerker{
         this.woonplaats = woonplaats;
     }
 
-    public List<TijdelijkeMedewerker> getallTijdelijkeMedewerkers() {
-        return tijdelijkeMedewerkers;
+    public List<TijdelijkeInterneMedewerker> getallTijdelijkeMedewerkers() {
+        return tijdelijkeInterneMedewerkers;
     }
 
-    public void setTijdelijkeTrainees(List<TijdelijkeMedewerker> tijdelijkeMedewerkers) {
-        this.tijdelijkeMedewerkers = tijdelijkeMedewerkers;
+    public void setTijdelijkeTrainees(List<TijdelijkeInterneMedewerker> tijdelijkeInterneMedewerkers) {
+        this.tijdelijkeInterneMedewerkers = tijdelijkeInterneMedewerkers;
     }
 }

@@ -21,58 +21,58 @@ public class InterneMedewerkerService {
     @Autowired
     RandomPasswordGenerator randomPasswordGenerator;
     @Autowired
-    TijdelijkeMedewerkerRepository tijdelijkeMedewerkerRepository;
+    TijdelijkeInterneMedewerkerRepository tijdelijkeInterneMedewerkerRepository;
 
     public InterneMedewerker wijzigGegevens(long oorspronkelijkeId, long id) {
         System.out.println("Verzoek gegevens wijzigen ontvangen");
         //tijdelijke trainee wordt opgehaald
-        TijdelijkeMedewerker tijdelijkeMedewerker = tijdelijkeMedewerkerRepository.findById(id).get();
+        TijdelijkeInterneMedewerker tijdelijkeInterneMedewerker = tijdelijkeInterneMedewerkerRepository.findById(id).get();
         //echte trainee wordt opgehaald
         InterneMedewerker interneMedewerker = interneMedewerkerRepository.findById(oorspronkelijkeId).get();
 
-        System.out.println("voor: tijdTrainee>>> " + tijdelijkeMedewerker.getNaam());
-        System.out.println("voor: tijdTrainee>>> " + tijdelijkeMedewerker.getTelefoonnr());
+        System.out.println("voor: tijdTrainee>>> " + tijdelijkeInterneMedewerker.getNaam());
+        System.out.println("voor: tijdTrainee>>> " + tijdelijkeInterneMedewerker.getTelefoonnr());
 
         System.out.println("voor: trainee>>> " + interneMedewerker.getNaam());
         System.out.println("voor: trainee>>> " + interneMedewerker.getTelefoonnr());
 
         //echte trainee krijgt waardes van de tijdelijke trainee, tenzij niets is ingevuld
-        if (tijdelijkeMedewerker.getNaam().isEmpty() | tijdelijkeMedewerker.getNaam() ==  null) {
+        if (tijdelijkeInterneMedewerker.getNaam().isEmpty() | tijdelijkeInterneMedewerker.getNaam() ==  null) {
             interneMedewerker.setNaam(interneMedewerker.getNaam());
         } else {
-            interneMedewerker.setNaam(tijdelijkeMedewerker.getNaam());
+            interneMedewerker.setNaam(tijdelijkeInterneMedewerker.getNaam());
         }
-        if (tijdelijkeMedewerker.getEmail().isEmpty() | tijdelijkeMedewerker.getEmail() == null) {
+        if (tijdelijkeInterneMedewerker.getEmail().isEmpty() | tijdelijkeInterneMedewerker.getEmail() == null) {
             interneMedewerker.setEmail(interneMedewerker.getEmail());
         } else {
-            interneMedewerker.setEmail(tijdelijkeMedewerker.getEmail());
+            interneMedewerker.setEmail(tijdelijkeInterneMedewerker.getEmail());
 
         }
-        if (tijdelijkeMedewerker.getTelefoonnr().isEmpty() | tijdelijkeMedewerker.getTelefoonnr() == null) {
+        if (tijdelijkeInterneMedewerker.getTelefoonnr().isEmpty() | tijdelijkeInterneMedewerker.getTelefoonnr() == null) {
             interneMedewerker.setTelefoonnr(interneMedewerker.getTelefoonnr());
         } else {
-            interneMedewerker.setTelefoonnr(tijdelijkeMedewerker.getTelefoonnr());
+            interneMedewerker.setTelefoonnr(tijdelijkeInterneMedewerker.getTelefoonnr());
 
-        } if (tijdelijkeMedewerker.getPostcode().isEmpty() | tijdelijkeMedewerker.getPostcode() == null)  {
+        } if (tijdelijkeInterneMedewerker.getPostcode().isEmpty() | tijdelijkeInterneMedewerker.getPostcode() == null)  {
             interneMedewerker.setPostcode(interneMedewerker.getPostcode());
         } else {
-            interneMedewerker.setPostcode(tijdelijkeMedewerker.getPostcode());
+            interneMedewerker.setPostcode(tijdelijkeInterneMedewerker.getPostcode());
 
         }
-        if (tijdelijkeMedewerker.getStraatNaamNr().isEmpty() | tijdelijkeMedewerker.getStraatNaamNr() == null) {
-            interneMedewerker.setStraatNaamNr(tijdelijkeMedewerker.getStraatNaamNr());
+        if (tijdelijkeInterneMedewerker.getStraatNaamNr().isEmpty() | tijdelijkeInterneMedewerker.getStraatNaamNr() == null) {
+            interneMedewerker.setStraatNaamNr(tijdelijkeInterneMedewerker.getStraatNaamNr());
         } else {
-            interneMedewerker.setStraatNaamNr(tijdelijkeMedewerker.getStraatNaamNr());
+            interneMedewerker.setStraatNaamNr(tijdelijkeInterneMedewerker.getStraatNaamNr());
 
         }
-        if (tijdelijkeMedewerker.getWoonplaats().isEmpty() | tijdelijkeMedewerker.getWoonplaats() == null) {
+        if (tijdelijkeInterneMedewerker.getWoonplaats().isEmpty() | tijdelijkeInterneMedewerker.getWoonplaats() == null) {
             interneMedewerker.setWoonplaats(interneMedewerker.getWoonplaats());
         } else {
-            interneMedewerker.setWoonplaats(tijdelijkeMedewerker.getWoonplaats());
+            interneMedewerker.setWoonplaats(tijdelijkeInterneMedewerker.getWoonplaats());
         }
 
-        System.out.println("na: tijdTrainee>>> " + tijdelijkeMedewerker.getNaam());
-        System.out.println("na: tijdTrainee>>> " + tijdelijkeMedewerker.getTelefoonnr());
+        System.out.println("na: tijdTrainee>>> " + tijdelijkeInterneMedewerker.getNaam());
+        System.out.println("na: tijdTrainee>>> " + tijdelijkeInterneMedewerker.getTelefoonnr());
 
         System.out.println("na: trainee>>> " + interneMedewerker.getNaam());
         System.out.println("na: trainee>>> " + interneMedewerker.getTelefoonnr());
