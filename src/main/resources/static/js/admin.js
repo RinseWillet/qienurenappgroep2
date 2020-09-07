@@ -9,6 +9,8 @@ const modalFooter = document.querySelector(".modal-footer");
 const klikbaarOogje = document.querySelector(".fa-eye");
 const goedkeurKnopje = document.getElementById("goedkeuren");
 
+const downloadFormulier = document.getElementById("download-formulier");
+
 const afkeurKnopje = document.getElementById("afkeuren");
 const relatieAanmakenKnop = document.getElementById("knop-relatie-aanmaken");
 
@@ -103,7 +105,7 @@ const laatTakenZien = () => {
                 tijdelijkeTrainees.forEach((tt) => {
 
                     alleTrainees.forEach((t) => {
-                        if(tt.oorspronkelijkeId === t.id) {
+                        if (tt.oorspronkelijkeId === t.id) {
                             console.log(t)
                             inTeVoegenHTML = `<li data-toggle="modal" data-target="#takenModal" 
                                 class="list-group-item list-group-item-action d-flex justify-content-between" id="${t.id}"><span id="${t.id}">${t.naam}</span><span id="${t.id}">Gegevenswijziging</span>
@@ -121,8 +123,7 @@ const laatTakenZien = () => {
 }
 
 
-
-takenLijst.onclick = function(event ){
+takenLijst.onclick = function (event) {
 
     var target = getEventTarget(event);
     let id = target.id;
@@ -263,7 +264,7 @@ const laatFormulierenZien = () => {
     xhr.send();
 }
 
-const genereerFormulier = (formulier) => {
+const genereerFormulier = (formulier, deMedewerker) => {
     if (formulier.opdrachtgeverStatus === "OPEN" || formulier.opdrachtgeverStatus === "AFGEKEURD") {
         modalFooter.style.display = "none";
     } else {
@@ -271,7 +272,7 @@ const genereerFormulier = (formulier) => {
     }
 
     formulier.maand = maandNummerNaarString(formulier.maand);
-    modalHeader.innerHTML = `<span class="pt-0">... | ${formulier.maand}/${formulier.jaar}</span><span class="pt-0">Status opdrachtgever: ${formulier.opdrachtgeverStatus}</span>`
+    modalHeader.innerHTML = `<span class="pt-0">${deMedewerker.naam} | ${formulier.maand}/${formulier.jaar}</span><span class="pt-0">Status opdrachtgever: ${formulier.opdrachtgeverStatus}</span>`
     for (let i = 0; i < formulier.werkDagen.length; i++) {
         formBody.insertAdjacentHTML("beforeend",
             `<tr id="dag-${i + 1}" class="formulier-rij">
@@ -301,16 +302,23 @@ formulierenLijst.onclick = function (event) {
     var target = getEventTarget(event);
     let id = target.id;
     let hetFormulier;
+    const medewerkerId = document.getElementById("verborgen-medewerker-id").innerHTML;
     var xhr = new XMLHttpRequest();
     xhr.onreadystatechange = function () {
         if (xhr.readyState == 4) {
-            hetFormulier = JSON.parse(this.responseText);
-            verwijderFormulier();
-            genereerFormulier(hetFormulier);
+            deMedewerker = JSON.parse(this.responseText);
+            deMedewerker.tijdelijkeFormulieren.forEach((tf) => {
+                    if (tf.id == id) {
+                        hetFormulier = tf;
+                        verwijderFormulier();
+                        genereerFormulier(hetFormulier, deMedewerker);
+                    }
+                }
+            );
         }
     }
 
-    xhr.open("GET", `http://localhost:8082/api/formulier/${id}`, true);
+    xhr.open("GET", `http://localhost:8082/api/admin/medewerker/${medewerkerId}`, true);
     xhr.send();
 
     goedkeurKnopje.addEventListener('click', () => {
@@ -326,7 +334,7 @@ formulierenLijst.onclick = function (event) {
             }
         }
     })
-    
+
     afkeurKnopje.addEventListener('click', () => {
 
         xhr.open("PUT", `http://localhost:8082/api/admin/update/statusfout/${id}`, true);
@@ -338,6 +346,15 @@ formulierenLijst.onclick = function (event) {
             }
         }
     })
+
+    //Exporteer formulier naar CSV
+
+    downloadFormulier.onclick = function (event) {
+
+        console.log("nu in de csv download functie");
+        console.log("form id : " + id + " medewerkerid : " + medewerkerId);
+        window.location.href = "./api/formulier/export-users/" + id + "/" + medewerkerId;
+    }
 };
 
 /*
@@ -503,7 +520,7 @@ const test = () => {
             }
         }
 
-            xhr.send(JSON.stringify(interneMedewerkerJSON));
+        xhr.send(JSON.stringify(interneMedewerkerJSON));
 
     }
 
@@ -543,7 +560,7 @@ const test = () => {
                     alert("Dit is wat je volgens mij van de backend krijgt :) :" + xhr.responseText);
                     alert("emailadres bestaat al, voer een ander emailadres in");
                 } else {
-                    alert("Ik weet niet wat er mis ging, maar de http-status code is ......" + xhr.status + " oftewel "+ xhr.statusText);
+                    alert("Ik weet niet wat er mis ging, maar de http-status code is ......" + xhr.status + " oftewel " + xhr.statusText);
                 }
             }
         }
