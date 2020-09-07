@@ -105,7 +105,7 @@ const laatFormulierenZien = () => {
                         console.log("======> " + mw.naam);
                         console.log("======> " + tf.id);
 
-                        if (tf.ingezondenFormulier === true) {
+                        // if (tf.ingezondenFormulier === true) {
 
                             tf.maand = maandNummerNaarString(tf.maand);
 
@@ -118,7 +118,7 @@ const laatFormulierenZien = () => {
                             inTeVoegenHTML = `<li data-toggle="modal" data-target="#staticBackdrop" 
                             class="list-group-item list-group-item-action d-flex justify-content-between" id="${tf.id}"><span id="${tf.id}">${mw.naam}</span><span id="${tf.id}">${tf.maand}</span><span id="${tf.id}">${tf.jaar}</span><span id="${tf.id}">${tf.opdrachtgeverStatus}</span><i id="${tf.id}" class="far fa-eye"></i></li>`;
                             formulierenLijst.insertAdjacentHTML('beforeend', inTeVoegenHTML);
-                        }
+                        // }
                     })
 
                     // inTeVoegenHTML = `<li data-toggle="modal" data-target="#staticBackdrop" href="./formulier.html?id=${e.id}"
