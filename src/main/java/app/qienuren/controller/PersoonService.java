@@ -2,6 +2,7 @@ package app.qienuren.controller;
 
 import app.qienuren.model.KlantContactPersoon;
 import app.qienuren.model.Persoon;
+import app.qienuren.model.Trainee;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -35,4 +36,5 @@ public class PersoonService {
     public Persoon getById(long id){
         return persoonRepository.findById(id).get();
     }
+
 }

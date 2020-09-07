@@ -52,14 +52,14 @@ public class InterneMedewerkerEndpoint {
         return tijdelijkeMedewerkerService.addTijdelijkeMedewerker(id, medewerker);
     }
 
-    @GetMapping("/tijdelijketrainee/tijdelijketraineeid/{tijdelijketraineeid}")
-    public TijdelijkeMedewerker getTijdelijkeMedewerkerById(@PathVariable(value = "tijdelijketraineeid") long tijdelijkeTraineeId) {
-        return tijdelijkeMedewerkerService.getTijdelijkeMedewerkerById(tijdelijkeTraineeId);
+    @GetMapping("/tijdelijkemedewerker/tijdelijkemedewerkerid/{tijdelijkemedewerkerid}")
+    public TijdelijkeMedewerker getTijdelijkeMedewerkerById(@PathVariable(value = "tijdelijkemedewerkerid") long id) {
+        return tijdelijkeMedewerkerService.getTijdelijkeMedewerkerById(id);
     }
 
-    @GetMapping("/tijdelijketrainee/oorspronkelijketraineeid/{oorspronkelijketraineeid}")
-    public TijdelijkeMedewerker getTijdelijkeMedewerkerByOorspronkelijkeId(@PathVariable(value = "oorspronkelijketraineeid") long oorspronkelijkeId) {
-        return tijdelijkeMedewerkerService.getTijdelijkeMedewerkerByOorspronkelijkeId(oorspronkelijkeId);
+    @GetMapping("/tijdelijkemedewerker/oorspronkelijkemedewerkerid/{oorspronkelijkemedewerkerid}")
+    public TijdelijkeMedewerker getTijdelijkeMedewerkerByOorspronkelijkeId(@PathVariable(value = "oorspronkelijkemedewerkerid") long id) {
+        return tijdelijkeMedewerkerService.getTijdelijkeMedewerkerByOorspronkelijkeId(id);
     }
 
 

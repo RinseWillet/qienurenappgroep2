@@ -78,7 +78,7 @@ function gegevensPersoonAanpassen() {
         }
     }
 
-    xhr.open("POST", `http://localhost:8082/api/internemedewerker/${urlId}`, true);
+    xhr.open("POST", `http://localhost:8082/api/internemedewerker/nieuwegegevens/${urlId}`, true);
     xhr.setRequestHeader("Content-Type", "application/json");
 
     xhr.send(JSON.stringify(persoonJSON));

@@ -4,6 +4,7 @@ import app.qienuren.controller.PersoonService;
 
 import app.qienuren.model.Persoon;
 //import app.qienuren.model.User;
+import app.qienuren.model.Trainee;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 
@@ -22,6 +23,11 @@ public class UserEndpoint {
 
     @GetMapping("/test")
     public String test(){return "het werkt";}
+
+    @GetMapping("/{id}")
+    public Persoon getPersoonById(@PathVariable(value = "id") long id) {
+        return persoonService.getById(id);
+    }
 
 }
 
