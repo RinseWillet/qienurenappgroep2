@@ -103,8 +103,8 @@ const laatTakenZien = () => {
                 tijdelijkeTrainees.forEach((tt) => {
 
                     alleTrainees.forEach((t) => {
-                        if (tt.oorspronkelijkeId === t.id) {
-                            console.log(t)
+                        if(tt.oorspronkelijkeId === t.id) {
+
                             inTeVoegenHTML = `<li data-toggle="modal" data-target="#takenModal" 
                                 class="list-group-item list-group-item-action d-flex justify-content-between" id="${t.id}"><span id="${t.id}">${t.naam}</span><span id="${t.id}">Gegevenswijziging</span><span id="${t.id}">Trainee</span>
                                 <i id="${t.id}" class="far fa-eye" ></i></li>`;
@@ -230,23 +230,28 @@ const laatFormulierenZien = () => {
             if (deMedewerkers.length > 0) {
                 deMedewerkers.forEach((mw) => {
                     mw.tijdelijkeFormulieren.forEach((tf) => {
-                        console.log("======> " + mw.naam);
-                        console.log("======> " + tf.id);
 
-                        if (tf.ingezondenFormulier === true) {
+                        //if (tf.ingezondenFormulier === true) {
 
                             tf.maand = maandNummerNaarString(tf.maand);
-
-                            if (tf.opdrachtgeverStatus === "OPEN") {
-                                tf.adminStatus = "Bij Klant";
+                            if((tf.adminStatus === 'OPEN' && tf.opdrachtgeverStatus === 'OPEN') && tf.ingezondenFormulier == true) {
+                                tf.adminStatus = "Bij opdrachtgever";
+                            } else if (tf.adminStatus === "OPEN" && tf.opdrachtgeverStatus === "GOEDGEKEURD")  {
+                                tf.adminStatus = "Bij Qien HR";
                             } else if (tf.opdrachtgeverStatus === "AFGEKEURD") {
-                                tf.adminStatus = "Afgekeurd door klant";
+                                tf.adminStatus = "Afgekeurd door opdrachtgever";
+                            } else if (tf.adminStatus === "AFGEKEURD") {
+                                tf.adminStatus = "Afgekeurd door Qien HR";
+                            } else if (tf.adminStatus === "GOEDGEKEURD") {
+                                tf.adminStatus = "Goedgekeurd door Qien HQ";
+                            }else {
+                                tf.adminStatus = "Nog te verzenden";
                             }
 
                             inTeVoegenHTML = `<li data-toggle="modal" data-target="#staticBackdrop" 
                             class="list-group-item list-group-item-action d-flex justify-content-between" id="${tf.id}"><span id="verborgen-medewerker-id">${mw.id}</span><span class="medewerker-naam" id="${tf.id}">${mw.naam}</span><span id="${tf.id}">${tf.maand}</span><span id="${tf.id}">${tf.jaar}</span><span id="${tf.id}">${tf.adminStatus}</span><i id="${tf.id}" class="far fa-eye"></i></li>`;
                             formulierenLijst.insertAdjacentHTML('beforeend', inTeVoegenHTML);
-                        }
+                        //}
                     })
 
                     // inTeVoegenHTML = `<li data-toggle="modal" data-target="#staticBackdrop" href="./formulier.html?id=${e.id}"
@@ -311,6 +316,9 @@ formulierenLijst.onclick = function (event) {
     let hetFormulier;
     const medewerkerId = document.getElementById("verborgen-medewerker-id").innerHTML;
     var xhr = new XMLHttpRequest();
+
+    console.log(id);
+
     xhr.onreadystatechange = function () {
         if (xhr.readyState == 4) {
             deMedewerker = JSON.parse(this.responseText);
@@ -889,7 +897,6 @@ function laadAlleTrainees() {
     xhr.onreadystatechange = function () {
         if (xhr.readyState == 4) {
             alleTrainees = JSON.parse(this.responseText);
-            console.log(alleTrainees);
             laatTakenZien();
         }
     }
@@ -934,7 +941,6 @@ const updateContactPersoonSelector = () => {
             deContactPersonen = JSON.parse(this.responseText);
 
             let inTeVoegenHTML = ``;
-
 
             if (deContactPersonen.length > 0) {
                 deContactPersonen.forEach((e) => {
@@ -1012,7 +1018,6 @@ Bedrijf aanmaken
 
 const bedrijfAanmaken = () => {
     var xhr = new XMLHttpRequest();
-    console.log("je bent er jongen");
     const bedrijfNaam = document.getElementById("bedrijf-naam").value;
     const bedrijfEmail = document.getElementById("bedrijf-email").value;
     const bedrijfTelefoon = document.getElementById("bedrijf-telefoon").value;
