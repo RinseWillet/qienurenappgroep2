@@ -28,9 +28,9 @@ public class AdminEndpoint {
     @Autowired
     TijdelijkeTraineeService tijdelijkeTraineeService;
     @Autowired
+    TijdelijkeInterneMedewerkerService tijdelijkeInterneMedewerkerService;
+    @Autowired
     MedewerkerService medewerkerService;
-
-
 
     // Alle Post Mapping om nieuwe Entiteiten aan te maken
 
@@ -100,6 +100,11 @@ public class AdminEndpoint {
         return tijdelijkeTraineeService.getAllTijdelijkeTrainee();
     }
 
+    @GetMapping("/tijdelijkeMedewerker/all")
+    public Iterable<TijdelijkeInterneMedewerker> getAlleTijdelijkeMedewerkers() {
+        return tijdelijkeInterneMedewerkerService.getallTijdelijkeMedewerkers();
+    }
+
 
     // Alle Put Mapping om van een Entiteit de data up te daten
 
@@ -142,6 +147,11 @@ public class AdminEndpoint {
     @PutMapping("/goedkeurengegevens/internemedewerker/{oorspronkelijkeId}/{id}")
     public InterneMedewerker goedkeurenGegevensWijzigingMedewerker(@PathVariable(value = "oorspronkelijkeId")long oorspronkelijkeId, @PathVariable(value = "id") long id){
         return interneMedewerkerService.wijzigGegevens(oorspronkelijkeId, id);
+    }
+
+    @PutMapping("/goedkeurengegevens/persoon/{oorspronkelijkeId}/{id}")
+    public Persoon goedkeurenGegevensWijzigingPersoon(@PathVariable(value = "oorspronkelijkeId")long oorspronkelijkeId, @PathVariable(value = "id") long id){
+        return persoonService.wijzigGegevens(oorspronkelijkeId, id);
     }
 
 }
