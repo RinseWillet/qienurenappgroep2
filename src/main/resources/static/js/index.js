@@ -402,7 +402,7 @@ const genereerMedewerkerFormulier = (formulier) => {
 
 haalFormulierOp();
 aanpassenurl();
-haalMedewerkerFormulierOp();
+//haalMedewerkerFormulierOp();
 
 // afgelopenFormulieren.onclick = function (event) {
 //     var target = getEventTarget(event);

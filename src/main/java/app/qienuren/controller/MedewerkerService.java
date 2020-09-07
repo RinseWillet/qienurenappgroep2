@@ -33,6 +33,9 @@ public class MedewerkerService {
     @Autowired
     MedewerkerRepository medewerkerRepository;
 
+    @Autowired
+    EmailService emailService;
+
     private List<Medewerker> medewerkers;
     private List<Trainee> trainees;
     private List<InterneMedewerker> interneMedewerkers;
@@ -59,6 +62,11 @@ public class MedewerkerService {
         ArrayList<Medewerker> deMedewerkers = voegTraineesEnInterneMedewerkersSamen();
         for (Medewerker m : deMedewerkers) {
             m.voegFormulierToe(fs.addNieuwFormulier(new Formulier(LocalDate.now().getMonthValue(), LocalDate.now().getYear())));
+
+            //Send email
+            //Arguments: Medewerker, Subject, Message(templated?)
+            //Medewerker fields nodig: Name, ?
+            emailService.sendWithFormulierStaatKlaarTemplate(m);
         }
     }
 

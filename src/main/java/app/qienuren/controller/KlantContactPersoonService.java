@@ -21,6 +21,8 @@ public class KlantContactPersoonService {
     private PasswordEncoder passwordEncoder;
     @Autowired
     RandomPasswordGenerator randomPasswordGenerator;
+    @Autowired
+    EmailService emailService;
 
 
 
@@ -29,11 +31,18 @@ public class KlantContactPersoonService {
             throw new ResponseStatusException(HttpStatus.CONFLICT, "email bestaat al");
         }
         klantContactPersoon.setPassword(randomPasswordGenerator.generatePassayPassword());
+        String nonEncodedPassword = klantContactPersoon.getPassword();
         System.out.println(klantContactPersoon.getPassword());
         System.out.println("Klant Contact Persoon aangemaakt");
         System.out.println(klantContactPersoon.getPassword());
         klantContactPersoon.setPassword(passwordEncoder.encode(klantContactPersoon.getPassword()));
         System.out.println(klantContactPersoon.getPassword());
+
+        //Send email
+        //Arguments: KCP, Subject, Message(templated?)
+        //KCP fields nodig: Name, Username, Password
+        emailService.sendWithAccountTemplate(klantContactPersoon, nonEncodedPassword);
+
         return klantContactPersoonRepository.save(klantContactPersoon);
     }
 

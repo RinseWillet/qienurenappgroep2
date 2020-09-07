@@ -24,14 +24,14 @@ public class OpdrachtgeverEndpoint {
     @Autowired
     KlantContactPersoonService klantContactPersoonService;
 
-    @PutMapping("/update/statusgoed/{id}")
-    public Formulier updateFormulierStatusGoed(@PathVariable(value = "id")long id){
-        return formulierService.OpdrachtgeverStatusGoed(id);
+    @PutMapping("/update/statusgoed/{formulierid}/{medewerkerid}")
+    public Formulier updateFormulierStatusGoed(@PathVariable(value = "formulierid")long formulierid, @PathVariable(value = "medewerkerid")long medewerkerid){
+        return formulierService.OpdrachtgeverStatusGoed(formulierid, medewerkerid);
     }
 
-    @PutMapping("/update/statusfout/{id}")
-    public Formulier updateFormulierStatusFout(@PathVariable(value = "id")long id){
-        return formulierService.OpdrachtgeverStatusFout(id);
+    @PutMapping("/update/statusfout/{formulierid}/{medewerkerid}")
+    public Formulier updateFormulierStatusFout(@PathVariable(value = "formulierid")long formulierid, @PathVariable(value = "medewerkerid")long medewerkerid){
+        return formulierService.OpdrachtgeverStatusFout(formulierid, medewerkerid);
     }
 
     @GetMapping("/formulieren/all")
