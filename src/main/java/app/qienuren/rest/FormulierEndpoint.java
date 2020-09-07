@@ -4,14 +4,25 @@ import app.qienuren.controller.FormulierService;
 import app.qienuren.controller.PersoonService;
 import app.qienuren.model.Formulier;
 import app.qienuren.model.Persoon;
+import app.qienuren.model.Trainee;
+import app.qienuren.model.WerkDag;
 import com.opencsv.CSVWriter;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpHeaders;
 import org.springframework.web.bind.annotation.*;
 
+import javax.servlet.ServletException;
+import javax.servlet.annotation.WebServlet;
+import javax.servlet.http.HttpServlet;
+import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import java.io.FileWriter;
 import java.io.IOException;
+import java.io.InputStream;
+import java.io.OutputStream;
+import java.time.format.DateTimeFormatter;
+import java.util.ArrayList;
+import java.util.List;
 
 @RestController
 @RequestMapping("/api/formulier")
@@ -70,11 +81,20 @@ public class FormulierEndpoint {
         }
     }
 
-    @GetMapping("/export-users/")
-    public void exportCSV(HttpServletResponse response) throws Exception {
+    @GetMapping("/export-users/{formid}/{persoonid}")
+    public void exportCSV(@PathVariable(value = "formid") long formId, @PathVariable(value = "persoonid") long persoonId, HttpServletResponse response) throws Exception {
+        Formulier formulierExport = getFormulierById(formId);
+        Persoon persoonExport = persoonService.getById(persoonId);
+        List<String[]> exportCSV = new ArrayList<>();
+        try {
+            exportCSV= formulierService.exportCSV(formulierExport, persoonExport);
+            System.out.println("dit ging goed");
+        } catch (IOException e) {
+            System.out.println("er ging iets fout");
+        }
 
         //set file name and content type
-        String fileName = "users.csv";
+        String fileName = "Urenformulier-" + persoonExport.getNaam() + "-" + formulierExport.getMaand() + "-" + formulierExport.getJaar() +   ".csv";
 
         String headerKey = "Content-Disposition";
         String headerValue = "attachment; filename=" + fileName;
@@ -83,13 +103,16 @@ public class FormulierEndpoint {
         response.setHeader(headerKey, headerValue);
 
         //create a csv writer
-        CSVWriter writer = new CSVWriter(response.getWriter());
+        CSVWriter writer = new CSVWriter(response.getWriter(), ';', '"', '\\', CSVWriter.DEFAULT_LINE_END);
 
         String[] header = new String[]{"datum", "opdracht", "overwerk", "verlof", "ziek", "training", "overig", "verklaring m.b.t. tot overig"};
 
-        writer.writeNext(header);
+        writer.writeAll(exportCSV);
+
+        System.out.println("Writing CSV");
 
         writer.close();
 
     }
+
 }

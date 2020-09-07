@@ -160,9 +160,10 @@ public class FormulierService {
         return teVerzendenFormulieren;
     }
 
-    public void exportCSV(Formulier formulierExport, Persoon persoonExport) throws IOException {
+    public List<String[]> exportCSV(Formulier formulierExport, Persoon persoonExport) throws IOException {
 
-        CSVWriter writer = new CSVWriter(new FileWriter("Urenformulier-" + persoonExport.getNaam() + "-" + formulierExport.getMaand() + "-" + formulierExport.getJaar() +   ".csv"), ';', '"', '\\', CSVWriter.DEFAULT_LINE_END);
+        //CSVWriter writer = new CSVWriter(new FileWriter("Urenformulier-" + persoonExport.getNaam() + "-" + formulierExport.getMaand() + "-" + formulierExport.getJaar() +   ".csv"), ';', '"', '\\', CSVWriter.DEFAULT_LINE_END);
+
         List<String[]> rijenCSV = new ArrayList<>();
 
         //checken of de persoon een Trainee of Interne Medewerker is
@@ -214,19 +215,8 @@ public class FormulierService {
             rijenCSV.add(rijToevoegen);
         }
 
-        writer.writeAll(rijenCSV);
-        writer.close();
+        return rijenCSV;
+
     }
-
-    public List<String[]> listUsers() {
-        List<String[]> users = new ArrayList<>();
-
-        //create line
-        String[] header = new String[]{"datum", "opdracht", "overwerk", "verlof", "ziek", "training", "overig", "verklaring m.b.t. tot overig"};
-        users.add(header);
-        return users;
-    }
-
-
 
 }

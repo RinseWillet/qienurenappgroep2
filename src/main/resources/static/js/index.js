@@ -406,10 +406,12 @@ const genereerMedewerkerFormulier = (formulier) => {
 
 downloadFormulier.onclick = function(event ){
     console.log("nu in de download functie index.js");
-    console.log(`http://localhost:8082/api/formulier/exportCSV/${formulierId}/${medewerkerId}`)
-    let xhr = new XMLHttpRequest();
-    xhr.open("GET", `http://localhost:8082/api/formulier/exportCSV/${formulierId}/${medewerkerId}`, true);
-    xhr.send();
+    window.location.href = "./api/formulier/export-users/" +  formulierId + "/" + medewerkerId;
+
+
+    // let xhr = new XMLHttpRequest();
+    // xhr.open("GET", `http://localhost:8082/api/formulier/export-users`, true);
+    // xhr.send();
 
 }
 
