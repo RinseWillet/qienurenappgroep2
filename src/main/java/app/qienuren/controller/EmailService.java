@@ -6,6 +6,7 @@ import app.qienuren.model.OpdrachtgeverStatus;
 import app.qienuren.model.Persoon;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Qualifier;
+import org.springframework.context.annotation.ComponentScan;
 import org.springframework.mail.MailException;
 import org.springframework.mail.SimpleMailMessage;
 import org.springframework.mail.javamail.JavaMailSender;
@@ -14,8 +15,7 @@ import org.springframework.stereotype.Service;
 
 import javax.transaction.Transactional;
 
-@Service
-@Transactional
+@Component
 public class EmailService {
 
     @Autowired
