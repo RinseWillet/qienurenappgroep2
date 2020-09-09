@@ -83,7 +83,7 @@ public class EmailService {
         SimpleMailMessage mail = new SimpleMailMessage();
 
         mail.setTo(ontvanger.getEmail());
-        mail.setFrom("qienrwtest@gmail.com");
+        mail.setFrom("hrqientest@gmail.com");
         mail.setSubject(subject);
         mail.setText(message);
 

@@ -202,35 +202,36 @@ formulierenLijst.onclick = function (event) {
     xhr.open("GET", `http://localhost:8082/api/trainee/${medewerkerid}`, true);
     xhr.send();
 
-    goedkeurKnopje.addEventListener('click', () => {
+    goedkeurKnopje.onclick = function () {
         let xhrGoedKeur = new XMLHttpRequest();
-        console.log("Wij keuren iets EEN KEER goed");
 
         xhrGoedKeur.onreadystatechange = function () {
             if (xhrGoedKeur.readyState === 4) {
-                console.log("EEN KEER ZEG IK TOCH");
+                location.reload();
             }
         }
 
         xhrGoedKeur.open("PUT", `http://localhost:8082/api/opdrachtgever/update/statusgoed/${id}/${medewerkerId}`, true);
         xhrGoedKeur.send();
-    })
+    }
 
-    afkeurKnopje.addEventListener('click', () => {
 
-        xhr.open("PUT", `http://localhost:8082/api/opdrachtgever/update/statusfout/${id}/${medewerkerId}`, true);
-        xhr.send();
+    afkeurKnopje.onclick = function () {
+        let xhrAfkeur = new XMLHttpRequest();
 
-        xhr.onreadystatechange = function () {
-            if (xhr.readyState == 4) {
+        xhrAfkeur.onreadystatechange = function () {
+            if (xhrAfkeur.readyState === 4) {
                 location.reload();
             }
         }
-    })
+
+        xhrAfkeur.open("PUT", `http://localhost:8082/api/opdrachtgever/update/statusfout/${id}/${medewerkerId}`, true);
+        xhrAfkeur.send();
+    }
 
     //Exporteer formulier naar CSV
 
-    downloadFormulier.onclick = function (event) {
+    downloadFormulier.onclick = function () {
 
         console.log("nu in de csv download functie");
         console.log("form id : " + id + " medewerkerid : " + medewerkerid);
