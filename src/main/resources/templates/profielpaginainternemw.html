@@ -52,7 +52,7 @@
             </div>
         </nav>
     </section>
-    <section>
+    <main>
         <div class="list-group mb-5 col-10 mt-2 d-flex" id="profielgroteblok">
             <div class="list-group-item list-group-header list-group-item-action d-flex justify-content-between">
                 <span><b>Mijn Gegevens</b></span>
@@ -94,31 +94,32 @@
 
                     <div class="modal fade profielmodal" id="medewerkergegevenswijzigen" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
                         <div class="modal-dialog">
-                        <div class="modal-content">
-                            <div class="modal-header">
-                                <h5 class="modal-title" id="medewerkermodalheading">Gegevens aanpassen</h5>
-                            <button type="button" class="close" data-dismiss="modal" aria-label="Close">
-                                <span aria-hidden="true">&times;</span>
-                            </button>
-                            </div>
-                            <div class="modal-body">
-
-                                <form>
-                                    <div class="gegevensformuliermodal">
-                                        <h4>Naam</h4><input type="text" placeholder="Naam" id="persoonNaam">
-                                        <h4>E-mailadres</h4><input type="text" placeholder="E-mail" id="persoonEmail">
-                                        <h4>Telefoonnummer</h4><input type="text" placeholder="Telefoonnummer" id="persoonTelefoonnummer">
-                                        <h4>Adres</h4><input type="text" placeholder="Adres" id="persoonAdres">
-                                        <h4>Postcode</h4><input type="text" placeholder="Postcode" id="persoonPostcode">
-                                        <h4>Woonplaats</h4><input type="text" placeholder="Woonplaats" id="persoonWoonplaats">
+                            <div class="container">
+                                <div class="modal-content">
+                                    <div class="modal-header">
+                                        <h5 class="modal-title" id="medewerkermodalheading">Gegevens aanpassen</h5>
+                                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                                        <span aria-hidden="true">&times;</span>
+                                    </button>
                                     </div>
-                                </form>
+                                    <div class="modal-body">
+                                        <form>
+                                            <div class="gegevensformuliermodal">
+                                                <h4>Naam</h4><input type="text" placeholder="Naam" id="persoonNaam">
+                                                <h4>E-mailadres</h4><input type="text" placeholder="E-mail" id="persoonEmail">
+                                                <h4>Telefoonnummer</h4><input type="text" placeholder="Telefoonnummer" id="persoonTelefoonnummer">
+                                                <h4>Adres</h4><input type="text" placeholder="Adres" id="persoonAdres">
+                                                <h4>Postcode</h4><input type="text" placeholder="Postcode" id="persoonPostcode">
+                                                <h4>Woonplaats</h4><input type="text" placeholder="Woonplaats" id="persoonWoonplaats">
+                                            </div>
+                                        </form>
+                                        <div class="modal-footer footer-grid">
+                                        <button type="button" class="btn btn-secondary" data-dismiss="modal">Sluiten</button>
+                                        <button type="button" class="btn btn-success" onclick="gegevensPersoonAanpassen()">Aanpassen</button>
+                                        </div>
+                                    </div>
+                                </div>
                             </div>
-                            <div class="modal-footer">
-                            <button type="button" class="btn btn-secondary" data-dismiss="modal">Sluiten</button>
-                            <button type="button" class="btn btn-success" onclick="gegevensPersoonAanpassen()">Aanpassen</button>
-                            </div>
-                        </div>
                         </div>
                     </div>
 
@@ -126,29 +127,30 @@
 
         <div class="modal fade profielmodal" id="wachtwoordwijzigen" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
             <div class="modal-dialog">
-                <div class="modal-content">
-                    <div class="modal-header">
-                        <h5 class="modal-title" id="wachtwoordmodalheading">Wachtwoord wijzigen</h5>
-                        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
-                            <span aria-hidden="true">&times;</span>
-                        </button>
-                    </div>
-                    <div class="modal-body">
-
-                        <form>
-                            <div class="wachtwoordmodal">
-                                <h4>Nieuw wachtwoord</h4><input type="text" placeholder="wachtwoord" id="nieuwWachtwoord">
+                <div class="container">
+                    <div class="modal-content">
+                        <div class="modal-header">
+                            <h5 class="modal-title" id="wachtwoordmodalheading">Wachtwoord wijzigen</h5>
+                            <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                                <span aria-hidden="true">&times;</span>
+                            </button>
+                        </div>
+                        <div class="modal-body">
+                            <form>
+                                <div class="wachtwoordmodal">
+                                    <h4>Nieuw wachtwoord</h4><input type="text" placeholder="wachtwoord" id="nieuwWachtwoord">
+                                </div>
+                            </form>
+                            <div class="modal-footer footer-grid">
+                                <button type="button" class="btn btn-secondary" data-dismiss="modal">Sluiten</button>
+                                <button type="submit" class="btn btn-success" onclick="wachtwoordWijzigen()" data-dismiss="modal">Wachtwoord wijzigen</button>
                             </div>
-                        </form>
-                    </div>
-                    <div class="modal-footer">
-                        <button type="button" class="btn btn-secondary" data-dismiss="modal">Sluiten</button>
-                        <button type="submit" class="btn btn-success" onclick="wachtwoordWijzigen()" data-dismiss="modal">Wachtwoord wijzigen</button>
+                        </div>
                     </div>
                 </div>
             </div>
         </div>
-    </section>
+    </main>
 
 
     <footer>

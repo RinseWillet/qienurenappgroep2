@@ -1,6 +1,7 @@
 package app.qienuren.controller;
 
 import app.qienuren.model.KlantContactPersoon;
+import app.qienuren.model.Persoon;
 import app.qienuren.model.Trainee;
 import app.qienuren.security.RandomPasswordGenerator;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -23,27 +24,36 @@ public class KlantContactPersoonService {
     RandomPasswordGenerator randomPasswordGenerator;
     @Autowired
     EmailService emailService;
-
+    @Autowired
+    PersoonRepository persoonRepository;
 
 
     public KlantContactPersoon addKlantContactPersoon(KlantContactPersoon klantContactPersoon) {
-        if (klantContactPersoonRepository.findByEmail(klantContactPersoon.getEmail()).isPresent()) {
+
+        Persoon p = persoonRepository.findByEmail(klantContactPersoon.getEmail());
+
+        if(p != null){
             throw new ResponseStatusException(HttpStatus.CONFLICT, "email bestaat al");
+//            if ( t.getEmail().equals(trainee.getEmail())) {
+//                System.out.println(">>>>>>>>>>>>>>>>>>>>>>>>>>>>>> we zitten in de if" );
+//            }
+        } else {
+            klantContactPersoon.setPassword(randomPasswordGenerator.generatePassayPassword());
+            //zet unencoded wachtwoord in een lokale String voor email
+            String nonEncodedPassword = klantContactPersoon.getPassword();
+            System.out.println(klantContactPersoon.getPassword());
+
+            //Encode password voor opslaan in database
+            klantContactPersoon.setPassword(passwordEncoder.encode(klantContactPersoon.getPassword()));
+            System.out.println(klantContactPersoon.getPassword());
+
+            //Send email
+            //Arguments: KCP, Subject, Message(templated?)
+            //KCP fields nodig: Name, Username, Password
+            emailService.sendWithAccountTemplate(klantContactPersoon, nonEncodedPassword);
+
+            return klantContactPersoonRepository.save(klantContactPersoon);
         }
-        klantContactPersoon.setPassword(randomPasswordGenerator.generatePassayPassword());
-        String nonEncodedPassword = klantContactPersoon.getPassword();
-        System.out.println(klantContactPersoon.getPassword());
-        System.out.println("Klant Contact Persoon aangemaakt");
-        System.out.println(klantContactPersoon.getPassword());
-        klantContactPersoon.setPassword(passwordEncoder.encode(klantContactPersoon.getPassword()));
-        System.out.println(klantContactPersoon.getPassword());
-
-        //Send email
-        //Arguments: KCP, Subject, Message(templated?)
-        //KCP fields nodig: Name, Username, Password
-        emailService.sendWithAccountTemplate(klantContactPersoon, nonEncodedPassword);
-
-        return klantContactPersoonRepository.save(klantContactPersoon);
     }
 
     public Iterable<KlantContactPersoon> getAllKlantContactPersoon() {
