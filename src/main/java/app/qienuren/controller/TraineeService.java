@@ -40,7 +40,10 @@ public class TraineeService {
 
     //kijkt eerst of het emailadres al in de database staat.
     public Trainee addTrainee(Trainee trainee) {
-        if (traineeRepository.findByEmail(trainee.getEmail()).isPresent()) {
+        Trainee trainee2 = traineeRepository.findByEmail(trainee.getEmail()).get();
+        System.out.println("EMAIL GEVONDEN" + trainee2.getEmail());
+                if (traineeRepository.findByEmail(trainee.getEmail()).isPresent()) {
+            System.out.println(">>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>ResponseStatusException");
             throw new ResponseStatusException(HttpStatus.CONFLICT, "email bestaat al");
         }
         trainee.setPassword(randomPasswordGenerator.generatePassayPassword());

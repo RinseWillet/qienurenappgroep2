@@ -3,7 +3,11 @@ package app.qienuren.rest;
 import app.qienuren.controller.*;
 import app.qienuren.model.*;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.HttpStatus;
 import org.springframework.web.bind.annotation.*;
+import org.springframework.web.server.ResponseStatusException;
+
+import java.sql.SQLIntegrityConstraintViolationException;
 
 @RestController
 @RequestMapping("/api/admin")
@@ -36,9 +40,9 @@ public class AdminEndpoint {
 
     @PostMapping("/trainee/nieuw")
     public Trainee newTrainee(@RequestBody Trainee trainee) {
+            return traineeService.addTrainee(trainee);
+        }
 
-        return traineeService.addTrainee(trainee);
-    }
 
     @PostMapping("/internemedewerker/nieuw")
     public InterneMedewerker newInterneMedewerker(@RequestBody InterneMedewerker interneMedewerker) {
