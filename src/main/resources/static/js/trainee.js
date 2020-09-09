@@ -139,7 +139,7 @@ const traineeNaamFunction = () => {
         }
 
     }
-    xhr.open("GET", `http://localhost:8082/api/trainee/${urlId}`, true);
+    xhr.open("GET", `http://173.212.208.199:8887/api/trainee/${urlId}`, true);
     xhr.send();
 
 }
@@ -185,7 +185,7 @@ tijdelijkeFormulieren.onclick = function (event) {
         }
     }
 
-    xhr.open("GET", `http://localhost:8082/api/formulier/${id}`, true);
+    xhr.open("GET", `http://173.212.208.199:8887/api/formulier/${id}`, true);
     xhr.send();
 
 }
@@ -203,7 +203,7 @@ afgelopenFormulieren.onclick = function (event) {
         }
     }
 
-    xhr.open("GET", `http://localhost:8082/api/formulier/${id}`, true);
+    xhr.open("GET", `http://173.212.208.199:8887/api/formulier/${id}`, true);
     xhr.send();
 
     //Exporteer formulier naar CSV

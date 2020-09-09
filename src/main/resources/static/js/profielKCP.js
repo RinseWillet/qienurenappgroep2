@@ -35,7 +35,7 @@ function wachtwoordWijzigen(){
         }
     }
 
-    xhr.open("PUT", `http://localhost:8082/api/opdrachtgever/wachtwoordwijzigen/${urlId}`, true);
+    xhr.open("PUT", `http://173.212.208.199:8887/api/opdrachtgever/wachtwoordwijzigen/${urlId}`, true);
     xhr.setRequestHeader("Content-Type", "application/json");
     xhr.send(JSON.stringify(kcpJSON));
 }
@@ -55,7 +55,7 @@ const kcpFunction = () => {
             kcpTel.innerHTML = `${kcp.telefoonnr}`;
         }
     }
-    xhr.open("GET", `http://localhost:8082/api/opdrachtgever/${urlId}` , true);
+    xhr.open("GET", `http://173.212.208.199:8887/api/opdrachtgever/${urlId}` , true);
     xhr.send();
 }
 

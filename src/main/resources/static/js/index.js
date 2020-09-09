@@ -77,40 +77,7 @@ const verwijderFormulier = () => {
     formBody.innerHTML = "";
 }
 
-// function formulierObjectMaken() {
-//     var xhr = new XMLHttpRequest();
-//     var x = document.getElementsByClassName("formulier-rij");
-//     var dagen = [];
 
-//     for (var i = 0; i < x.length; i++) {
-//         var dag = {};
-//         dag.opdrachtUren = document.getElementById(`opdracht-uren-${i}`).value;
-//         dag.overwerkUren = document.getElementById(`overwerk-uren-${i}`).value;
-//         dag.verlofUren = document.getElementById(`verlof-uren-${i}`).value;
-//         dag.ziekteUren = document.getElementById(`ziekte-uren-${i}`).value;
-//         dag.trainingUren = document.getElementById(`training-uren-${i}`).value;
-//         dag.overigeUren = document.getElementById(`overig-uren-${i}`).value;
-//         dag.overigeUrenUitleg = document.getElementById(`verklaring-overig-${i}`).value;
-//         dagen.push(dag);
-//     }
-
-//     var nieuwFormulier = {};
-//     nieuwFormulier.jaar = formulier.jaar;
-//     nieuwFormulier.maand = formulier.maand;
-//     nieuwFormulier.id = formulier.id;
-//     nieuwFormulier.werkDagen = dagen;
-
-//     console.log(JSON.stringify(nieuwFormulier));
-
-//     xhr.open("POST", "http://localhost:8082/api/formulier/nieuw", true);
-//     xhr.setRequestHeader("Content-Type", "application/json");
-//     xhr.send(JSON.stringify(nieuwFormulier));
-
-//     tableSelect.style.display = "none";
-//     alertSuccess.style.display = "block";
-//     buttonSubmit.style.display = "none";
-//     buttonDownload.style.display = "none";
-// }
 
 /* SAVE ONCHANGE */
 
@@ -131,27 +98,10 @@ const haalFormulierOp = () => {
     }
 
 
-    xhr.open("GET", `http://localhost:8082/api/trainee/formulier/${medewerkerId}/${formulierId}`, true);
+    xhr.open("GET", `http://173.212.208.199:8887/api/trainee/formulier/${medewerkerId}/${formulierId}`, true);
     xhr.send();
 }
 
-// // get klaargezet tijdelijk formulier voor Interne Medewerker
-//
-// const haalMedewerkerFormulierOp = () => {
-//     var xhr = new XMLHttpRequest();
-//
-//     xhr.onreadystatechange = function () {
-//         if (xhr.readyState == 4) {
-//             const formulier = JSON.parse(this.responseText);
-//
-//                 genereerFormulier(formulier);
-//                 vulMaandEnJaar(formulier);
-//         }
-//     }
-//
-//     xhr.open("GET", `http://localhost:8082/api/internemedewerker/formulier/${medewerkerId}/${formulierId}`, true);
-//     xhr.send();
-// }
 
 // Verzend formulier voor Trainee 
 
@@ -181,14 +131,14 @@ const verzendFormulier = (formulierId) => {
                     location.reload();
                 }
             }
-            xhr2.open("PUT", `http://localhost:8082/api/trainee/formulier/update/${nieuwFormulier.id}`, true);
+            xhr2.open("PUT",  `http://173.212.208.199:8887/api/trainee/formulier/update/${nieuwFormulier.id}`, true);
             xhr2.setRequestHeader("Content-Type", "application/json");
             xhr2.send(JSON.stringify(nieuwFormulier));
         }
     }
 
 
-    xhr.open("GET", `http://localhost:8082/api/formulier/${formulierId}`, true);
+    xhr.open("GET", `http://173.212.208.199:8887/api/formulier/${formulierId}`, true);
     xhr.send();
 }
 
@@ -220,14 +170,14 @@ const verzendMedewerkerFormulier = (formulierId) => {
                     location.reload();
                 }
             }
-            xhr2.open("PUT", `http://localhost:8082/api/internemedewerker/formulier/update/${nieuwFormulier.id}`, true);
+            xhr2.open("PUT", `http://173.212.208.199:8887/api/internemedewerker/formulier/update/${nieuwFormulier.id}`, true);
             xhr2.setRequestHeader("Content-Type", "application/json");
             xhr2.send(JSON.stringify(nieuwFormulier));
         }
     }
 
 
-    xhr.open("GET", `http://localhost:8082/api/formulier/${formulierId}`, true);
+    xhr.open("GET", `http://173.212.208.199:8887/api/formulier/${formulierId}`, true);
     xhr.send();
 }
 
@@ -303,7 +253,7 @@ const genereerFormulier = (formulier) => {
 
             console.log(JSON.stringify(nieuwFormulier));
 
-            xhr.open("PUT", `http://localhost:8082/api/trainee/formulier/update/${nieuwFormulier.id}`, true);
+            xhr.open("PUT", `http://173.212.208.199:8887/api/trainee/formulier/update/${nieuwFormulier.id}`, true);
             xhr.setRequestHeader("Content-Type", "application/json");
             xhr.send(JSON.stringify(nieuwFormulier));
 
@@ -388,7 +338,7 @@ const genereerMedewerkerFormulier = (formulier) => {
 
             console.log(JSON.stringify(nieuwFormulier));
 
-            xhr.open("PUT", `http://localhost:8082/api/internemedewerker/formulier/update/${nieuwFormulier.id}`, true);
+            xhr.open("PUT", `http://173.212.208.199:8887/api/internemedewerker/formulier/update/${nieuwFormulier.id}`, true);
             xhr.setRequestHeader("Content-Type", "application/json");
             xhr.send(JSON.stringify(nieuwFormulier));
         })

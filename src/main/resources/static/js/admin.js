@@ -117,7 +117,7 @@ const laatTakenZien = () => {
         }
     }
 
-    xhr.open("GET", "http://localhost:8082/api/admin/tijdelijkeTrainee/all", true);
+    xhr.open("GET", "http://173.212.208.199:8887/api/admin/tijdelijkeTrainee/all", true);
     xhr.send();
 
     let xhr2 = new XMLHttpRequest();
@@ -142,7 +142,7 @@ const laatTakenZien = () => {
         }
     }
 
-    xhr2.open("GET", "http://localhost:8082/api/admin/tijdelijkeMedewerker/all", true);
+    xhr2.open("GET", "http://173.212.208.199:8887api/admin/tijdelijkeMedewerker/all", true);
     xhr2.send();
 }
 
@@ -166,7 +166,7 @@ takenLijstTrainees.onclick = function(event ){
         }
     }
 
-    xhr.open("GET", `http://localhost:8082/api/user/${id}`, true);
+    xhr.open("GET", `http://173.212.208.199:8887/api/user/${id}`, true);
     xhr.send();
 
     var xhr2 = new XMLHttpRequest();
@@ -185,13 +185,13 @@ takenLijstTrainees.onclick = function(event ){
         }
     }
 
-    xhr2.open("GET", `http://localhost:8082/api/user/tijdelijkepersoon/${id}`, true);
+    xhr2.open("GET", `http://173.212.208.199:8887/api/user/tijdelijkepersoon/${id}`, true);
     xhr2.send();
 
     gegevensGoedkeurKnopje.addEventListener('click', () => {
         var xhr3 = new XMLHttpRequest();
 
-        xhr3.open("PUT", `http://localhost:8082/api/admin/goedkeurengegevens/persoon/${gebruiker.id}/${tijdelijkeGebruiker.id}`, true);
+        xhr3.open("PUT", `http://173.212.208.199:8887/api/admin/goedkeurengegevens/persoon/${gebruiker.id}/${tijdelijkeGebruiker.id}`, true);
         xhr3.send();
 
         xhr3.onreadystatechange = function () {
@@ -202,7 +202,7 @@ takenLijstTrainees.onclick = function(event ){
     })
     gegevensAfkeurKnopje.addEventListener('click', () => {
 
-        xhr.open("DELETE", `http://localhost:8082/api/user/tijdelijkepersoon/delete/${tijdelijkeGebruiker.id}`, true);
+        xhr.open("DELETE", `http://173.212.208.199:8887/api/user/tijdelijkepersoon/delete/${tijdelijkeGebruiker.id}`, true);
         xhr.send();
 
         xhr.onreadystatechange = function () {
@@ -272,7 +272,7 @@ const laatFormulierenZien = () => {
         }
     }
 
-    xhr.open("GET", "http://localhost:8082/api/admin/medewerker/all", true);
+    xhr.open("GET", "http://173.212.208.199:8887/api/admin/medewerker/all", true);
     xhr.send();
 }
 
@@ -337,7 +337,7 @@ formulierenLijst.onclick = function (event) {
         }
     }
 
-    xhr.open("GET", `http://localhost:8082/api/admin/medewerker/${medewerkerId}`, true);
+    xhr.open("GET", `http://173.212.208.199:8887/api/admin/medewerker/${medewerkerId}`, true);
     xhr.send();
 
     goedkeurKnopje.onclick = function () {
@@ -349,7 +349,7 @@ formulierenLijst.onclick = function (event) {
             }
         }
 
-        xhrGoedKeur.open("PUT", `http://localhost:8082/api/admin/update/statusgoed/${id}/${medewerkerId}`, true);
+        xhrGoedKeur.open("PUT", `http://173.212.208.199:8887/api/admin/update/statusgoed/${id}/${medewerkerId}`, true);
         xhrGoedKeur.send();
     }
 
@@ -362,7 +362,7 @@ formulierenLijst.onclick = function (event) {
             }
         }
 
-        xhrAfkeur.open("PUT", `http://localhost:8082/api/admin/update/statusfout/${id}/${medewerkerId}`, true);
+        xhrAfkeur.open("PUT", `http://173.212.208.199:8887/api/admin/update/statusfout/${id}/${medewerkerId}`, true);
         xhrAfkeur.send();
     }
 
@@ -432,7 +432,7 @@ const laatMedewerkersZien = () => {
         }
     }
 
-    xhr.open("GET", "http://localhost:8082/api/admin/medewerker/all", true);
+    xhr.open("GET", "http://173.212.208.199:8887/api/admin/medewerker/all", true);
     xhr.send();
 }
 
@@ -474,7 +474,7 @@ const laatBedrijvenZien = () => {
         }
     }
 
-    xhr.open("GET", "http://localhost:8082/api/admin/bedrijf/all", true);
+    xhr.open("GET", "http://173.212.208.199:8887/api/admin/bedrijf/all", true);
     xhr.send();
 }
 
@@ -522,7 +522,7 @@ const test = () => {
         interneMedewerkerJSON.startDatum = interneMedewerkerStartDatum;
         interneMedewerkerJSON.eindDatum = interneMedewerkerEindDatum;
 
-        xhr.open("POST", "http://localhost:8082/api/admin/internemedewerker/nieuw", false);
+        xhr.open("POST", "http://173.212.208.199:8887/api/admin/internemedewerker/nieuw", false);
         xhr.setRequestHeader("Content-Type", "application/json");
         xhr.onreadystatechange = function () {
 
@@ -566,7 +566,7 @@ const test = () => {
         traineeJSON.startDatum = traineeStartDatum;
         traineeJSON.eindDatum = traineeEindDatum;
 
-        xhr.open("POST", "http://localhost:8082/api/admin/trainee/nieuw", false);
+        xhr.open("POST", "http://173.212.208.199:8887/api/admin/trainee/nieuw", false);
         xhr.setRequestHeader("Content-Type", "application/json");
         xhr.onreadystatechange = function () {
 
@@ -617,7 +617,7 @@ const ContactPersoonAanmaken = (bedrijfsID) => {
     contactPersoonJSON.email = contactPersoonEmail;
     contactPersoonJSON.telefoonnr = contactPersoonTelefoon;
 
-    xhr.open("POST", "http://localhost:8082/api/admin/klantcontactpersoon/nieuw?bedrijfsId=" + bedrijfsID, false);
+    xhr.open("POST", "http://173.212.208.199:8887/api/admin/klantcontactpersoon/nieuw?bedrijfsId=" + bedrijfsID, false);
     xhr.setRequestHeader("Content-Type", "application/json");
     xhr.onreadystatechange = function () {
 
@@ -903,7 +903,7 @@ function laadAlleTrainees() {
             laatTakenZien();
         }
     }
-    xhr.open("GET", "http://localhost:8082/api/admin/trainee/all", true);
+    xhr.open("GET", "http://173.212.208.199:8887/api/admin/trainee/all", true);
     xhr.send();
 }
 
@@ -928,7 +928,7 @@ const updateTraineeSelector = () => {
             }
         }
     }
-    xhr.open("GET", "http://localhost:8082/api/admin/trainee/all", true);
+    xhr.open("GET", "http://173.212.208.199:8887/api/admin/trainee/all", true);
     xhr.send();
 }
 
@@ -957,7 +957,7 @@ const updateContactPersoonSelector = () => {
         }
     }
 
-    xhr.open("GET", "http://localhost:8082/api/admin/klantcontactpersoon/all", true);
+    xhr.open("GET", "http://173.212.208.199:8887/api/admin/klantcontactpersoon/all", true);
     xhr.send();
 }
 
@@ -986,7 +986,7 @@ const updateBedrijfSelector = () => {
         }
     }
 
-    xhr.open("GET", "http://localhost:8082/api/admin/bedrijf/all", true);
+    xhr.open("GET", "http://173.212.208.199:8887/api/admin/bedrijf/all", true);
     xhr.send();
 }
 
@@ -1010,7 +1010,7 @@ function koppelTraineeContactpersoon(s, d) {
             location.reload();
         }
     }
-    xhr.open("PUT", `http://localhost:8082/api/admin/trainee/koppelContactPersoon/${traineeId}/${ContactPersoonId}`, true);
+    xhr.open("PUT", `http://173.212.208.199:8887/api/admin/trainee/koppelContactPersoon/${traineeId}/${ContactPersoonId}`, true);
     xhr.send();
     //}
 }
@@ -1043,7 +1043,7 @@ const bedrijfAanmaken = () => {
         }
     }
 
-    xhr.open("POST", "http://localhost:8082/api/admin/bedrijf/nieuw", false);
+    xhr.open("POST", "http://173.212.208.199:8887/api/admin/bedrijf/nieuw", false);
     xhr.setRequestHeader("Content-Type", "application/json");
     xhr.onreadystatechange = function () {
 

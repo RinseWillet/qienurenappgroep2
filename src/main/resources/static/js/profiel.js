@@ -42,7 +42,7 @@ function wachtwoordWijzigen(){
         }
     }
 
-    xhr.open("PUT", `http://localhost:8082/api/trainee/wachtwoordwijzigen/${urlId}`, true);
+    xhr.open("PUT", `http://173.212.208.199:8887/api/trainee/wachtwoordwijzigen/${urlId}`, true);
     xhr.setRequestHeader("Content-Type", "application/json");
     xhr.send(JSON.stringify(persoonJSON));
 }
@@ -72,7 +72,7 @@ function gegevensPersoonAanpassen() {
         }
     }
 
-    xhr.open("POST", "http://localhost:8082/api/trainee/nieuwegegevens/" + urlId, true);
+    xhr.open("POST", "http://173.212.208.199:8887/api/trainee/nieuwegegevens/" + urlId, true);
     xhr.setRequestHeader("Content-Type", "application/json");
 
     xhr.send(JSON.stringify(persoonJSON));
@@ -111,7 +111,7 @@ const traineeNaamFunction = () => {
             profieltraineeKCPtelnr.innerHTML = `${trainee.leidingGevende.telefoonnr}`;
         }
     }
-    xhr.open("GET", `http://localhost:8082/api/trainee/${urlId}` , true);
+    xhr.open("GET", `http://173.212.208.199:8887/api/trainee/${urlId}` , true);
     xhr.send();
 }
 

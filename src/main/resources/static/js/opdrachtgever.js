@@ -89,7 +89,7 @@ FORMULIEREN
 //         }
 //     }
 
-//     xhr.open("GET", "http://localhost:8082/api/opdrachtgever/formulieren/all", true);
+//     xhr.open("GET", "http://173.212.208.199:8887/api/opdrachtgever/formulieren/all", true);
 //     xhr.send();
 // }
 
@@ -143,7 +143,7 @@ const laatFormulierenZien = () => {
         }
     }
 
-    xhr.open("GET", "http://localhost:8082/api/opdrachtgever/trainees/" + idpf, true);
+    xhr.open("GET", "http://173.212.208.199:8887/api/opdrachtgever/trainees/" + idpf, true);
     xhr.send();
 }
 
@@ -199,7 +199,7 @@ formulierenLijst.onclick = function (event) {
         }
     }
 
-    xhr.open("GET", `http://localhost:8082/api/trainee/${medewerkerId}`, true);
+    xhr.open("GET", `http://173.212.208.199:8887/api/trainee/${medewerkerId}`, true);
     xhr.send();
 
     goedkeurKnopje.onclick = function () {
@@ -211,7 +211,7 @@ formulierenLijst.onclick = function (event) {
             }
         }
 
-        xhrGoedKeur.open("PUT", `http://localhost:8082/api/opdrachtgever/update/statusgoed/${id}/${medewerkerId}`, true);
+        xhrGoedKeur.open("PUT", `http://173.212.208.199:8887/api/opdrachtgever/update/statusgoed/${id}/${medewerkerId}`, true);
         xhrGoedKeur.send();
     }
 
@@ -225,7 +225,7 @@ formulierenLijst.onclick = function (event) {
             }
         }
 
-        xhrAfkeur.open("PUT", `http://localhost:8082/api/opdrachtgever/update/statusfout/${id}/${medewerkerId}`, true);
+        xhrAfkeur.open("PUT", `http://173.212.208.199:8887/api/opdrachtgever/update/statusfout/${id}/${medewerkerId}`, true);
         xhrAfkeur.send();
     }
 

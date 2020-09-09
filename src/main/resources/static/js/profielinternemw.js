@@ -48,7 +48,7 @@ function wachtwoordWijzigen(){
         }
     }
 
-    xhr.open("PUT", `http://localhost:8082/api/internemedewerker/wachtwoordwijzigen/${urlId}`, true);
+    xhr.open("PUT", `http://173.212.208.199:8887/api/internemedewerker/wachtwoordwijzigen/${urlId}`, true);
     xhr.setRequestHeader("Content-Type", "application/json");
     xhr.send(JSON.stringify(persoonJSON));
 }
@@ -78,7 +78,7 @@ function gegevensPersoonAanpassen() {
         }
     }
 
-    xhr.open("POST", `http://localhost:8082/api/internemedewerker/nieuwegegevens/${urlId}`, true);
+    xhr.open("POST", `http://173.212.208.199:8887/api/internemedewerker/nieuwegegevens/${urlId}`, true);
     xhr.setRequestHeader("Content-Type", "application/json");
 
     xhr.send(JSON.stringify(persoonJSON));
@@ -107,7 +107,7 @@ const traineeNaamFunction = () => {
             internemedewerkerWoonplaats.innerHTML = `${trainee.woonplaats}`;
         }
     }
-    xhr.open("GET", `http://localhost:8082/api/internemedewerker/${urlId}` , true);
+    xhr.open("GET", `http://173.212.208.199:8887/api/internemedewerker/${urlId}` , true);
     xhr.send();
 }
 
