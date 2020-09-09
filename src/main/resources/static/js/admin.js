@@ -196,7 +196,7 @@ takenLijstTrainees.onclick = function(event ){
 
         xhr3.onreadystatechange = function () {
             if (xhr3.readyState == 4) {
-                //location.reload();
+                location.reload();
             }
         }
     })
@@ -207,7 +207,7 @@ takenLijstTrainees.onclick = function(event ){
 
         xhr.onreadystatechange = function () {
             if (xhr.readyState == 4) {
-                //location.reload();
+                location.reload();
             }
         }
     })
@@ -314,17 +314,17 @@ function getEventTarget(e) {
 }
 
 formulierenLijst.onclick = function (event) {
-    var target = getEventTarget(event);
+    let target = getEventTarget(event);
     let id = target.id;
     console.log("target id (should be formulier id) : " + id);
     let hetFormulier;
     let medewerkerId = document.getElementById(id).querySelector(".medewerkerIdItem").innerHTML;
     console.log("medewerkerId : " + medewerkerId);
-    var xhr = new XMLHttpRequest();
+    let xhr = new XMLHttpRequest();
 
     xhr.onreadystatechange = function () {
-        if (xhr.readyState == 4) {
-            deMedewerker = JSON.parse(this.responseText);
+        if (xhr.readyState === 4) {
+            let deMedewerker = JSON.parse(this.responseText);
             deMedewerker.tijdelijkeFormulieren.forEach((tf) => {
                     if (tf.id == id) {
                         hetFormulier = tf;
@@ -340,31 +340,31 @@ formulierenLijst.onclick = function (event) {
     xhr.open("GET", `http://localhost:8082/api/admin/medewerker/${medewerkerId}`, true);
     xhr.send();
 
-    goedkeurKnopje.addEventListener('click', () => {
-
+    goedkeurKnopje.onclick = function () {
         let xhrGoedKeur = new XMLHttpRequest();
-        console.log("Wij keuren iets EEN KEER goed");
+
         xhrGoedKeur.onreadystatechange = function () {
             if (xhrGoedKeur.readyState === 4) {
-                console.log("EEN KEER ZEG IK TOCH");
+                location.reload();
             }
         }
 
         xhrGoedKeur.open("PUT", `http://localhost:8082/api/admin/update/statusgoed/${id}/${medewerkerId}`, true);
         xhrGoedKeur.send();
-    })
+    }
 
-    afkeurKnopje.addEventListener('click', () => {
+    afkeurKnopje.onclick = function () {
+        let xhrAfkeur = new XMLHttpRequest();
 
-        xhr.open("PUT", `http://localhost:8082/api/admin/update/statusfout/${id}/${medewerkerId}`, true);
-        xhr.send();
-
-        xhr.onreadystatechange = function () {
-            if (xhr.readyState == 4) {
-                //location.reload();
+        xhrAfkeur.onreadystatechange = function () {
+            if (xhrAfkeur.readyState === 4) {
+                location.reload();
             }
         }
-    })
+
+        xhrAfkeur.open("PUT", `http://localhost:8082/api/admin/update/statusfout/${id}/${medewerkerId}`, true);
+        xhrAfkeur.send();
+    }
 
     //Exporteer formulier naar CSV
 
@@ -1006,8 +1006,8 @@ function koppelTraineeContactpersoon(s, d) {
     // } else {
     xhr.onreadystatechange = function () {
         console.log("nieuwe koppeling gemaakt")
-        if (xhr.readyState == 4) {
-            //location.reload();
+        if (xhr.readyState === 4) {
+            location.reload();
         }
     }
     xhr.open("PUT", `http://localhost:8082/api/admin/trainee/koppelContactPersoon/${traineeId}/${ContactPersoonId}`, true);
@@ -1039,7 +1039,7 @@ const bedrijfAanmaken = () => {
 
     xhr.onreadystatechange = function () {
         if (xhr.readyState == 4) {
-            //location.reload();
+            location.reload();
         }
     }
 
