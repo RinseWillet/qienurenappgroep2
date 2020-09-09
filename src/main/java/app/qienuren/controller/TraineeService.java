@@ -10,6 +10,7 @@ import org.springframework.stereotype.Service;
 import org.springframework.web.server.ResponseStatusException;
 
 import javax.transaction.Transactional;
+import java.time.LocalDate;
 import java.util.ArrayList;
 
 
@@ -33,6 +34,8 @@ public class TraineeService {
     RandomPasswordGenerator randomPasswordGenerator;
     @Autowired
     EmailService emailService;
+    @Autowired
+    MedewerkerService medewerkerService;
 
 
     //kijkt eerst of het emailadres al in de database staat.
@@ -53,6 +56,13 @@ public class TraineeService {
         //Arguments: Trainee, Subject, Message(templated?)
         //Trainee fields nodig: Name, Username, Password
         emailService.sendWithAccountTemplate(trainee, nonEncodedPassword);
+
+        //Klaarzetten formulier van de  huidige maand
+        ArrayList<Formulier> nieuwFormulier = new ArrayList<>();
+        Formulier formulier = new Formulier(LocalDate.now().getMonthValue(), LocalDate.now().getYear());
+        nieuwFormulier.add(formulier);
+        trainee.setTijdelijkeFormulieren(nieuwFormulier);  //medewerkerService.genereerLeegFormulier(trainee);
+        formulierRepository.save(formulier);
 
         return traineeRepository.save(trainee);
     }

@@ -120,7 +120,7 @@ const laatFormulierenZien = () => {
                             }
 
                             inTeVoegenHTML = `<li data-toggle="modal" data-target="#staticBackdrop" 
-                            class="list-group-item list-group-item-action d-flex justify-content-between" id="${tf.id}"><span id="verborgen-medewerker-id">${mw.id}</span><span id="${tf.id}">${mw.naam}</span><span id="${tf.id}">${tf.maand}</span><span id="${tf.id}">${tf.jaar}</span><span id="${tf.id}">${tf.opdrachtgeverStatus}</span><i id="${tf.id}" class="far fa-eye"></i></li>`;
+                            class="list-group-item list-group-item-action d-flex justify-content-between" id="${tf.id}"><span class="medewerkerIdItem" id="verborgen-medewerker-id">${mw.id}</span><span id="${tf.id}">${mw.naam}</span><span id="${tf.id}">${tf.maand}</span><span id="${tf.id}">${tf.jaar}</span><span id="${tf.id}">${tf.opdrachtgeverStatus}</span><i id="${tf.id}" class="far fa-eye"></i></li>`;
                             formulierenLijst.insertAdjacentHTML('beforeend', inTeVoegenHTML);
                         // }
                     })
@@ -178,7 +178,7 @@ formulierenLijst.onclick = function (event) {
     var target = getEventTarget(event);
     let id = target.id;
     let hetFormulier;
-    const medewerkerid = document.getElementById("verborgen-medewerker-id").innerHTML;
+    let medewerkerId = document.getElementById(id).querySelector(".medewerkerIdItem").innerHTML;
 
     var xhr = new XMLHttpRequest();
     xhr.onreadystatechange = function () {
@@ -203,20 +203,22 @@ formulierenLijst.onclick = function (event) {
     xhr.send();
 
     goedkeurKnopje.addEventListener('click', () => {
+        let xhrGoedKeur = new XMLHttpRequest();
+        console.log("Wij keuren iets EEN KEER goed");
 
-        xhr.open("PUT", `http://localhost:8082/api/opdrachtgever/update/statusgoed/${id}/${medewerkerid}`, true);
-        xhr.send();
-
-        xhr.onreadystatechange = function () {
-            if (xhr.readyState == 4) {
-                location.reload();
+        xhrGoedKeur.onreadystatechange = function () {
+            if (xhrGoedKeur.readyState === 4) {
+                console.log("EEN KEER ZEG IK TOCH");
             }
         }
+
+        xhrGoedKeur.open("PUT", `http://localhost:8082/api/opdrachtgever/update/statusgoed/${id}/${medewerkerId}`, true);
+        xhrGoedKeur.send();
     })
 
     afkeurKnopje.addEventListener('click', () => {
 
-        xhr.open("PUT", `http://localhost:8082/api/opdrachtgever/update/statusfout/${id}/${medewerkerid}`, true);
+        xhr.open("PUT", `http://localhost:8082/api/opdrachtgever/update/statusfout/${id}/${medewerkerId}`, true);
         xhr.send();
 
         xhr.onreadystatechange = function () {

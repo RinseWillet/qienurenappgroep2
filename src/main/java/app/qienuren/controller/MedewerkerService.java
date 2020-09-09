@@ -58,7 +58,7 @@ public class MedewerkerService {
         return (ArrayList<Medewerker>)medewerkers;
     }
 
-    public void genereerLeegFormulier() {
+    public void genereerLeegFormulierVoorAlleMedewerkers() {
         ArrayList<Medewerker> deMedewerkers = voegTraineesEnInterneMedewerkersSamen();
         for (Medewerker m : deMedewerkers) {
             m.voegFormulierToe(fs.addNieuwFormulier(new Formulier(LocalDate.now().getMonthValue(), LocalDate.now().getYear())));
@@ -70,18 +70,24 @@ public class MedewerkerService {
         }
     }
 
+//    public Medewerker genereerLeegFormulier(Medewerker medewerker){
+//        medewerker.voegFormulierToe(fs.addNieuwFormulier(new Formulier(LocalDate.now().getMonthValue(), LocalDate.now().getYear())));
+//        emailService.sendWithFormulierStaatKlaarTemplate(medewerker);
+//        return medewerker;
+//    }
+
   /*  @Scheduled(cron = "0 0/1 * 1/1 * ?")
-    public void maakMaandelijksFormulier() {
+    public void maakElkMinuutFormulier() {
         genereerLeegFormulier();
 
     }*/
 
     // Methode om op eerste van elke maand om 00:00u een formulier te genereren van de huidige maand
-    @Scheduled(cron = "0 0 0 1 1/1 ?")
-    public void maakMaandelijksFormulier() {
-        genereerLeegFormulier();
-    }
-
+//    @Scheduled(cron = "0 0 0 1 1/1 ?")
+//    public void maakMaandelijksFormulier() {
+//        genereerLeegFormulier();
+//    }
+//
     public Medewerker getMedewerkerById(long id) {
         System.out.println("Medewerker opgehaald - test Maandag");
         return medewerkerRepository.findById(id).get();
