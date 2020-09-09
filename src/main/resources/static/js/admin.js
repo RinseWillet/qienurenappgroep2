@@ -231,7 +231,7 @@ const laatFormulierenZien = () => {
                 deMedewerkers.forEach((mw) => {
                     mw.tijdelijkeFormulieren.forEach((tf) => {
 
-                        //if (tf.ingezondenFormulier === true) {
+                        if (tf.ingezondenFormulier === true) {
 
                             tf.maand = maandNummerNaarString(tf.maand);
                             if((tf.adminStatus === 'OPEN' && tf.opdrachtgeverStatus === 'OPEN') && tf.ingezondenFormulier == true) {
@@ -251,7 +251,7 @@ const laatFormulierenZien = () => {
                             inTeVoegenHTML = `<li data-toggle="modal" data-target="#staticBackdrop" 
                             class="list-group-item list-group-item-action d-flex justify-content-between" id="${tf.id}"><span id="verborgen-medewerker-id">${mw.id}</span><span class="medewerker-naam" id="${tf.id}">${mw.naam}</span><span id="${tf.id}">${tf.maand}</span><span id="${tf.id}">${tf.jaar}</span><span id="${tf.id}">${tf.adminStatus}</span><i id="${tf.id}" class="far fa-eye"></i></li>`;
                             formulierenLijst.insertAdjacentHTML('beforeend', inTeVoegenHTML);
-                        //}
+                        }
                     })
 
                     // inTeVoegenHTML = `<li data-toggle="modal" data-target="#staticBackdrop" href="./formulier.html?id=${e.id}"

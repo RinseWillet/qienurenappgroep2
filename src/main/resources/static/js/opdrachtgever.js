@@ -199,7 +199,7 @@ formulierenLijst.onclick = function (event) {
         }
     }
 
-    xhr.open("GET", `http://localhost:8082/api/trainee/${medewerkerId}`, true);
+    xhr.open("GET", `http://localhost:8082/api/trainee/${medewerkerid}`, true);
     xhr.send();
 
     goedkeurKnopje.addEventListener('click', () => {
@@ -231,8 +231,8 @@ formulierenLijst.onclick = function (event) {
     downloadFormulier.onclick = function (event) {
 
         console.log("nu in de csv download functie");
-        console.log("form id : " + id + " medewerkerid : " + medewerkerId);
-        window.location.href = "./api/formulier/export-users/" + id + "/" + medewerkerId;
+        console.log("form id : " + id + " medewerkerid : " + medewerkerid);
+        window.location.href = "./api/formulier/export-users/" + id + "/" + medewerkerid;
     }
 
 };
