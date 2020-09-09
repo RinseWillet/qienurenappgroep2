@@ -116,9 +116,10 @@ span {
 }
 
 .modal-footer {
-    display: grid !important;
+    display: grid;
     grid-template-columns: repeat(8, minmax(0,1fr));
     justify-content: flex-start;
+    padding: 1rem 0 0 0;
 }
 
 #goedkeuren {
@@ -139,6 +140,26 @@ span {
 
 #submit-formulier{
     grid-column-start: 8;
+}
+
+.relaties {
+    display: grid;
+    grid-template-columns: repeat(6, minmax(0,2fr));
+    justify-content: flex-start;
+}
+
+.knop-scherm-afsluiten{
+    grid-column-start: 1;
+}
+
+#knop-koppel-trainee,
+#knop-bedrijf-aanmaken,
+#knop-relatie-aanmaken{
+    grid-column-start: 6;
+}
+
+#relatiekoppel-container{
+    padding-bottom: 1rem;
 }
 
 .alert-success {
@@ -165,6 +186,10 @@ main{
 .list-group-item span {
     padding: 0;
     width: 25%;
+}
+
+.medewerkerNoClick{
+    pointer-events: none;
 }
 
 .fa-eye {
