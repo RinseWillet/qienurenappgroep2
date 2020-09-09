@@ -36,38 +36,42 @@ public class TraineeService {
     EmailService emailService;
     @Autowired
     MedewerkerService medewerkerService;
+    @Autowired
+    PersoonRepository persoonRepository;
 
 
     //kijkt eerst of het emailadres al in de database staat.
     public Trainee addTrainee(Trainee trainee) {
-        Trainee trainee2 = traineeRepository.findByEmail(trainee.getEmail()).get();
-        System.out.println("EMAIL GEVONDEN" + trainee2.getEmail());
-                if (traineeRepository.findByEmail(trainee.getEmail()).isPresent()) {
-            System.out.println(">>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>ResponseStatusException");
+        Persoon p = persoonRepository.findByEmail(trainee.getEmail());
+        if(p != null){
             throw new ResponseStatusException(HttpStatus.CONFLICT, "email bestaat al");
+//            if ( t.getEmail().equals(trainee.getEmail())) {
+//                System.out.println(">>>>>>>>>>>>>>>>>>>>>>>>>>>>>> we zitten in de if" );
+//            }
+        } else {
+            trainee.setPassword(randomPasswordGenerator.generatePassayPassword());
+            //zet unencoded wachtwoord in een lokale String voor email
+            String nonEncodedPassword = trainee.getPassword();
+            System.out.println(trainee.getPassword());
+
+            //Encode password voor opslaan in database
+            trainee.setPassword(passwordEncoder.encode(trainee.getPassword()));
+            System.out.println(trainee.getPassword());
+
+            //Send email
+            //Arguments: Trainee, Subject, Message(templated?)
+            //Trainee fields nodig: Name, Username, Password
+            emailService.sendWithAccountTemplate(trainee, nonEncodedPassword);
+
+            //Klaarzetten formulier van de  huidige maand
+            ArrayList<Formulier> nieuwFormulier = new ArrayList<>();
+            Formulier formulier = new Formulier(LocalDate.now().getMonthValue(), LocalDate.now().getYear());
+            nieuwFormulier.add(formulier);
+            trainee.setTijdelijkeFormulieren(nieuwFormulier);  //medewerkerService.genereerLeegFormulier(trainee);
+            formulierRepository.save(formulier);
+
+            return traineeRepository.save(trainee);
         }
-        trainee.setPassword(randomPasswordGenerator.generatePassayPassword());
-        //zet unencoded wachtwoord in een lokale String voor email
-        String nonEncodedPassword = trainee.getPassword();
-        System.out.println(trainee.getPassword());
-
-        //Encode password voor opslaan in database
-        trainee.setPassword(passwordEncoder.encode(trainee.getPassword()));
-        System.out.println(trainee.getPassword());
-
-        //Send email
-        //Arguments: Trainee, Subject, Message(templated?)
-        //Trainee fields nodig: Name, Username, Password
-        emailService.sendWithAccountTemplate(trainee, nonEncodedPassword);
-
-        //Klaarzetten formulier van de  huidige maand
-        ArrayList<Formulier> nieuwFormulier = new ArrayList<>();
-        Formulier formulier = new Formulier(LocalDate.now().getMonthValue(), LocalDate.now().getYear());
-        nieuwFormulier.add(formulier);
-        trainee.setTijdelijkeFormulieren(nieuwFormulier);  //medewerkerService.genereerLeegFormulier(trainee);
-        formulierRepository.save(formulier);
-
-        return traineeRepository.save(trainee);
     }
 
 

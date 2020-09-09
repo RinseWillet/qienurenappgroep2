@@ -9,6 +9,8 @@ import org.springframework.stereotype.Service;
 import org.springframework.web.server.ResponseStatusException;
 
 import javax.transaction.Transactional;
+import java.time.LocalDate;
+import java.util.ArrayList;
 
 @Service
 @Transactional
@@ -24,6 +26,10 @@ public class InterneMedewerkerService {
     EmailService emailService;
     @Autowired
     TijdelijkeInterneMedewerkerRepository tijdelijkeInterneMedewerkerRepository;
+    @Autowired
+    PersoonRepository persoonRepository;
+    @Autowired
+    FormulierRepository formulierRepository;
 
     public InterneMedewerker wijzigGegevens(long oorspronkelijkeId, long id) {
         System.out.println("Verzoek gegevens wijzigen ontvangen");
@@ -84,24 +90,38 @@ public class InterneMedewerkerService {
     }
 
 
-
     public InterneMedewerker addInterneMederwerker(InterneMedewerker interneMedewerker) {
-        if (interneMedewerkerRepository.findByEmail(interneMedewerker.getEmail()).isPresent()) {
+
+        Persoon p = persoonRepository.findByEmail(interneMedewerker.getEmail());
+
+        if (p != null) {
             throw new ResponseStatusException(HttpStatus.CONFLICT, "email bestaat al");
+//            if ( t.getEmail().equals(trainee.getEmail())) {
+//                System.out.println(">>>>>>>>>>>>>>>>>>>>>>>>>>>>>> we zitten in de if" );
+//            }
+        } else {
+            interneMedewerker.setPassword(randomPasswordGenerator.generatePassayPassword());
+            //zet unencoded wachtwoord in een lokale String voor email
+            String nonEncodedPassword = interneMedewerker.getPassword();
+            System.out.println(interneMedewerker.getPassword());
+            //Encode password voor opslaan in database
+            interneMedewerker.setPassword(passwordEncoder.encode(interneMedewerker.getPassword()));
+            System.out.println(interneMedewerker.getPassword());
+
+            //Send email
+            //Arguments: InterneMedewerker, Subject, Message(templated?)
+            //InterneMedewerker fields nodig: Name, Username, Password
+            emailService.sendWithAccountTemplate(interneMedewerker, nonEncodedPassword);
+
+            //Klaarzetten formulier van de  huidige maand
+            ArrayList<Formulier> nieuwFormulier = new ArrayList<>();
+            Formulier formulier = new Formulier(LocalDate.now().getMonthValue(), LocalDate.now().getYear());
+            nieuwFormulier.add(formulier);
+            interneMedewerker.setTijdelijkeFormulieren(nieuwFormulier);  //medewerkerService.genereerLeegFormulier(trainee);
+            formulierRepository.save(formulier);
+
+            return interneMedewerkerRepository.save(interneMedewerker);
         }
-        interneMedewerker.setPassword(randomPasswordGenerator.generatePassayPassword());
-        String nonEncodedPassword = interneMedewerker.getPassword();
-        System.out.println(interneMedewerker.getPassword());
-        interneMedewerker.setPassword(passwordEncoder.encode(interneMedewerker.getPassword()));
-        System.out.println(interneMedewerker.getPassword());
-        System.out.println("Interne medewerker aangemaakt");
-
-        //Send email
-        //Arguments: InterneMedewerker, Subject, Message(templated?)
-        //InterneMedewerker fields nodig: Name, Username, Password
-        emailService.sendWithAccountTemplate(interneMedewerker, nonEncodedPassword);
-
-        return interneMedewerkerRepository.save(interneMedewerker);
     }
 
     public Iterable<InterneMedewerker> getAllInterneMedewerkers() {
