@@ -143,7 +143,7 @@ public class FormulierService {
         //Formulier fields nodig: Maand/Jaar?, Beoordeling
         Medewerker m = medewerkerRepository.findById(medewerkerid).get();
         emailService.sendWithFormulierBeoordelingTemplate(m, formuliertijdelijk.getOpdrachtgeverStatus());
-
+        System.out.println("In de OpdrachtgeverGoed status methode");
         return formulierRepository.save(formuliertijdelijk);
     }
 

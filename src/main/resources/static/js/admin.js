@@ -196,7 +196,7 @@ takenLijstTrainees.onclick = function(event ){
 
         xhr3.onreadystatechange = function () {
             if (xhr3.readyState == 4) {
-                location.reload();
+                //location.reload();
             }
         }
     })
@@ -207,7 +207,7 @@ takenLijstTrainees.onclick = function(event ){
 
         xhr.onreadystatechange = function () {
             if (xhr.readyState == 4) {
-                location.reload();
+                //location.reload();
             }
         }
     })
@@ -231,7 +231,7 @@ const laatFormulierenZien = () => {
                 deMedewerkers.forEach((mw) => {
                     mw.tijdelijkeFormulieren.forEach((tf) => {
 
-                        //if (tf.ingezondenFormulier === true) {
+                        if (tf.ingezondenFormulier === true) {
 
                             tf.maand = maandNummerNaarString(tf.maand);
                             if((tf.adminStatus === 'OPEN' && tf.opdrachtgeverStatus === 'OPEN') && tf.ingezondenFormulier == true) {
@@ -251,8 +251,7 @@ const laatFormulierenZien = () => {
                             inTeVoegenHTML = `<li data-toggle="modal" data-target="#staticBackdrop" 
                             class="list-group-item list-group-item-action d-flex justify-content-between" id="${tf.id}"><span class="medewerkerIdItem" id="verborgen-medewerker-id">${mw.id}</span><span class="medewerker-naam" id="${tf.id}">${mw.naam}</span><span id="${tf.id}">${tf.maand}</span><span id="${tf.id}">${tf.jaar}</span><span id="${tf.id}">${tf.adminStatus}</span><i id="${tf.id}" class="far fa-eye"></i></li>`;
                             formulierenLijst.insertAdjacentHTML('beforeend', inTeVoegenHTML);
-                            formulierItem = document.querySelector(".testclass");
-                        //}
+                        }
                     })
 
                     // inTeVoegenHTML = `<li data-toggle="modal" data-target="#staticBackdrop" href="./formulier.html?id=${e.id}"
@@ -278,10 +277,13 @@ const laatFormulierenZien = () => {
 }
 
 const genereerFormulier = (formulier, deMedewerker) => {
+    console.log("even een log in deze functie")
     if (formulier.opdrachtgeverStatus === "OPEN" || formulier.opdrachtgeverStatus === "AFGEKEURD") {
         modalFooter.style.display = "none";
+        console.log("footer zou invisible moeten zijn");
     } else {
-        modalFooter.style.display = "flex";
+        modalFooter.style.display = "grid";
+        console.log("in de else statement : " + formulier.opdrachtgeverStatus);
     }
 
     formulier.maand = maandNummerNaarString(formulier.maand);
@@ -340,14 +342,16 @@ formulierenLijst.onclick = function (event) {
 
     goedkeurKnopje.addEventListener('click', () => {
 
-        xhr.open("PUT", `http://localhost:8082/api/admin/update/statusgoed/${id}/${medewerkerId}`, true);
-        xhr.send();
-
-        xhr.onreadystatechange = function () {
-            if (xhr.readyState == 4) {
-                location.reload();
+        let xhrGoedKeur = new XMLHttpRequest();
+        console.log("Wij keuren iets EEN KEER goed");
+        xhrGoedKeur.onreadystatechange = function () {
+            if (xhrGoedKeur.readyState === 4) {
+                console.log("EEN KEER ZEG IK TOCH");
             }
         }
+
+        xhrGoedKeur.open("PUT", `http://localhost:8082/api/admin/update/statusgoed/${id}/${medewerkerId}`, true);
+        xhrGoedKeur.send();
     })
 
     afkeurKnopje.addEventListener('click', () => {
@@ -357,7 +361,7 @@ formulierenLijst.onclick = function (event) {
 
         xhr.onreadystatechange = function () {
             if (xhr.readyState == 4) {
-                location.reload();
+                //location.reload();
             }
         }
     })
@@ -412,8 +416,7 @@ const laatMedewerkersZien = () => {
                             naam: "Niet geplaatst"
                         }
                     }
-                    inTeVoegenHTML = `<li data-toggle="modal" data-target="#staticBackdrop" 
-                    class="list-group-item list-group-item-action d-flex justify-content-between" id="${e.id}"><span id="${e.id}">${e.naam}</span><span id="${e.id}">${e.type}</span><span id="${e.id}">${e.leidingGevende.bedrijf.naam}</span><span id="${e.id}">${e.leidingGevende.naam}</span><i id="${e.id}" class="far fa-eye"></i></li>`;
+                    inTeVoegenHTML = `<li class="list-group-item list-group-item-action d-flex justify-content-between medewerkerNoClick" id="${e.id}"><span id="${e.id}">${e.naam}</span><span id="${e.id}">${e.type}</span><span id="${e.id}">${e.leidingGevende.bedrijf.naam}</span><span id="${e.id}">${e.leidingGevende.naam}</span></li>`;
                     medewerkerLijst.insertAdjacentHTML('beforeend', inTeVoegenHTML);
                 })
 
@@ -1004,7 +1007,7 @@ function koppelTraineeContactpersoon(s, d) {
     xhr.onreadystatechange = function () {
         console.log("nieuwe koppeling gemaakt")
         if (xhr.readyState == 4) {
-            location.reload();
+            //location.reload();
         }
     }
     xhr.open("PUT", `http://localhost:8082/api/admin/trainee/koppelContactPersoon/${traineeId}/${ContactPersoonId}`, true);
@@ -1036,7 +1039,7 @@ const bedrijfAanmaken = () => {
 
     xhr.onreadystatechange = function () {
         if (xhr.readyState == 4) {
-            location.reload();
+            //location.reload();
         }
     }
 
